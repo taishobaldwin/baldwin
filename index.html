@@ -253,6 +253,9 @@ function render(k){
   document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on',b.dataset.k===k));
 }
 
+/* Staff see only today; add ?all=1 to the link to see the whole week. */
+const SHOW_ALL=new URLSearchParams(location.search).get('all')==='1';
+if(!SHOW_ALL) document.getElementById('tabs').hidden=true;
 document.getElementById('tabs').innerHTML=KEYS.map(k=>{const [w,md]=DAYS[k].title.split(', ');return `<button class="tab" data-k="${k}">${w.slice(0,3)}<span class="td">${md}</span></button>`}).join('');
 document.getElementById('tabs').addEventListener('click',ev=>{const b=ev.target.closest('.tab'); if(b){render(b.dataset.k);}});
 let cur=pickKey(); render(cur);
