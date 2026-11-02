@@ -275,13 +275,19 @@ h2 .hint.tapme{flex-basis:100%;text-align:left;font-size:.92rem;font-weight:600;
 .alert span{font-size:.9rem}
 #plan.wash rect.tb.wt{fill:color-mix(in srgb,var(--red) 18%,var(--sheet));stroke:var(--red);stroke-opacity:1;stroke-width:1.6;stroke-dasharray:3 2}
 #plan.wash text.tn.wt{fill:var(--red);font-weight:700}
+.brand.art{aspect-ratio:auto;min-height:0;padding-top:41%;padding-bottom:14px}
+.brand-stack{display:flex;flex-direction:column;align-items:center;gap:2px;margin-bottom:2px}
+.brand-stack .loc2{font-family:var(--f-serif);font-weight:600;font-size:1.25rem;letter-spacing:.32em;text-transform:uppercase;color:#1d1d1f;padding-left:.32em}
+.brand-stack .dsp{font-family:var(--f-sans);font-size:.62rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:#7a6a58;padding-left:.24em;display:flex;align-items:center;gap:8px}
+.brand-stack .dsp::before,.brand-stack .dsp::after{content:"";width:18px;height:1px;background:#c8302a;opacity:.7}
+.brand.art h1{margin-top:6px}
 </style></head><body>
 
 <div class="wrap">
   <nav class="tabs" id="tabs" aria-label="Pick a day"></nav>
   <header class="brand art">
     <span class="sr">Taisho Japanese Grill</span>
-    <div class="brand-bar"><span>Baldwin</span><i></i><span>Daily Service Plan</span></div>
+    <div class="brand-stack"><span class="loc2">Baldwin</span><span class="dsp">Daily Service Plan</span></div>
     <h1 id="title"></h1>
     <div class="meta" id="meta"></div>
   </header>
