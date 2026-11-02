@@ -244,6 +244,9 @@ h2:has(.tapme){flex-wrap:wrap;row-gap:2px}
 h2 .hint.tapme{flex-basis:100%;text-align:left;font-size:.92rem;font-weight:600;color:var(--red)}
 .warm.long{font-size:1.18rem;line-height:1.36}
 .chg.pic:has(.warm.long){padding-right:24%;background-position:right center!important}
+.tsub{margin:14px 0 8px}
+.trow .k,.k{white-space:nowrap}
+.trow .k{margin-left:4px;vertical-align:1px}
 </style></head><body>
 
 <div class="wrap">
@@ -281,6 +284,7 @@ h2 .hint.tapme{flex-basis:100%;text-align:left;font-size:.92rem;font-weight:600;
     <p class="note swap" id="tswap" hidden></p>
     <p class="note" id="tcover" style="margin:-4px 0 10px"></p>
     <div class="list" id="tasks"></div>
+    <div id="bartasks"></div>
   </section>
 
   <section>
@@ -446,6 +450,34 @@ const plain=s=>s.replace(/^[^A-Za-z0-9]+/u,'').trim();   /* drop the leading emo
 const slug=n=>'p-'+n.replace(/[^A-Za-z0-9]/g,'');
 const CLEAN_ROLES=['Server','Busser','Server Assistant'];
 
+/* ---------- bar cleaning (from the Bartender Checklist): done by the lunch bartender ----------
+   Weekly tasks every week, Mon–Thu. Bi-weekly tasks only in week 1 and week 3 of the month (same weeks as the baffle filters).
+   Day numbers: 1=Mon … 4=Thu. */
+const BAR_WEEKLY={
+ 1:['Fridge: empty, wipe clean, and reorganize','Deep clean the garbage bin'],
+ 2:['Bleach-clean all pots, shakers, pitchers, and blender jars','Soda machine: soak the heads in hot water, rinse, and replace'],
+ 3:['Tea station: take everything out and clean thoroughly'],
+ 4:['Bar shelving: clear and wipe down','Deep clean every corner of the Sapporo & Asahi area']};
+const BAR_BIWEEKLY={
+ 1:['Basement inventory: organize and throw out garbage'],
+ 2:['Glass display shelves: clear and wipe'],
+ 3:['Back counter / storage: clear, wipe, and organize','Bar cabinets: organize and clean inside every cabinet'],
+ 4:['Sugar barrels, corners, walls, and floors','Wipe the middle shelf and deep clean the floor around the bar']};
+const weekOfMonth=k=>Math.ceil(+k.slice(8,10)/7);
+function barTasks(k){
+  const dow=new Date(k+'T12:00:00').getDay(), wn=weekOfMonth(k), bi=(wn===1||wn===3);
+  return [...(BAR_WEEKLY[dow]||[]).map(t=>({t,bi:false})),...(bi?(BAR_BIWEEKLY[dow]||[]).map(t=>({t,bi:true})):[])];
+}
+/* who does it: the lunch bartender (a trainee on lunch joins their Partner) */
+function barCleaner(D){
+  const rows=(D.team.find(([g])=>g.includes('Bar'))||[,[]])[1];
+  const lunch=rows.filter(([n,t])=>t.split('<br>').some(x=>isLunch(x)));
+  const lead=lunch.find(([,,d])=>!/trainee/.test(d||''))||lunch[0];
+  if(!lead) return null;
+  const helpers=lunch.filter(r=>r!==lead).map(([n])=>base(n));
+  return {who:base(lead[0]),with:helpers};
+}
+
 function build(k){
   const D=DAYS[k], P=D.plan, M=new Map(), L=[];
   const get=(n,g)=>{let p=M.get(n); if(!p){p={name:n,group:g,closer:false,tags:[],zone:null,
@@ -492,6 +524,9 @@ function build(k){
   (TASKS[k]||[]).forEach(([t,w])=>{const ns=w.split(' + '); ns.forEach(n=>{const p=M.get(n); if(!p) return;
     const lunchCleaner=p.lunch.blocks.some(([r])=>CLEAN_ROLES.includes(r));
     (lunchCleaner?p.lunch:p.dinner).items.push({t,clean:true,with:ns.filter(x=>x!==n)});});});
+  { const bc=barCleaner(D), bt=barTasks(k);
+    if(bc&&bt.length){ [bc.who,...bc.with].forEach(n=>{const p=M.get(n); if(!p) return; const o=[bc.who,...bc.with].filter(x=>x!==n);
+      bt.forEach(x=>p.lunch.items.push({t:x.t,clean:true,with:o}));}); } }
   if(TASKS[k]&&COVER[k]){const n=COVER[k].split(' ')[0],p=M.get(n); if(p) p.lunch.items.push({t:'Cover the floor during cleaning',with:[]});}
   const washes=p=>p.dinner.items.some(i=>/washroom/i.test(i.t)&&!i.clean);
   return {D,P,M,L,washes};
@@ -818,6 +853,9 @@ function render(k){
   const TK=TASKS[k]; document.getElementById('tasksec').hidden=!TK;
   {const sw=document.getElementById('tswap'); sw.hidden=!SWAP[k]; sw.textContent=(SWAP[k]||'').replace(/^🔄\s*/,'');}
   if(TK) document.getElementById('tcover').innerHTML=e(COVER[k]||'')+'.';
+  { const bc=barCleaner(D), bt=barTasks(k), el=document.getElementById('bartasks');
+    el.innerHTML=bt.length?`<p class="note tsub"><b>🍸 Bar</b> · lunch bartender, before 15:00</p><div class="list">`+
+      bt.map(x=>`<div class="trow"><span class="tt">${e(x.t)}${x.bi?' <span class="k">Bi-weekly</span>':''}</span><span class="tw">${e(bc?[bc.who,...bc.with].join(' + '):'Bar')}</span></div>`).join('')+`</div>`:''; }
   if(TK) document.getElementById('tasks').innerHTML=TK.map(([t,w])=>`<div class="trow"><span class="tt">${e(t)}</span><span class="tw">${e(w)}</span></div>`).join('');
   document.getElementById('brkh').innerHTML=`Break order <span class="hint">From ${D.brk}</span>`;
   const li=([n,c])=>`<li><div><b>${e(n)}</b> <span>— ${e(c)}</span></div></li>`;
