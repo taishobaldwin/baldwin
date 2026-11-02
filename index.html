@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Taisho Baldwin · Daily Service Plan</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+:root{
+  --paper:#f7f7f4; --sheet:#ffffff; --ink:#1d1d1f; --soft:#6b6b70; --hair:#dcdcd6;
+  --ai:#2f4a6b; --uguisu:#5f6b3a; --fuji:#6f5f92; --kaki:#9a5a35; --enji:#8f3a46; --slate:#5c6270;
+  --goal-bg:#1d1d1f; --goal-fg:#f7f7f4; --gold:#d6ae4f;
+  --f-serif:"Fraunces",Georgia,serif; --f-sans:"IBM Plex Sans",system-ui,sans-serif; --f-mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#121314; --sheet:#1a1b1d; --ink:#ececea; --soft:#9c9ca2; --hair:#303135;
+  --ai:#8fa9cc; --uguisu:#aab57e; --fuji:#ad9fd2; --kaki:#d6996f; --enji:#d38792; --slate:#a9afbd;
+  --goal-bg:#2b2618; --goal-fg:#f3eddc; --gold:#e6c46e; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#121314; --sheet:#1a1b1d; --ink:#ececea; --soft:#9c9ca2; --hair:#303135;
+  --ai:#8fa9cc; --uguisu:#aab57e; --fuji:#ad9fd2; --kaki:#d6996f; --enji:#d38792; --slate:#a9afbd;
+  --goal-bg:#2b2618; --goal-fg:#f3eddc; --gold:#e6c46e; color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--f-sans);font-size:16px;line-height:1.45}
+.wrap{max-width:480px;margin:0 auto;padding-block:24px 40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:22px}
+.day{font-family:var(--f-mono);font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--soft)}
+h1{font-family:var(--f-serif);font-weight:600;font-size:2rem;line-height:1.1;margin:4px 0 6px}
+.meta{font-size:.9rem;color:var(--soft)}
+.meta b{color:var(--ink);font-weight:600}
+h2{font-family:var(--f-mono);font-weight:600;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--soft);margin:0 0 8px}
+.list{background:var(--sheet);border:1px solid var(--hair);border-radius:8px}
+.row{display:grid;grid-template-columns:40px minmax(0,1fr) auto;gap:2px 12px;align-items:baseline;padding:12px 14px;border-top:1px solid var(--hair)}
+.row:first-child{border-top:0}
+.grp{font-family:var(--f-mono);font-size:.7rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);background:var(--paper);padding:8px 14px;border-top:1px solid var(--hair)}
+.grp:first-child{border-top:0;border-radius:8px 8px 0 0}
+.grp+.row{border-top:1px solid var(--hair)}
+.z{font-family:var(--f-mono);font-size:.72rem;line-height:1.25;font-weight:600;letter-spacing:.06em;color:var(--c)}
+.n{font-family:var(--f-serif);font-weight:600;font-size:1.25rem}
+.t{font-family:var(--f-mono);font-size:.82rem;color:var(--soft);white-space:nowrap;text-align:right;line-height:1.35}
+.d{grid-column:2/-1;font-size:.84rem;color:var(--soft)}
+.breaks{display:flex;flex-direction:column;gap:6px;margin:0;padding:0;list-style:none;counter-reset:b}
+.breaks li{display:grid;grid-template-columns:28px minmax(0,1fr);gap:10px;align-items:baseline;font-size:.95rem;counter-increment:b}
+.breaks li::before{content:counter(b);font-family:var(--f-mono);font-size:.82rem;color:var(--soft);text-align:right}
+.breaks b{font-weight:600}
+.breaks span{color:var(--soft);font-size:.86rem}
+.note{font-size:.88rem;margin:0 0 10px}
+.goal{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:8px;background:var(--goal-bg);color:var(--goal-fg)}
+.goal .num{font-family:var(--f-serif);font-size:2.2rem;font-weight:600;color:var(--gold);line-height:1}
+.goal b{display:block;font-family:var(--f-serif);font-weight:600;font-size:1.08rem}
+.goal span{font-size:.82rem;opacity:.75}
+.plan{background:var(--sheet);border:1px solid var(--hair);border-radius:8px;padding:8px}
+svg{display:block;width:100%;height:auto}
+svg text{font-family:var(--f-sans)}
+.tn{font-family:var(--f-mono);font-size:11px;font-weight:500;fill:var(--soft)}
+.code{font-family:var(--f-mono);font-size:12px;font-weight:600;letter-spacing:.16em}
+svg .who{font-family:var(--f-serif);font-size:30px;font-weight:600;fill:var(--ink)}
+.what{font-family:var(--f-mono);font-size:13px;fill:var(--soft)}
+.leave{font-size:.88rem;color:var(--soft);text-align:center}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;font-family:var(--f-mono);font-size:.74rem;font-weight:600;padding:7px 10px;border-radius:999px;border:1px solid var(--hair);background:var(--sheet);color:var(--soft);cursor:pointer}
+.tab.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.tab .td{display:block;font-size:.62rem;font-weight:500;opacity:.8}
+</style></head><body>
+
+<div class="wrap">
+  <nav class="tabs" id="tabs" aria-label="Pick a day"></nav>
+  <header>
+    <div class="day">Taisho Baldwin · Daily Service Plan</div>
+    <h1 id="title"></h1>
+    <div class="meta" id="meta"></div>
+  </header>
+
+  <div class="goal"><span class="num">⭐5+</span><div><b>Google reviews per person</b><span>Ask every happy table before they leave 😊</span></div></div>
+
+  <section>
+    <h2>🗺️ Dinner floor plan</h2>
+    <div class="plan"><svg id="plan" viewBox="0 0 500 880" role="img" aria-label="Floor plan with each server's section"></svg></div>
+  </section>
+
+  <section>
+    <h2>👥 Team today · 🌙 = closer · 🧹 = washroom check</h2>
+    <div class="list" id="who"></div>
+  </section>
+
+  <section>
+    <h2 id="brkh"></h2>
+    <p class="note">🙌 <b>Wait for the IC to call you.</b> One at a time.</p>
+    <ol class="breaks" id="brk"></ol>
+    <p class="note" style="margin:14px 0 8px"><b>🧺 Bussers</b></p>
+    <ol class="breaks" id="brkB"></ol>
+  </section>
+
+  <p class="leave">📋 Report to the person in charge before you leave. Have a great shift! 💪</p>
+</div>
+
+<script>
+/* One entry per day. Times are 24h; dinner plan uses section codes A, B, F&K, K, A&B. */
+const C='🌙', W='🧹';
+const DAYS={
+'2026-11-02':{title:'Monday, Nov 2',kitchen:'23:00',brk:'20:00',
+ plan:{A:['Seungjun '+C,'18:00–24:00'],B:['Ayuko','16:00–23:30'],FK:['Wan '+W,'17:30–23:00'],K:{merged:'Wan '+W+' + Haru '+C,floater:'Haru'},SS:['Kevin '+C+' '+W,'18:00–24:00']},
+ team:[
+  ['🧭 In charge',[['Osa','11:30–16:30<br>17:30–23:00','IC/Host'],['Haru '+C,'12:00–15:00<br>16:30–24:00','Server Assistant at lunch · IC/Service at dinner · 🤝 Helps Wan with K1–K6 if K opens, otherwise floats around the floor · 🧭 In charge after 23:00']]],
+  ['🍽️ Server',[['Wan','11:00–16:00<br>17:30–23:00','📍 Dinner: F1–F4 + K1–K6 · 🧹 Check washrooms hourly'],['Ayuko','16:00–23:30','📍 B section · 🤝 Partner for Seungjun'],['Seungjun '+C,'18:00–24:00','📍 A section · ✅ Sign Closing Checklist · 🤝 Partner: Ayuko']]],
+  ['🤝 Service Support',[['Kevin '+C,'18:00–24:00','🧹 Check washrooms hourly']]],
+  ['🙋 Host',[['Asteria','15:00–22:30','🍱 Covers Charidise 15:00–16:00']]],
+  ['🍱 Charidise',[['Ayuko','11:30–15:00',''],['Annie','16:00–22:00','']]],
+  ['🍸 Bar',[['A.A','11:15–15:00<br>16:30–23:00','']]],
+  ['🧺 Busser',[['Insang','11:00–15:00<br>16:30–23:00',''],['Naoki','12:00–16:30<br>18:00–23:00',''],['Thai','18:00–23:15','👑 Busser IC · 🖨️ Printer duty']]],
+ ],
+ breaks:[['Ayuko','Kevin covers B section'],['Wan','Kevin covers F & K'],['Seungjun','Kevin covers A section'],['Kevin','Haru covers Service Support']],
+ bbreaks:[['Insang','Thai covers'],['Naoki','Insang covers'],['Thai','Insang takes over Busser IC & printer']]},
+
+'2026-11-03':{title:'Tuesday, Nov 3',kitchen:'23:00',brk:'20:00',
+ plan:{A:['Wan '+C,'16:00–24:00'],B:['Anh','18:00–23:30'],FK:['Ayuko '+W,'17:30–23:00'],K:{merged:'Ayuko '+W+' + Haru '+C,floater:'Haru'},SS:['Seungjun '+C+' '+W,'18:00–24:00']},
+ team:[
+  ['🧭 In charge',[['Tyler','11:30–16:30<br>17:30–23:00','IC/Host'],['Haru '+C,'12:30–15:00<br>16:30–24:00','Server Assistant at lunch · IC/Service at dinner · 🤝 Helps Ayuko with K1–K6 if K opens, otherwise floats around the floor']]],
+  ['🍽️ Server',[['Riku','11:00–16:00','Lunch'],['Wan '+C,'16:00–24:00','📍 A section · ✅ Sign Closing Checklist'],['Ayuko','17:30–23:00','📍 F1–F4 + K1–K6 · 🧹 Check washrooms hourly'],['Anh','18:00–23:30','📍 B section']]],
+  ['🤝 Service Support',[['Seungjun '+C,'18:00–24:00','🧹 Check washrooms hourly']]],
+  ['🙋 Host',[['Asteria','15:00–22:30','🍱 Covers Charidise 15:00–16:00']]],
+  ['🍱 Charidise',[['Helen','11:30–15:00<br>16:00–22:00','']]],
+  ['🍸 Bar',[['A.A','11:15–15:00<br>16:30–23:00','']]],
+  ['🧺 Busser',[['Yuka','11:00–15:00<br>16:30–23:00',''],['Insang','12:00–16:30<br>18:00–23:00','👑 Busser IC · 🖨️ Printer duty'],['Riku','17:30–23:15','']]],
+ ],
+ breaks:[['Wan','Seungjun covers A section'],['Ayuko','Seungjun covers F & K'],['Anh','Seungjun covers B section'],['Seungjun','Haru covers Service Support']],
+ bbreaks:[['Yuka','Insang covers'],['Riku','Insang covers'],['Insang','Yuka takes over Busser IC & printer']]},
+
+'2026-11-04':{title:'Wednesday, Nov 4',kitchen:'23:00',brk:'20:00',
+ plan:{A:['Carolina '+C,'16:00–24:00'],B:['Ayuko','17:30–23:00'],FK:['Anh '+W,'18:00–23:30'],K:{merged:'Anh '+W+' + Haru '+C,floater:'Haru'},SS:['Kevin '+C+' '+W,'18:00–24:00']},
+ team:[
+  ['🧭 In charge',[['Tyler','11:30–16:30<br>17:30–23:00','IC/Host'],['Haru '+C,'12:30–15:00<br>16:30–24:00','Server Assistant at lunch · IC/Service at dinner · 🤝 Helps Anh with K1–K6 if K opens, otherwise floats around the floor']]],
+  ['🍽️ Server',[['Ayuko','11:00–16:00<br>17:30–23:00','📍 Dinner: B section · 🤝 Partner for Carolina'],['Carolina '+C,'16:00–24:00','📍 A section · ✅ Sign Closing Checklist · 🤝 Partner: Ayuko'],['Anh','18:00–23:30','📍 F1–F4 + K1–K6 · 🧹 Check washrooms hourly']]],
+  ['🤝 Service Support',[['Kevin '+C,'18:00–24:00','🧹 Check washrooms hourly']]],
+  ['🙋 Host',[['Annie','15:00–22:30','🍱 Covers Charidise 15:00–16:00']]],
+  ['🍱 Charidise',[['Amelia','11:30–15:00<br>16:00–22:00','']]],
+  ['🍸 Bar',[['Billy','11:15–15:00<br>16:30–23:00','']]],
+  ['🧺 Busser',[['Naoki','11:00–15:00<br>16:30–23:00','👑 Busser IC · 🖨️ Printer duty'],['Yuka','12:00–16:30<br>18:00–23:15',''],['Riku','18:00–23:00','']]],
+ ],
+ breaks:[['Carolina','Kevin covers A section'],['Ayuko','Kevin covers B section'],['Anh','Kevin covers F & K'],['Kevin','Haru covers Service Support']],
+ bbreaks:[['Naoki','Yuka takes over Busser IC & printer'],['Yuka','Naoki covers'],['Riku','Naoki covers']]},
+
+'2026-11-05':{title:'Thursday, Nov 5',kitchen:'23:00',brk:'20:00',
+ plan:{A:['Carolina '+C,'16:00–24:00'],B:['Samantha','17:30–23:00'],FK:['Riku '+W,'17:30–23:00'],K:{who:'Wan',t:'16:00–23:30'},SS:['Kevin '+C+' '+W,'18:00–24:00']},
+ team:[
+  ['🧭 In charge',[['Osa','11:30–16:30<br>17:30–23:00','IC/Host'],['Tyler '+C,'12:30–16:30<br>17:30–24:00','IC'],['Lisa '+C,'16:30–24:00','IC/Service']]],
+  ['🍽️ Server',[['Samantha','11:00–16:00<br>17:30–23:00','📍 Dinner: B section · 🤝 Partner for Carolina'],['Riku','11:00–16:00<br>17:30–23:00','📍 Dinner: F1–F4, help K · 🧹 Check washrooms hourly'],['Wan','16:00–23:30','📍 K section'],['Carolina '+C,'16:00–24:00','📍 A section · ✅ Sign Closing Checklist · 🤝 Partner: Samantha']]],
+  ['🤝 Service Support',[['Kevin '+C,'18:00–24:00','🧹 Check washrooms hourly']]],
+  ['🙋 Host',[['Asteria','11:30–16:30<br>17:30–22:30','🍱 Covers Charidise 15:00–16:00']]],
+  ['🍱 Charidise',[['Amelia','11:30–15:00<br>16:00–22:00','']]],
+  ['🍸 Bar',[['A.A','11:15–15:00<br>16:30–23:00','']]],
+  ['🧺 Busser',[['Insang','11:00–15:00<br>16:30–23:00','👑 Busser IC · 🖨️ Printer duty'],['Naoki','12:00–16:30<br>18:00–23:00',''],['Seungjun','18:00–23:15','']]],
+ ],
+ breaks:[['Wan','Kevin covers K section'],['Carolina','Kevin covers A section'],['Samantha','Kevin covers B section'],['Riku','Kevin covers F & K'],['Kevin','Lisa covers Service Support']],
+ bbreaks:[['Insang','Naoki takes over Busser IC & printer'],['Naoki','Insang covers'],['Seungjun','Insang covers']]},
+
+'2026-11-06':{title:'Friday, Nov 6',kitchen:'23:00',brk:'21:00',
+ plan:{A:['Karma','17:30–23:00'],B:['Anh','18:00–23:30'],AB:['Riku '+C+' '+W,'16:00–24:00'],FK:['Ayuko','18:00–23:00'],K:{who:'Samantha '+C,t:'16:00–24:00'},SS:['Carolina '+C+' '+W,'18:00–24:00']},
+ team:[
+  ['🧭 In charge',[['Tyler','11:30–16:30<br>17:30–23:00','IC/Host'],['Lisa '+C,'12:30–16:00<br>17:00–24:00','Server Assistant at lunch · IC/Service at dinner'],['Haru '+C,'16:00–24:00','IC/Service']]],
+  ['🍽️ Server',[['Karma','11:00–16:00<br>17:30–23:00','📍 Dinner: A section · 🤝 Partner: Anh'],['Riku '+C,'16:00–24:00','📍 A&B Support · ✅ Sign Closing Checklist · 🧹 Check washrooms hourly'],['Samantha '+C,'16:00–24:00','📍 K section'],['Anh','18:00–23:30','📍 B section · 🤝 Partner for Karma'],['Ayuko','18:00–23:00','📍 F1–F4, help K']]],
+  ['🤝 Service Support',[['Carolina '+C,'18:00–24:00','🧹 Check washrooms hourly']]],
+  ['🙋 Host',[['Asteria','15:00–23:00','🍱 Covers Charidise 15:00–16:00']]],
+  ['🍱 Charidise',[['Ayuko','11:30–15:00',''],['Helen','16:00–23:00','']]],
+  ['🍸 Bar',[['A.A','11:15–16:30',''],['Billy','16:30–23:00','']]],
+  ['🧺 Busser',[['Thai','11:00–15:00<br>16:30–23:00','👑 Busser IC · 🖨️ Printer duty'],['Insang','12:00–16:30<br>18:00–23:00',''],['Yuka','18:00–23:15','']]],
+ ],
+ breaks:[['Riku','Carolina covers A&B'],['Samantha','Carolina covers K section'],['Karma','Carolina covers A section'],['Anh','Carolina covers B section'],['Ayuko','Carolina covers F & K'],['Carolina','Haru covers Service Support']],
+ bbreaks:[['Thai','Insang takes over Busser IC & printer'],['Insang','Thai covers'],['Yuka','Thai covers']]},
+
+'2026-11-07':{title:'Saturday, Nov 7',kitchen:'23:00',brk:'21:00',
+ plan:{A:['Karma','16:00–23:30'],B:['Zirui','17:30–23:00'],AB:['Riku '+C+' '+W,'15:00–24:00'],FK:['Wan','18:00–23:00'],K:{who:'Samantha '+C,t:'16:30–24:00'},SS:['Seungjun '+C+' '+W,'15:00–24:00']},
+ team:[
+  ['🧭 In charge',[['Osa','11:30–16:30<br>17:30–23:00','IC/Host'],['Lisa '+C,'12:30–16:00<br>17:00–24:00','Server Assistant at lunch · 🍱 Covers Charidise 15:00–16:00 · IC/Service at dinner']]],
+  ['🍽️ Server',[['Karma','11:00–15:00<br>16:00–23:30','📍 Dinner: A section · 🤝 Partner: Riku'],['Zirui','11:00–16:00<br>17:30–23:00','📍 Dinner: B section'],['Riku '+C,'15:00–24:00','📍 A&B Support · ✅ Sign Closing Checklist · 🧹 Check washrooms hourly · 🤝 Partner for Karma'],['Samantha '+C,'16:30–24:00','📍 K section'],['Wan','18:00–23:00','📍 F1–F4, help K']]],
+  ['🤝 Service Support',[['Seungjun '+C,'15:00–24:00','🧹 Check washrooms hourly']]],
+  ['🙋 Host',[['Annie','12:30–15:00<br>16:30–23:00','']]],
+  ['🍱 Charidise',[['Ayuko','11:30–15:00<br>16:00–23:00','']]],
+  ['🍸 Bar',[['Billy','11:15–15:00<br>16:30–23:00','']]],
+  ['🧺 Busser',[['Thai','11:30–15:00<br>16:00–23:00','👑 Busser IC · 🖨️ Printer duty'],['Daniel','12:00–16:00<br>17:00–23:00',''],['Winson','15:00–23:15','']]],
+ ],
+ breaks:[['Riku','Seungjun covers A&B'],['Karma','Seungjun covers A section'],['Samantha','Seungjun covers K section'],['Zirui','Seungjun covers B section'],['Wan','Seungjun covers F & K'],['Seungjun','Lisa covers Service Support']],
+ bbreaks:[['Winson','Thai covers'],['Thai','Winson takes over Busser IC & printer'],['Daniel','Thai covers']]},
+
+'2026-11-08':{title:'Sunday, Nov 8',kitchen:'22:00',brk:'20:00',
+ plan:{A:['Kevin '+C,'15:00–23:00'],B:['Zirui','17:30–22:00'],AB:['Seungjun '+C+' '+W,'17:30–23:00'],FK:['Wan','16:00–22:00'],K:{who:'Samantha '+C,t:'17:30–23:00'},SS:['Daniel '+W,'15:00–22:00 → Seungjun']},
+ team:[
+  ['🧭 In charge',[['Osa','11:30–16:30<br>17:30–22:00','IC/Host'],['Tyler '+C,'12:30–16:30<br>17:30–23:00','IC'],['Lisa '+C,'12:30–16:00<br>17:00–23:00','Server Assistant at lunch · 🍱 Covers Charidise 15:00–16:00 · IC/Service at dinner']]],
+  ['🍽️ Server',[['Wan','11:00–15:00<br>16:00–22:00','📍 Dinner: F1–F4, help K'],['Zirui','11:00–16:00<br>17:30–22:00','📍 Dinner: B section · 🤝 Partner for Kevin & Seungjun'],['Kevin '+C,'15:00–23:00','📍 A section · ✅ Sign Closing Checklist · 🤝 Partner: Zirui'],['Samantha '+C,'17:30–23:00','📍 K section'],['Seungjun '+C,'17:30–23:00','📍 A&B Support · 🧹 Check washrooms hourly · 🤝 Partner: Zirui · Takes over Service Support after 22:00']]],
+  ['🤝 Service Support',[['Daniel','15:00–22:00','🧹 Check washrooms hourly · Hands over to Seungjun at 22:00']]],
+  ['🙋 Host',[['Annie','12:00–15:00<br>16:30–21:30','']]],
+  ['🍱 Charidise',[['Amelia','11:30–15:00<br>16:00–22:00','']]],
+  ['🍸 Bar',[['Billy','11:15–15:00<br>16:30–22:00','']]],
+  ['🧺 Busser',[['Naoki','11:30–15:00<br>16:00–22:00',''],['Thai','11:30–16:00<br>17:00–22:00','👑 Busser IC · 🖨️ Printer duty'],['Winson','15:00–22:15','']]],
+ ],
+ breaks:[['Kevin','Daniel covers A section'],['Daniel','Lisa covers Service Support'],['Wan','Daniel covers F & K'],['Zirui','Daniel covers B section'],['Samantha','Daniel covers K section'],['Seungjun','Daniel covers A&B']],
+ bbreaks:[['Winson','Thai covers'],['Naoki','Thai covers'],['Thai','Winson takes over Busser IC & printer']]},
+};
+
+const KEYS=Object.keys(DAYS).sort();
+const COL={A:'--ai',B:'--uguisu','F&K':'--fuji',K:'--kaki','A&B':'--enji'};
+const e=s=>String(s).replace(/&/g,'&amp;');
+/* Today in Toronto time: switches right after midnight. */
+function todayKey(){
+  const p=new Intl.DateTimeFormat('en-CA',{timeZone:'America/Toronto',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date());
+  const g=t=>p.find(x=>x.type===t).value; return `${g('year')}-${g('month')}-${g('day')}`;
+}
+function pickKey(){const t=todayKey(); if(DAYS[t])return t; if(t<KEYS[0])return KEYS[0]; return KEYS[KEYS.length-1];}
+
+const tableSvg=(n,x,y,w=42,h=22,seats=0)=>{let o='';for(let i=0;i<seats;i++){const sx=x-((seats-1)*13)/2+i*13;
+  o+=`<circle cx="${sx}" cy="${y-h/2-5}" r="2.6" fill="none" stroke="var(--hair)" stroke-width="1.2"/><circle cx="${sx}" cy="${y+h/2+5}" r="2.6" fill="none" stroke="var(--hair)" stroke-width="1.2"/>`}
+  return o+`<rect x="${x-w/2}" y="${y-h/2}" width="${w}" height="${h}" rx="3" fill="var(--sheet)" stroke="var(--soft)" stroke-opacity=".45" stroke-width=".9"/><text class="tn" x="${x}" y="${y+3.4}" text-anchor="middle">${n}</text>`};
+const area=(z,x,y,w,h)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="6" style="fill:color-mix(in srgb,var(${COL[z]}) 9%,transparent);stroke:var(${COL[z]})" stroke-opacity=".55" stroke-width=".9"/>`;
+const label=(z,code,who,t,x,y,ax,ay,small)=>(ax!=null?`<path d="M${ax} ${ay} H${x-6}" style="stroke:var(${COL[z]})" stroke-width=".8"/><circle cx="${ax}" cy="${ay}" r="2.2" style="fill:var(${COL[z]})"/>`:'')+
+  `<text class="code" x="${x}" y="${y}" style="fill:var(${COL[z]})">${e(code)}</text>`+
+  `<text class="who" x="${x}" y="${y+30}"${small?' style="font-size:24px"':''}>${e(who)}</text>`+
+  (t?`<text class="what" x="${x}" y="${y+49}">${e(t)}</text>`:'');
+
+function drawPlan(P){
+  let p=`<rect x="8" y="8" width="484" height="864" fill="none" stroke="var(--ink)" stroke-opacity=".7" stroke-width="1.4"/><rect x="13" y="13" width="474" height="854" fill="none" stroke="var(--ink)" stroke-opacity=".18" stroke-width=".8"/>`;
+  if(P.AB) p+=`<rect x="40" y="46" width="298" height="472" rx="10" fill="none" style="stroke:var(--enji)" stroke-opacity=".6" stroke-width=".9" stroke-dasharray="2 4"/>`;
+  p+=area('A',56,62,72,228)+area('B',56,330,264,176)+area('F&K',196,540,128,122)+area('K',38,672,72,186)+area('K',354,762,74,96);
+  ['A1','A2','A3','A4','A5','A6'].forEach((n,k)=>p+=tableSvg(n,92,86+k*38));
+  ['B5','B6','B7','B8'].forEach((n,k)=>p+=tableSvg(n,92,356+k*42));
+  ['B1','B2','B3','B4'].forEach((n,k)=>p+=tableSvg(n,284,356+k*42));
+  p+=tableSvg('F1 · F2',260,574,88,26,3)+tableSvg('F3 · F4',260,630,88,26,3);
+  ['K1','K2','K3','K4'].forEach((n,k)=>p+=tableSvg(n,74,698+k*46));
+  ['K5','K6'].forEach((n,k)=>p+=tableSvg(n,391,790+k*46));
+  p+=`<path d="M196 650 C 160 680, 130 700, 110 708 M324 650 C 360 690, 385 720, 391 760" fill="none" style="stroke:var(--fuji)" stroke-opacity=".7" stroke-width=".8" stroke-dasharray="1.5 3.5"/>`;
+  p+=label('A','A',P.A[0],P.A[1],180,140,128,152);
+  p+=label('B','B',P.B[0],P.B[1],124,408);
+  if(P.AB) p+=`<text class="code" x="346" y="352" style="fill:var(--enji)">A&amp;B SUPPORT</text><text class="who" x="346" y="380" style="font-size:${P.AB[0].length>9?20:24}px">${e(P.AB[0])}</text><text class="what" x="346" y="398">${e(P.AB[1])}</text>`;
+  p+=label('F&K','F&K',P.FK[0],P.FK[1],342,572,324,584);
+  if(P.K.merged){
+    p+=label('K','K',P.K.merged,'Only if K opens',140,760,110,772,true);
+    p+=`<text class="what" x="140" y="827">Otherwise ${e(P.K.floater)} floats</text>`;
+  } else {
+    p+=label('K','K',P.K.who,P.K.t,140,760,110,772);
+  }
+  p+=`<path d="M336 772 H348" style="stroke:var(--kaki)" stroke-width=".8"/><circle cx="354" cy="772" r="2.2" style="fill:var(--kaki)"/><text class="what" x="300" y="752" text-anchor="middle" style="font-size:11px">+ K5 · K6</text>`;
+  p+=`<rect x="170" y="222" width="262" height="76" rx="6" style="fill:color-mix(in srgb,var(--slate) 7%,transparent);stroke:var(--slate)" stroke-opacity=".5" stroke-width=".9" stroke-dasharray="3 3"/><text class="code" x="182" y="242" style="fill:var(--slate)">🤝 SERVICE SUPPORT</text><text class="who" x="182" y="272"${P.SS[0].length>10?' style="font-size:26px"':''}>${e(P.SS[0])}</text><text class="what" x="182" y="290">${e(P.SS[1])}</text>`;
+  document.getElementById('plan').innerHTML=p;
+}
+
+function render(k){
+  const D=DAYS[k];
+  document.getElementById('title').textContent=D.title;
+  document.getElementById('meta').innerHTML=D.kitchen?`Kitchen closes at <b>${D.kitchen}</b>`:'';
+  drawPlan(D.plan);
+  document.getElementById('who').innerHTML=D.team.map(([g,rows])=>`<div class="grp">${e(g)}</div>`+rows.map(([n,t,d])=>`<div class="row"><span class="z"></span><span class="n">${e(n)}</span><span class="t">${t}</span>${d?`<span class="d">${e(d)}</span>`:''}</div>`).join('')).join('');
+  document.getElementById('brkh').textContent=`☕ Breaks · from ${D.brk}`;
+  const li=([n,c])=>`<li><div><b>${e(n)}</b> <span>— ${e(c)}</span></div></li>`;
+  document.getElementById('brk').innerHTML=D.breaks.map(li).join('');
+  document.getElementById('brkB').innerHTML=D.bbreaks.map(li).join('');
+  document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on',b.dataset.k===k));
+}
+
+document.getElementById('tabs').innerHTML=KEYS.map(k=>{const [w,md]=DAYS[k].title.split(', ');return `<button class="tab" data-k="${k}">${w.slice(0,3)}<span class="td">${md}</span></button>`}).join('');
+document.getElementById('tabs').addEventListener('click',ev=>{const b=ev.target.closest('.tab'); if(b){render(b.dataset.k);}});
+let cur=pickKey(); render(cur);
+/* Flip to the new day automatically if the page stays open past midnight. */
+setInterval(()=>{const k=pickKey(); if(k!==cur){cur=k; render(k);}},60000);
+</script>
+</body></html>
