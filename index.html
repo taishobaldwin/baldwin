@@ -295,6 +295,9 @@ h2 .hint.tapme{flex-basis:100%;text-align:left;font-size:.92rem;font-weight:600;
 .rbox.lunch{background:linear-gradient(160deg,color-mix(in srgb,var(--gold) 16%,var(--sheet)),var(--sheet) 70%);border-color:color-mix(in srgb,var(--gold) 35%,var(--hair))}
 .rbox.dinner{background:linear-gradient(160deg,color-mix(in srgb,var(--ai) 14%,var(--sheet)),var(--sheet) 70%);border-color:color-mix(in srgb,var(--ai) 30%,var(--hair))}
 .rn span{white-space:nowrap}
+.rrush{margin:10px 0 0;padding:9px 12px;border-radius:10px;background:color-mix(in srgb,var(--ai) 9%,var(--sheet));border:1px solid color-mix(in srgb,var(--ai) 28%,transparent);font-size:.92rem}
+.rrush b{color:var(--ai)}
+.rrush small{display:block;font-size:.76rem;color:var(--soft);margin-top:2px}
 </style></head><body>
 
 <div class="wrap">
@@ -316,11 +319,12 @@ h2 .hint.tapme{flex-basis:100%;text-align:left;font-size:.92rem;font-weight:600;
   <img class="rvimg" alt="Google reviews. Today's goal: 5+ per person. Invite guests to share their experience." src="images/review.webp">
 
   <section class="resv" id="resv" hidden>
-    <h2>📅 Reservations today</h2>
+    <h2>📅 Bookings &amp; rush today</h2>
     <div class="rgrid">
       <div class="rbox lunch"><span class="rl">☀️ Lunch <small>before 16:00</small></span><span class="rn" id="rl"></span></div>
       <div class="rbox dinner"><span class="rl">🏮 Dinner <small>16:00 and after</small></span><span class="rn" id="rd"></span></div>
     </div>
+    <p class="rrush" id="rrush"></p>
     <p class="rpeak" id="rpeak"></p>
     <p class="rfoot">🚶 Booked tables only; walk-ins not included. <span id="resvsync"></span></p>
   </section>
@@ -714,9 +718,23 @@ const RESV={
  '2026-11-07':[['14:00',4],['18:00',17],['18:30',6],['19:00',7]],
  '2026-11-08':[['12:00',12],['16:00',4],['18:30',6]]
 };
+/* Expected rush by weekday (0=Sun … 6=Sat), from 8 weeks of Snappy waitlist + bookings (Sep 7 – Nov 1, 2026).
+   Holiday Mondays behave like a Sunday. */
+const RUSH={
+ 0:['18:30–20:30','Waitlist likely, worst around 19:30.'],
+ 1:['18:30–20:00','Usually no waitlist.'],
+ 2:['18:00–19:00','Booked tables tend to arrive together. Usually no waitlist.'],
+ 3:['18:00–20:00','Usually the quietest night.'],
+ 4:['19:30–21:00','Getting busier lately. Finish breaks by 19:00.'],
+ 5:['18:30–21:30','Long waitlist, worst around 19:00. Be ready by 18:15.'],
+ 6:['17:00–21:30','Longest waitlist of the week, worst 18:00–19:30. Be ready by 17:00.']
+};
 function paintResv(k){
-  const sec=document.getElementById('resv'), R=RESV[k];
-  sec.hidden=!R; if(!R) return;
+  const sec=document.getElementById('resv'), R=RESV[k]||null;
+  const ru=RUSH[new Date(k+'T12:00:00').getDay()], rr=document.getElementById('rrush');
+  rr.innerHTML=`⏱️ Expected rush: <b>${ru[0]}</b> · ${ru[1]}<small>Based on the last 8 weeks of walk-ins and bookings.</small>`;
+  sec.querySelector('.rgrid').hidden=!R; sec.querySelector('.rfoot').hidden=!R;
+  sec.hidden=false; if(!R){document.getElementById('rpeak').hidden=true; return;}
   const part=f=>{const x=R.filter(([t])=>f(t)); const g=x.reduce((a,[,n])=>a+n,0); return x.length?`<span>🍽️ <b>${x.length}</b> ${x.length===1?'table':'tables'}</span><span>👥 <b>${g}</b> ${g===1?'guest':'guests'}</span>`:'<span class="r0">😌 No bookings</span>';};
   document.getElementById('rl').innerHTML=part(t=>t<'16:00');
   document.getElementById('rd').innerHTML=part(t=>t>='16:00');
