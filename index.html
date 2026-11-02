@@ -281,6 +281,17 @@ h2 .hint.tapme{flex-basis:100%;text-align:left;font-size:.92rem;font-weight:600;
 .brand-stack .dsp{font-family:var(--f-sans);font-size:.62rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:#7a6a58;padding-left:.24em;display:flex;align-items:center;gap:8px}
 .brand-stack .dsp::before,.brand-stack .dsp::after{content:"";width:18px;height:1px;background:#c8302a;opacity:.7}
 .brand.art h1{margin-top:6px}
+.resv h2{margin-bottom:12px}
+.rgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.rbox{background:var(--sheet);border:1px solid var(--hair);border-radius:12px;padding:12px 14px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:4px}
+.rl{font-family:var(--f-serif);font-weight:600;font-size:1.05rem}
+.rl small{display:block;font-family:var(--f-sans);font-weight:400;font-size:.72rem;color:var(--soft)}
+.rn{font-size:.92rem;display:flex;flex-direction:column;gap:0}
+.rn b{font-family:var(--f-serif);font-size:1.5rem;font-weight:600}
+.r0{color:var(--soft)}
+.rpeak{margin:10px 0 0;padding:9px 12px;border-radius:10px;background:color-mix(in srgb,var(--red) 8%,var(--sheet));border:1px solid color-mix(in srgb,var(--red) 25%,transparent);font-size:.92rem}
+.rpeak b{color:var(--red)}
+.rfoot{margin:6px 2px 0;font-size:.76rem;color:var(--soft)}
 </style></head><body>
 
 <div class="wrap">
@@ -300,6 +311,16 @@ h2 .hint.tapme{flex-basis:100%;text-align:left;font-size:.92rem;font-weight:600;
   </section>
 
   <img class="rvimg" alt="Google reviews. Today's goal: 5+ per person. Invite guests to share their experience." src="images/review.webp">
+
+  <section class="resv" id="resv" hidden>
+    <h2>Reservations today <span class="hint" id="resvsync"></span></h2>
+    <div class="rgrid">
+      <div class="rbox"><span class="rl">Lunch <small>before 16:00</small></span><span class="rn" id="rl"></span></div>
+      <div class="rbox"><span class="rl">Dinner <small>16:00 and after</small></span><span class="rn" id="rd"></span></div>
+    </div>
+    <p class="rpeak" id="rpeak"></p>
+    <p class="rfoot">Booked tables only; walk-ins not included.</p>
+  </section>
 
   <section>
     <h2>Find your name <span class="hint tapme">Tap your name to see your day</span></h2>
@@ -678,6 +699,30 @@ function build(k){
    e.g. 'A and B sections swapped tonight'. Leave the day out when there is nothing. */
 const NOTES={
 };
+/* ---------- reservations from Snappy: time and party size only (no names or phone numbers).
+   Cancelled bookings and no-shows are left out. Lunch is before 16:00, dinner from 16:00. */
+const RESV_SYNCED='2026-11-02 17:40';
+const RESV={
+ '2026-11-02':[['12:00',6],['12:00',18],['12:00',8],['18:30',7],['20:00',5]],
+ '2026-11-03':[['12:30',2],['18:30',7]],
+ '2026-11-04':[['12:00',2],['16:00',2],['20:00',7]],
+ '2026-11-05':[['18:30',6]],
+ '2026-11-06':[['15:30',11],['19:30',12]],
+ '2026-11-07':[['14:00',4],['18:00',17],['18:30',6],['19:00',7]],
+ '2026-11-08':[['12:00',12],['16:00',4],['18:30',6]]
+};
+function paintResv(k){
+  const sec=document.getElementById('resv'), R=RESV[k];
+  sec.hidden=!R; if(!R) return;
+  const part=f=>{const x=R.filter(([t])=>f(t)); const g=x.reduce((a,[,n])=>a+n,0); return x.length?`<span><b>${x.length}</b> ${x.length===1?'table':'tables'}</span><span><b>${g}</b> ${g===1?'guest':'guests'}</span>`:'<span class="r0">No bookings</span>';};
+  document.getElementById('rl').innerHTML=part(t=>t<'16:00');
+  document.getElementById('rd').innerHTML=part(t=>t>='16:00');
+  const by={}; R.forEach(([t,n])=>{const h=t.slice(0,2); by[h]=(by[h]||0)+n;});
+  const top=Object.entries(by).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0]))[0];
+  const pk=document.getElementById('rpeak');
+  if(top){const h=+top[0]; pk.hidden=false; pk.innerHTML=`🔥 Busiest booked hour: <b>${String(h).padStart(2,'0')}:00–${String(h+1).padStart(2,'0')}:00</b> · ${top[1]} guests booked`;} else pk.hidden=true;
+  {const d=new Date(RESV_SYNCED.replace(' ','T')+':00'); document.getElementById('resvsync').textContent='Updated '+d.toLocaleDateString('en-US',{month:'short',day:'numeric'})+', '+RESV_SYNCED.slice(11);}
+}
 /* Notices that repeat on a weekday (0=Sun … 6=Sat). */
 const FLOOR_WASH='The kitchen starts washing the floor at 15:45. After 13:45, try not to seat guests at B5, A6 or B1.';
 const WASH_DAYS=[1,4], WASH_TABLES=['B5','A6','B1'];
@@ -991,6 +1036,7 @@ function render(k){
   m.L.forEach(p=>{if(p.group!==last){out+=`<h3 class="cg">${e(p.group)}</h3>`;last=p.group;} out+=card(p,m);});
   document.getElementById('cards').innerHTML=out;
   drawPlan(mapData(m));
+  paintResv(k);
   { const wash=WASH_DAYS.includes(new Date(k+'T12:00:00').getDay()), al=document.getElementById('alert');
     al.hidden=!wash; al.innerHTML=wash?`<span class="ai">🧽</span><div><b>Kitchen floor wash at 15:45</b><span>After 13:45, try not to seat guests at <b>B5</b>, <b>A6</b> or <b>B1</b>. They're marked on the floor plan below.</span></div>`:'';
     document.getElementById('plan').classList.toggle('wash',wash); }
