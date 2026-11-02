@@ -504,45 +504,45 @@ const WARM=[
  "Don't forget to drink plenty of water today.",
  "How are you, really? We hope today is kind to you.",
  "Be gentle with yourself today.",
- "You matter here, on busy days and quiet ones.",
+ "You matter here, on busy days and quiet days alike.",
  "Take a deep breath. You're doing better than you think.",
  "Hope someone made you smile today.",
- "Call someone you love this week. They'd love to hear from you.",
- "Rest is not a reward. It's something you deserve.",
+ "Call someone you care about this week. They'd love to hear from you.",
+ "Rest isn't a reward. It's something you need.",
  "Whatever you're carrying today, you don't have to carry it alone.",
  "Hope your family is doing well.",
  "Get home safe tonight.",
- "Treat yourself to something small and nice today.",
+ "Treat yourself to something nice today, even something small.",
  "We're really glad you're part of this team.",
  "Your well-being comes first, always.",
- "Hope your week is treating you well.",
- "Proud of how far you've come.",
+ "Hope this week is treating you well.",
+ "We're proud of how far you've come.",
  "Don't forget to stretch and look after your back.",
  "Have you eaten yet? Please don't skip meals.",
  "Hope you get some time for yourself this week.",
  "Sending you good energy today.",
  "It's okay to have an off day. Be patient with yourself.",
- "Hope you found a moment of calm today.",
+ "Hope you find a moment of calm today.",
  "Thank you for being you.",
- "Hope you're sleeping well. You deserve good rest.",
+ "Hope you're sleeping well. You deserve a good night's rest.",
  "Look up at the sky for a moment today.",
  "If something is on your mind, we're always happy to listen.",
  "Hope your plans and dreams are moving forward.",
  "Small joys count. Hope you find a few today.",
  "You're appreciated more than you know.",
- "Hope your last day off was restful, and the next one comes soon.",
+ "Hope your last day off was restful, and that the next one comes soon.",
  "Take care of your health first. Everything else can wait.",
  "Hope there's good music in your day.",
  "Wishing you a peaceful mind today.",
  "Hope you have something to look forward to this week.",
  "Be as kind to yourself as you are to others.",
- "A good laugh is good medicine. Hope you have one today.",
+ "Laughter is the best medicine. Hope you get a good laugh in today.",
  "Hope your loved ones are healthy and happy.",
  "You don't have to be perfect to be wonderful.",
  "Hope today brings you a little good news.",
- "Remember to rest your eyes and your mind.",
+ "Give your eyes and your mind a little rest today.",
  "You belong here.",
- "Hope your trip in was an easy one today.",
+ "Hope your commute was an easy one today.",
  "Take a moment for yourself today. You've earned it.",
  "Hope your heart feels light today.",
  "Every day you show up is something to be proud of.",
@@ -551,13 +551,13 @@ const WARM=[
  "If you're feeling tired, that's okay. Rest well tonight.",
  "Hope something made you happy this morning.",
  "You're not alone here. We've got you.",
- "Hope you have plans that make you smile.",
- "Little steps still move you forward.",
- "Hope you treat yourself kindly today.",
+ "Hope you have something fun planned for your next day off.",
+ "Every small step still moves you forward.",
+ "Do one nice thing just for yourself today.",
  "Your smile makes this place brighter. Thank you for sharing it.",
  "Hope you're taking care of your mind as well as your body.",
  "Wishing you a day that feels a little easier than yesterday.",
- "Thank you for letting us be part of your days.",
+ "We're lucky to have you with us.",
  "Hope you have someone to share a good meal with this week.",
  "Grateful for you, today and every day."];
 
@@ -590,7 +590,7 @@ const SPECIAL={
   dstOff:"Clocks went back an hour last night. Hope you enjoyed the extra sleep.",
   dstOff2:"How are you settling into the time change? It gets dark early now, so take care getting home.",
   diwali:"Happy Diwali. Wishing you and your loved ones light, joy, and prosperity.",
-  remember:"Today we remember. A quiet moment of thanks to all who served.",
+  remember:"Today we remember. A moment of silence and thanks for all who served.",
   xmasEve:"Merry Christmas Eve. Wishing you warmth, rest, and time with the people you love.",
   xmas:"Merry Christmas! Wishing you peace, joy, and a cozy day.",
   boxing:"Happy Boxing Day. Hope you get to put your feet up today.",
@@ -645,12 +645,12 @@ const PAY_SUN=[
 const PAY_FRI=[
  "Payday is this Sunday! Any plans for it yet?",
  "Just a heads-up: payday is this Sunday. What are you looking forward to?",
- "Two more days until payday. Hang in there, you're almost there!",
+ "Just two more days until payday. Hang in there!",
  "Payday is coming on Sunday. Thinking about treating yourself to anything?",
  "Sunday is payday! Got anything special in mind?",
  "Payday lands this Sunday. Thank you for a great two weeks of work.",
  "Almost payday! It arrives this Sunday. Any fun plans for next week?",
- "Payday is this Sunday. Hope you find something nice to spend a little of it on."];
+ "Payday is this Sunday. Hope you treat yourself to something nice."];
 const pick=(list,k)=>{let h=7;for(const c of k)h=(h*31+c.charCodeAt(0))>>>0;return list[h%list.length];};   /* same pick for everyone on the same day */
 function paydayLine(k){
   const t=Date.UTC(+k.slice(0,4),+k.slice(5,7)-1,+k.slice(8,10)), d=Math.round((t-PAY_ANCHOR)/864e5), r=((d%14)+14)%14;
@@ -669,7 +669,7 @@ function weatherLine(k){
   if([71,73,77,85].includes(c)) return 'Snow is on the way. Wear warm boots and watch for icy patches.';
   if([56,57,66,67].includes(c)) return 'Freezing rain today. Sidewalks will be slippery. Please take it slow.';
   if(c>=95) return 'Thunderstorms today. Stay dry and travel safely.';
-  if(lo<=-15) return `Bitterly cold today, down to ${Math.round(lo)}°C. Hat, gloves, scarf: please bundle up.`;
+  if(lo<=-15) return `Bitterly cold today, down to ${Math.round(lo)}°C. Bundle up with a hat, gloves, and a scarf.`;
   if([61,63,65,80,81,82].includes(c)) return 'Rain today. Don\'t forget your umbrella.';
   if(hi>=30) return `A hot one today, up to ${Math.round(hi)}°C. Drink plenty of water and stay cool.`;
   return '';
