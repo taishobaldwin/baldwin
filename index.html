@@ -874,7 +874,7 @@ function render(k){
   {const sw=document.getElementById('tswap'); sw.hidden=!SWAP[k]; sw.textContent=(SWAP[k]||'').replace(/^🔄\s*/,'');}
   if(TK) document.getElementById('tcover').innerHTML=e(COVER[k]||'')+'.';
   { const bc=barCleaner(D), bt=barTasks(k), el=document.getElementById('bartasks');
-    el.innerHTML=bt.length?`<p class="note tsub"><b>🍸 Bar</b> · lunch bartender, before 15:00</p><div class="list">`+
+    el.innerHTML=bt.length?`<p class="note tsub"><b>🍸 Bar</b> · lunch bartender, before 15:00. Sign the paper Bartender Checklist when done.</p><div class="list">`+
       bt.map(x=>`<div class="trow"><span class="tt">${e(x.t)}${x.bi?' <span class="k">Bi-weekly</span>':''}</span><span class="tw">${e(bc?[bc.who,...bc.with].join(' + '):'Bar')}</span></div>`).join('')+`</div>`:'';
     el.innerHTML+=barWeekSummary(k); }
   if(TK) document.getElementById('tasks').innerHTML=TK.map(([t,w])=>`<div class="trow"><span class="tt">${e(t)}</span><span class="tw">${e(w)}</span></div>`).join('');
