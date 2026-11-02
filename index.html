@@ -87,6 +87,7 @@ svg .who{font-family:var(--f-serif);font-size:30px;font-weight:600;fill:var(--in
   <section id="tasksec">
     <h2>🧽 Today's tasks · IC may reassign</h2>
     <p class="note">Sign the paper checklist when done ✍️ If not finished, write the reason.</p>
+    <p class="note" id="tcover" style="margin:-4px 0 10px"></p>
     <div class="list" id="tasks"></div>
   </section>
 
@@ -205,12 +206,13 @@ const DAYS={
 };
 
 const TASKS={
-'2026-11-02':[['Brush and bleach the washrooms','Wan'],['Deep clean the toilets','Wan'],['Wipe the toilet doors and walls','Haru'],['Deep clean the Salt & Pepper bottle stand (all sections)','Haru'],['Refill toilet supplies','Kevin']],
-'2026-11-03':[['Clean stove — A + F1 & F2','Riku'],['Clean baffle filter — A + F1 & F2 (week 1)','Riku'],['Clean window glass (F section)','Haru'],['Wipe the F section entrance wall','Ayuko'],['Clean the gap between glass & table (F section)','Ayuko']],
-'2026-11-04':[['Clean stove — B','Ayuko'],['Clean baffle filter — B (week 1)','Ayuko'],['Walls and benches (A & B section)','Ayuko'],['Clean & wipe underneath the bench tables','Haru'],['Clean and wipe the menu stands','Carolina']],
+'2026-11-02':[['Brush and bleach the washrooms','Wan'],['Deep clean the toilets','Wan'],['Wipe the toilet doors and walls','Wan'],['Deep clean the Salt & Pepper bottle stand (all sections)','Wan'],['Refill toilet supplies','Kevin']],
+'2026-11-03':[['Clean stove — A + F1 & F2','Riku'],['Clean baffle filter — A + F1 & F2 (week 1)','Riku'],['Clean window glass (F section)','Riku'],['Wipe the F section entrance wall','Ayuko'],['Clean the gap between glass & table (F section)','Ayuko']],
+'2026-11-04':[['Clean stove — B','Ayuko'],['Clean baffle filter — B (week 1)','Ayuko'],['Walls and benches (A & B section)','Ayuko'],['Clean & wipe underneath the bench tables','Ayuko'],['Clean and wipe the menu stands','Carolina']],
 '2026-11-05':[['Clean stove — K + F3 & F4','Riku'],['Clean baffle filter — K + F3 & F4 (week 1)','Riku'],['Walls and benches (F & K section)','Samantha'],['Organize and clean A, B & K stations','Wan']],
-'2026-11-06':[['Clean greasy areas on the floor','Karma'],['Clean the grate / metal cover under all tables','Lisa'],['Clean window glass (A section)','Riku'],['Deep clean Soy Sauce & Chilli Pepper bottles','Ayuko'],['Refill grill net & napkins','Anh']],
+'2026-11-06':[['Clean greasy areas on the floor','Karma'],['Clean the grate / metal cover under all tables','Karma'],['Clean window glass (A section)','Riku'],['Deep clean Soy Sauce & Chilli Pepper bottles','Ayuko'],['Refill grill net & napkins','Anh']],
 };
+const COVER={'2026-11-02':'Haru covers Wan\'s tables while she cleans','2026-11-03':'Haru covers Riku\'s tables while he cleans','2026-11-04':'Haru covers Ayuko\'s tables while she cleans','2026-11-05':'Samantha & Riku cover each other while cleaning','2026-11-06':'Lisa covers Karma\'s tables while she cleans'};
 const KEYS=Object.keys(DAYS).sort();
 const COL={A:'--ai',B:'--uguisu','F&K':'--fuji',K:'--kaki','A&B':'--enji'};
 const e=s=>String(s).replace(/&/g,'&amp;');
@@ -263,6 +265,7 @@ function render(k){
   drawPlan(D.plan);
   document.getElementById('who').innerHTML=D.team.map(([g,rows])=>`<div class="grp">${e(g)}</div>`+rows.map(([n,t,d])=>`<div class="row"><span class="z"></span><span class="n">${e(n)}</span><span class="t">${t}</span>${d?`<span class="d">${e(d)}</span>`:''}</div>`).join('')).join('');
   const TK=TASKS[k]; document.getElementById('tasksec').hidden=!TK;
+  if(TK) document.getElementById('tcover').innerHTML='🤝 <b>'+e(COVER[k]||'')+'</b>';
   if(TK) document.getElementById('tasks').innerHTML=TK.map(([t,w])=>`<div class="trow"><span class="tt">${e(t)}</span><span class="tw">${e(w)}</span></div>`).join('');
   document.getElementById('brkh').textContent=`☕ Breaks · from ${D.brk}`;
   const li=([n,c])=>`<li><div><b>${e(n)}</b> <span>— ${e(c)}</span></div></li>`;
