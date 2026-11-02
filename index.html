@@ -271,6 +271,13 @@ h2 .hint.tapme{flex-basis:100%;text-align:left;font-size:.92rem;font-weight:600;
 .brand.art .brand-bar{align-items:center;gap:10px}
 .brand.art .brand-bar i{display:none}
 .brand.art .brand-bar .loc{font-family:var(--f-sans);font-size:.95rem;font-weight:700;letter-spacing:.22em;color:#fff;background:#c8302a;padding:3px 10px 3px 12px;border-radius:4px;box-shadow:0 1px 0 rgba(0,0,0,.08)}
+.alert{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border-radius:12px;background:color-mix(in srgb,var(--red) 9%,var(--sheet));border:1px solid color-mix(in srgb,var(--red) 35%,transparent);box-shadow:var(--shadow)}
+.alert .ai{font-size:1.3rem;line-height:1.2}
+.alert b{font-weight:700}
+.alert div>b:first-child{display:block;font-size:1rem;color:var(--red)}
+.alert span{font-size:.9rem}
+#plan.wash rect.tb.wt{fill:color-mix(in srgb,var(--red) 18%,var(--sheet));stroke:var(--red);stroke-opacity:1;stroke-width:1.6;stroke-dasharray:3 2}
+#plan.wash text.tn.wt{fill:var(--red);font-weight:700}
 </style></head><body>
 
 <div class="wrap">
@@ -295,6 +302,8 @@ h2 .hint.tapme{flex-basis:100%;text-align:left;font-size:.92rem;font-weight:600;
     <h2>Find your name <span class="hint tapme">Tap your name to see your day</span></h2>
     <nav class="jump" id="jump" aria-label="Jump to a person"></nav>
   </section>
+
+  <div class="alert" id="alert" hidden></div>
 
   <section>
     <h2>Dinner floor plan <span class="hint">🌙 closing&ensp;🧹 washroom check</span></h2>
@@ -655,7 +664,7 @@ function build(k){
   CHECKLISTS.forEach(G=>dayPlan(G,k).forEach(a=>{ if(!a.who) return; const all=[a.who,...a.with];
     all.forEach(n=>{const p=M.get(n); if(!p) return; const o=all.filter(x=>x!==n); const slot=a.period==='dinner'&&p.dinner.blocks.length?p.dinner:p.lunch;
       a.tasks.forEach(t=>slot.items.push({t,clean:true,with:o}));}); }));
-  if([1,4].includes(new Date(k+'T12:00:00').getDay())) M.forEach(p=>{ if(p.lunch.blocks.some(([r])=>r==='Host'||r==='IC/Host')) p.lunch.items.push({t:'After 13:45, avoid seating B5, A6 and B1 (kitchen floor wash at 15:45)',with:[]}); });
+  if(WASH_DAYS.includes(new Date(k+'T12:00:00').getDay())) M.forEach(p=>{ if(p.lunch.blocks.some(([r])=>r==='Host'||r==='IC/Host')) p.lunch.items.push({t:'After 13:45, avoid seating B5, A6 and B1 (kitchen floor wash at 15:45)',with:[]}); });
   if(TASKS[k]&&COVER[k]){const n=COVER[k].split(' ')[0],p=M.get(n); if(p) p.lunch.items.push({t:'Cover the floor during cleaning',with:[]});}
   const washes=p=>p.dinner.items.some(i=>/washroom/i.test(i.t)&&!i.clean);
   return {D,P,M,L,washes};
@@ -668,7 +677,7 @@ const NOTES={
 };
 /* Notices that repeat on a weekday (0=Sun … 6=Sat). */
 const FLOOR_WASH='The kitchen starts washing the floor at 15:45. After 13:45, try not to seat guests at B5, A6 or B1.';
-const WEEKDAY_NOTES={1:['🧽 '+FLOOR_WASH],4:['🧽 '+FLOOR_WASH]};
+const WASH_DAYS=[1,4], WASH_TABLES=['B5','A6','B1'];
 /* Everyday lines: a different one each day by date, so no repeat for 60 days. Care for the person, not the job. */
 const WARM=[
  "Hope you slept well and ate something good today.",
@@ -878,13 +887,14 @@ function loadWeather(){
     .then(r=>r.ok?r.json():null).then(j=>{if(j&&j.daily){WX=j.daily; paintNote(cur);}}).catch(()=>{});
 }
 function changes(m,k){
-  return [...(WEEKDAY_NOTES[new Date(k+'T12:00:00').getDay()]||[]),...(NOTES[k]||[])].map(e);
+  return (NOTES[k]||[]).map(e);
 }
 
 /* ---------- map (unchanged drawing; names, times and marks come from the model) ---------- */
 const tableSvg=(n,x,y,w=42,h=22,seats=0)=>{let o='';for(let i=0;i<seats;i++){const sx=x-((seats-1)*13)/2+i*13;
   o+=`<circle cx="${sx}" cy="${y-h/2-5}" r="2.6" fill="none" stroke="var(--hair)" stroke-width="1.2"/><circle cx="${sx}" cy="${y+h/2+5}" r="2.6" fill="none" stroke="var(--hair)" stroke-width="1.2"/>`}
-  return o+`<rect x="${x-w/2}" y="${y-h/2}" width="${w}" height="${h}" rx="3" fill="var(--sheet)" stroke="var(--soft)" stroke-opacity=".45" stroke-width=".9"/><text class="tn" x="${x}" y="${y+3.4}" text-anchor="middle">${n}</text>`};
+  const wt=WASH_TABLES.includes(n)?' wt':'';
+  return o+`<rect class="tb${wt}" x="${x-w/2}" y="${y-h/2}" width="${w}" height="${h}" rx="3" fill="var(--sheet)" stroke="var(--soft)" stroke-opacity=".45" stroke-width=".9"/><text class="tn${wt}" x="${x}" y="${y+3.4}" text-anchor="middle">${n}</text>`};
 const area=(z,x,y,w,h)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="6" style="fill:color-mix(in srgb,var(${COL[z]}) 9%,transparent);stroke:var(${COL[z]})" stroke-opacity=".55" stroke-width=".9"/>`;
 const label=(z,code,who,t,x,y,ax,ay,small)=>(ax!=null?`<path d="M${ax} ${ay} H${x-6}" style="stroke:var(${COL[z]})" stroke-width=".8"/><circle cx="${ax}" cy="${ay}" r="2.2" style="fill:var(${COL[z]})"/>`:'')+
   `<text class="code" x="${x}" y="${y}" style="fill:var(${COL[z]})">${e(code)}</text>`+
@@ -978,6 +988,9 @@ function render(k){
   m.L.forEach(p=>{if(p.group!==last){out+=`<h3 class="cg">${e(p.group)}</h3>`;last=p.group;} out+=card(p,m);});
   document.getElementById('cards').innerHTML=out;
   drawPlan(mapData(m));
+  { const wash=WASH_DAYS.includes(new Date(k+'T12:00:00').getDay()), al=document.getElementById('alert');
+    al.hidden=!wash; al.innerHTML=wash?`<span class="ai">🧽</span><div><b>Kitchen floor wash at 15:45</b><span>After 13:45, try not to seat guests at <b>B5</b>, <b>A6</b> or <b>B1</b>. They're marked on the floor plan below.</span></div>`:'';
+    document.getElementById('plan').classList.toggle('wash',wash); }
   const MON=['January','February','March','April','May','June','July','August','September','October','November','December'];
   { const d=new Date(k+'T12:00:00');
     const wn=Math.ceil(d.getDate()/7); const baffle=(wn===1||wn===3);
