@@ -254,6 +254,20 @@ h2 .hint.tapme{flex-basis:100%;text-align:left;font-size:.92rem;font-weight:600;
 .bwh{display:flex;justify-content:space-between;gap:10px;font-size:.92rem}
 .bwh span{color:var(--soft);font-weight:600}
 .bws ul{margin:4px 0 0;padding-left:18px;font-size:.88rem;display:flex;flex-direction:column;gap:2px}
+.ctabs{display:flex;flex-wrap:wrap;gap:4px;padding:4px;margin:4px 0 12px;background:color-mix(in srgb,var(--hair) 55%,var(--paper));border-radius:12px}
+.ctab{font:inherit;font-weight:600;font-size:.92rem;padding:9px 6px;border:0;border-radius:9px;background:transparent;color:var(--soft);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
+.ctab.on{background:var(--sheet);color:var(--ink);box-shadow:0 1px 2px rgba(60,40,20,.15)}
+.cn2:not(:empty){min-width:20px;height:20px;padding:0 6px;border-radius:999px;font-size:.72rem;display:inline-flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--gold) 22%,transparent);color:var(--ink)}
+.ctab.on .cn2:not(:empty){background:var(--red);color:#fff}
+.note.empty{color:var(--soft)}
+.bwp{margin-top:4px;font-size:.86rem;color:var(--soft);font-weight:600}
+.trow .tw{flex:0 0 auto;max-width:42%;text-align:right}
+.trow .tw small{display:block;font-family:var(--f-sans);font-weight:500;font-size:.72rem;color:var(--soft)}
+.ctab{font-size:.86rem;padding:9px 4px;gap:4px;white-space:nowrap}
+.cn2:not(:empty){min-width:18px;height:18px;padding:0 5px;font-size:.68rem}
+.ctabs .ctab{flex:1 1 30%}
+.ctabs .ctab:nth-child(n+4){flex-basis:45%}
+.wkline{margin:0 0 10px;padding:9px 12px;border-radius:8px;background:color-mix(in srgb,var(--gold) 12%,var(--sheet));font-size:.88rem}
 </style></head><body>
 
 <div class="wrap">
@@ -286,12 +300,25 @@ h2 .hint.tapme{flex-basis:100%;text-align:left;font-size:.92rem;font-weight:600;
 
   <section id="tasksec">
     <h2>Today's cleaning <span class="hint">The IC may reassign</span></h2>
+    <p class="wkline">Do your usual <b>daily checklist</b> as always. Below are today's extra <b>weekly</b> tasks, one role at a time.</p>
     <div class="wk" id="wk"></div>
-    <p class="note">Sign the paper checklist when done ✍️ If not finished, write the reason.</p>
-    <p class="note swap" id="tswap" hidden></p>
-    <p class="note" id="tcover" style="margin:-4px 0 10px"></p>
-    <div class="list" id="tasks"></div>
-    <div id="bartasks"></div>
+    <div class="ctabs" role="tablist" aria-label="Cleaning by role">
+      <button class="ctab on" role="tab" data-p="srv" aria-selected="true">Server <span class="cn2" id="cn-srv"></span></button>
+      <button class="ctab" role="tab" data-p="host" aria-selected="false">Host <span class="cn2" id="cn-host"></span></button>
+      <button class="ctab" role="tab" data-p="bus" aria-selected="false">Busser <span class="cn2" id="cn-bus"></span></button>
+      <button class="ctab" role="tab" data-p="bar" aria-selected="false">Bar <span class="cn2" id="cn-bar"></span></button>
+      <button class="ctab" role="tab" data-p="chr" aria-selected="false">Charidise <span class="cn2" id="cn-chr"></span></button>
+    </div>
+    <div class="cpanel" id="cp-srv">
+      <p class="note">Sign the paper checklist when done ✍️ If not finished, write the reason.</p>
+      <p class="note swap" id="tswap" hidden></p>
+      <p class="note" id="tcover" style="margin:-4px 0 10px"></p>
+      <div class="list" id="tasks"></div>
+    </div>
+    <div class="cpanel" id="cp-bar" hidden></div>
+    <div class="cpanel" id="cp-bus" hidden></div>
+    <div class="cpanel" id="cp-chr" hidden></div>
+    <div class="cpanel" id="cp-host" hidden></div>
   </section>
 
   <section>
@@ -368,7 +395,7 @@ const DAYS={
   ['🙋 Host',[['Annie','15:00–22:30','🍱 Covers Charidise 15:00–16:00']]],
   ['🍱 Charidise',[['Amelia','11:30–15:00<br>16:00–22:00','']]],
   ['🍸 Bar',[['Billy','11:15–15:00<br>16:30–23:00','🤝 Partner for Greg'],['Greg','11:15–16:30','Bar trainee · 🤝 Partner: Billy']]],
-  ['🧺 Busser',[['Naoki','11:00–15:00<br>16:30–23:00','👑 Busser IC · 🖨️ Printer duty'],['Yuka','12:00–16:30<br>18:00–23:00',''],['Riku','18:00–23:00','']]],
+  ['🧺 Busser',[['Naoki','11:00–15:00<br>16:30–23:00','👑 Busser IC · 🖨️ Printer duty'],['Yuka','12:00–16:30<br>18:00–23:15',''],['Riku','18:00–23:00','']]],
  ],
  breaks:[['Carolina','Kevin covers A section'],['Ayuko','Kevin covers B section'],['Anh','Kevin covers F & K'],['Kevin','Haru covers Service Support']],
  bbreaks:[['Naoki','Yuka takes over Busser IC & printer'],['Yuka','Naoki covers'],['Riku','Naoki covers']]},
@@ -457,45 +484,123 @@ const plain=s=>s.replace(/^[^A-Za-z0-9]+/u,'').trim();   /* drop the leading emo
 const slug=n=>'p-'+n.replace(/[^A-Za-z0-9]/g,'');
 const CLEAN_ROLES=['Server','Busser','Server Assistant'];
 
-/* ---------- bar cleaning (from the Bartender Checklist): done by the lunch bartender ----------
-   Weekly tasks every week, Mon–Thu. Bi-weekly tasks only in week 1 and week 3 of the month (same weeks as the baffle filters).
-   Day numbers: 1=Mon … 4=Thu. */
-const BAR_WEEKLY={
- 1:['Fridge: empty, wipe clean, and reorganize','Deep clean the garbage bin'],
- 2:['Bleach-clean all pots, shakers, pitchers, and blender jars','Soda machine: soak the heads in hot water, rinse, and replace'],
- 3:['Tea station: take everything out and clean thoroughly'],
- 4:['Bar shelving: clear and wipe down','Deep clean every corner of the Sapporo & Asahi area']};
-const BAR_BIWEEKLY={
- 1:['Basement inventory: organize and throw out garbage'],
- 2:['Glass display shelves: clear and wipe'],
- 3:['Back counter / storage: clear, wipe, and organize','Bar cabinets: organize and clean inside every cabinet'],
- 4:['Sugar barrels, corners, walls, and floors','Wipe the middle shelf and deep clean the floor around the bar']};
+/* ---------- role checklists (Bartender / Busser paper sheets): reminders only, sign-off stays on paper ----------
+   weekly: every week. biweekly: week 1 and week 3 of the month (same weeks as the baffle filters).
+   monthly: {week of month: [tasks]}. Day numbers: 1=Mon … 5=Fri.
+   skip: tasks already done for that date ('YYYY-MM-DD|task'). */
 const weekOfMonth=k=>Math.ceil(+k.slice(8,10)/7);
-function barTasks(k){
-  const dow=new Date(k+'T12:00:00').getDay(), wn=weekOfMonth(k), bi=(wn===1||wn===3);
-  return [...(BAR_WEEKLY[dow]||[]).map(t=>({t,bi:false})),...(bi?(BAR_BIWEEKLY[dow]||[]).map(t=>({t,bi:true})):[])];
+const CHECKLISTS=[
+ {id:'bar',label:'🍸 Bar',summary:false,who:'shared across the week. Lunch: before 15:00. Dinner: at the start of the shift',sheet:'Bartender Checklist',fallback:'Lunch bartender',
+  weekly:{
+   1:['Fridge: empty, wipe clean, and reorganize','Deep clean the garbage bin'],
+   2:['Bleach-clean all pots, shakers, pitchers, and blender jars','Soda machine: soak the heads in hot water, rinse, and replace'],
+   3:['Tea station: take everything out and clean thoroughly'],
+   4:['Bar shelving: clear and wipe down','Deep clean every corner of the Sapporo & Asahi area']},
+  biweekly:{
+   1:['Basement inventory: organize and throw out garbage'],
+   2:['Glass display shelves: clear and wipe'],
+   3:['Back counter / storage: clear, wipe, and organize','Bar cabinets: organize and clean inside every cabinet'],
+   4:['Sugar barrels, corners, walls, and floors','Wipe the middle shelf and deep clean the floor around the bar']},
+  monthly:{},
+  /* anyone on bar that day can take it; lunch is preferred, a dinner bartender does it at the start of the shift */
+  cands:D=>roleCands(D,'Bar',[]) },
+ {id:'bus',label:'🧺 Busser',summary:false,who:'shared out across the lunch bussers during the week',sheet:'Busser Maintenance Checklist',fallback:'12:00 busser',
+  weekly:{
+   1:['Deep clean the employee washroom and breakroom'],
+   2:['Wash and dry all trays'],
+   3:['Clean the gelato freezer']},
+  biweekly:{
+   4:['Organize and clean the packer station']},
+  monthly:{
+   1:{5:['Wash the Noren curtain']},
+   3:{5:['Wash and dry the busser-station garbage bin']}},
+  skip:{'2026-11-06|Wash the Noren curtain':1},          /* Insang already signed it for November */
+  /* lunch bussers only; the 11:00 busser already has the harder shift, so they are picked last */
+  cands:D=>roleCands(D,'Busser',['11:00']).filter(c=>c.period==='lunch') },
+ {id:'host',label:'🙋 Host',summary:false,weekendPen:12,who:'shared between the hosts during the week, during a quiet moment',sheet:'Host checklist (weekly section)',fallback:'Host',
+  weekly:{
+   1:['Clear all items off the counter and wipe behind the monitors'],
+   2:['Vacuum and wipe the crevice behind the bench'],
+   3:['Check for spills underneath the gelato machine and mop if necessary'],
+   4:['Wipe the garage door windows'],
+   5:['Organize the drawers and storage']},
+  biweekly:{},monthly:{},
+  cands:D=>roleCands(D,'Host',[]).map(c=>({...c,pen:0})) },
+ /* Charidise weekly checklist: two-week rotation, tasks stay on the day the sheet gives them.
+    Week 1 of the rotation starts Mon, Nov 2, 2026, then alternates. */
+ {id:'chr',label:'🍱 Charidise',summary:false,who:'shared between the Charidise staff that day',sheet:'Charidise weekly checklist',fallback:'Charidise',
+  rotationStart:'2026-11-02',
+  rotation:[{1:["Wipe all tables incl. stands with hot water. Wipe all sofas (gaps & corners). Wipe the black frames.","Wipe and clean the fake flowers and all other decorations."],2:["Brush and bleach the washroom floor, toilet and corners. Wipe walls, mirror and bin. Refill sanitizer and toilet paper.","Check and adjust the balance of all tables and chairs."],3:["Vacuum the floor and deep clean the corners and under the tables. Move tables to clean underneath.","Check and clean all the corners of windows SC1–SC4."],4:["Clean and organize the rooftop patio. Clean the garage door window (inside & out) and the side door."],5:["Wipe the stairway handrail, and all glass and windows from the inside out.","Organize and wipe the cashier station. Deep clean the garbage bins."]},{1:["Wipe the stairway handrail, and all glass and windows from the inside out.","Organize and wipe the cashier station. Deep clean the garbage bins."],2:["Wipe all tables incl. stands with hot water. Wipe all sofas (gaps & corners). Wipe the black frames.","Wipe and clean the fake flowers and all other decorations."],3:["Brush and bleach the washroom floor, toilet and corners. Wipe walls, mirror and bin. Refill sanitizer and toilet paper.","Check and adjust the balance of all tables and chairs."],4:["Vacuum the floor and deep clean the corners and under the tables. Move tables to clean underneath.","Check and clean all the corners of windows SC1–SC4."],5:["Clean and organize the rooftop patio. Clean the garage door window (inside & out) and the side door."]}],
+  weekly:{},biweekly:{},monthly:{},
+  cands:D=>roleCands(D,'Charidise',[]).map(c=>({...c,pen:c.period==='dinner'?2:0})) }
+];
+/* Everyone in a role that day, with their period. A trainee on the same period joins their Partner. */
+function roleCands(D,role,heavyStarts){
+  const rows=(D.team.find(([g])=>g.includes(role))||[,[]])[1], out=[];
+  rows.forEach(([n,t,d])=>{ if(/trainee/.test(d||'')) return;
+    t.split('<br>').forEach(x=>{const period=isLunch(x)?'lunch':'dinner';
+      const helpers=rows.filter(([n2,t2,d2])=>/trainee/.test(d2||'')&&new RegExp('Partner: '+base(n)).test(d2||'')&&t2.split('<br>').some(y=>(isLunch(y)?'lunch':'dinner')===period)).map(([n2])=>base(n2));
+      out.push({who:base(n),with:helpers,period,pen:(period==='dinner'?6:0)+(heavyStarts.some(h=>x.startsWith(h))?2:0)});});});
+  return out;
 }
-/* who does it: the lunch bartender (a trainee on lunch joins their Partner) */
-function barCleaner(D){
-  const rows=(D.team.find(([g])=>g.includes('Bar'))||[,[]])[1];
-  const lunch=rows.filter(([n,t])=>t.split('<br>').some(x=>isLunch(x)));
-  const lead=lunch.find(([,,d])=>!/trainee/.test(d||''))||lunch[0];
-  if(!lead) return null;
-  const helpers=lunch.filter(r=>r!==lead).map(([n])=>base(n));
-  return {who:base(lead[0]),with:helpers};
+const dayKey=x=>`${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,'0')}-${String(x.getDate()).padStart(2,'0')}`;
+/* The week's jobs for one checklist: each day's list from the sheet is one job, preferred on its own day. */
+function weekJobs(G,monKey){
+  const mon=new Date(monKey+'T12:00:00'), jobs=[];
+  for(let i=0;i<5;i++){const x=new Date(mon); x.setDate(mon.getDate()+i); const k=dayKey(x), dow=i+1, wn=weekOfMonth(k), bi=(wn===1||wn===3);
+    const add=(list)=>{const t=(list||[]).filter(t=>!(G.skip&&G.skip[k+'|'+t])); if(t.length) jobs.push({pref:i,tasks:t});};
+    if(G.rotation){const wk=Math.floor((new Date(monKey+'T12:00:00')-new Date(G.rotationStart+'T12:00:00'))/(7*864e5));
+      const R=G.rotation[((wk%G.rotation.length)+G.rotation.length)%G.rotation.length];
+      (R[dow]||[]).forEach(t=>jobs.push({pref:i,tasks:[t],fixed:true})); continue;}
+    add(G.weekly[dow]); if(bi) add(G.biweekly[dow]); add((G.monthly[wn]||{})[dow]);}
+  return jobs;
 }
-
-/* whole week at a glance: Mon–Thu of the week that contains k */
-function barWeekSummary(k){
-  const d=new Date(k+'T12:00:00'), mon=new Date(d); mon.setDate(d.getDate()-((d.getDay()+6)%7));
-  const W=['Mon','Tue','Wed','Thu'], rows=[];
-  for(let i=0;i<4;i++){const x=new Date(mon); x.setDate(mon.getDate()+i);
-    const kk=`${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,'0')}-${String(x.getDate()).padStart(2,'0')}`;
-    const bt=barTasks(kk), bc=DAYS[kk]?barCleaner(DAYS[kk]):null;
-    rows.push(`<div class="bws${kk===k?' on':''}"><div class="bwh"><b>${W[i]} ${x.getDate()}</b><span>${e(bc?[bc.who,...bc.with].join(' + '):'Lunch bartender')}</span></div><ul>`+
-      bt.map(t=>`<li>${e(t.t)}${t.bi?' <span class="k">Bi-weekly</span>':''}</li>`).join('')+`</ul></div>`);}
-  const wn=weekOfMonth(k);
-  return `<details class="fb bwk"><summary><span>Bar cleaning this week <span class="hint">${wn===1||wn===3?'with bi-weekly tasks':'weekly tasks only'}</span></span><span class="car">▾</span></summary><div class="fbb">${rows.join('')}</div></details>`;
+/* Spread the jobs so nobody carries the week: least-loaded person first, at most 2 jobs a day each,
+   then closest to the planned day, then lunch over dinner. Same answer for everyone who opens the page. */
+/* Who did each checklist job in past weeks, so the same job doesn't keep going to the same person.
+   One entry per week (the Monday), filled in when the next week's schedule is added. Only earlier weeks count. */
+const HISTORY={
+ '2026-11-02':{"bar": {"Fridge: empty, wipe clean, and reorganize": "A.A", "Deep clean the garbage bin": "A.A", "Bleach-clean all pots, shakers, pitchers, and blender jars": "A.A", "Soda machine: soak the heads in hot water, rinse, and replace": "A.A", "Basement inventory: organize and throw out garbage": "Billy", "Glass display shelves: clear and wipe": "Billy", "Tea station: take everything out and clean thoroughly": "A.A", "Back counter / storage: clear, wipe, and organize": "Billy", "Bar cabinets: organize and clean inside every cabinet": "Billy", "Bar shelving: clear and wipe down": "A.A", "Deep clean every corner of the Sapporo & Asahi area": "A.A", "Sugar barrels, corners, walls, and floors": "Billy", "Wipe the middle shelf and deep clean the floor around the bar": "Billy"}, "bus": {"Deep clean the employee washroom and breakroom": "Naoki", "Wash and dry all trays": "Yuka", "Organize and clean the packer station": "Insang", "Clean the gelato freezer": "Thai"}, "host": {"Clear all items off the counter and wipe behind the monitors": "Asteria", "Check for spills underneath the gelato machine and mop if necessary": "Asteria", "Vacuum and wipe the crevice behind the bench": "Annie", "Wipe the garage door windows": "Asteria", "Organize the drawers and storage": "Billy"}, "chr": {"Wipe all tables incl. stands with hot water. Wipe all sofas (gaps & corners). Wipe the black frames.": "Ayuko", "Wipe and clean the fake flowers and all other decorations.": "Annie", "Brush and bleach the washroom floor, toilet and corners. Wipe walls, mirror and bin. Refill sanitizer and toilet paper.": "Helen", "Check and adjust the balance of all tables and chairs.": "Helen", "Vacuum the floor and deep clean the corners and under the tables. Move tables to clean underneath.": "Amelia", "Check and clean all the corners of windows SC1–SC4.": "Amelia", "Clean and organize the rooftop patio. Clean the garage door window (inside & out) and the side door.": "Amelia", "Wipe the stairway handrail, and all glass and windows from the inside out.": "Ayuko", "Organize and wipe the cashier station. Deep clean the garbage bins.": "Helen"}}
+};
+function lastDoneBy(G,task,mk){
+  const wk=Object.keys(HISTORY).filter(w=>w<mk).sort().reverse();
+  for(const w of wk){const who=((HISTORY[w]||{})[G.id]||{})[task]; if(who) return who;}
+  return null;
+}
+const PLAN_CACHE={};
+function planWeek(G,k){
+  const d=new Date(k+'T12:00:00'), mon=new Date(d); mon.setDate(d.getDate()-((d.getDay()+6)%7)); const mk=dayKey(mon);
+  const ck=G.id+'|'+mk; if(PLAN_CACHE[ck]) return PLAN_CACHE[ck];
+  const days=[...Array(7)].map((_,i)=>{const x=new Date(mon); x.setDate(mon.getDate()+i); return dayKey(x);});
+  const load={}, dayLoad={}, plan={}; days.forEach(dk=>plan[dk]=[]);
+  /* jobs a busser already has from the server cleaning list count toward their load */
+  if(G.id==='bus') days.forEach(dk=>new Set((TASKS[dk]||[]).flatMap(([,w])=>w.split(' + '))).forEach(n=>{load[n]=(load[n]||0)+0.5;}));
+  weekJobs(G,mk).forEach(job=>{
+    let best=null;
+    days.forEach((dk,i)=>{ if(!DAYS[dk]||(job.fixed&&i!==job.pref)) return; G.cands(DAYS[dk]).forEach(c=>{
+      const dl=dayLoad[dk+'|'+c.who]||0; if(dl>=2) return;
+      const again=lastDoneBy(G,job.tasks[0],mk)===c.who?9:0;   /* did this exact job last time: pass it to someone else */
+      const sc=(load[c.who]||0)*8+dl*6+Math.abs(i-job.pref)*3+c.pen+(i>=5?(G.weekendPen??4):0)+again;   /* weekends are possible but a last resort */
+      if(!best||sc<best.sc) best={sc,dk,c};});});
+    if(!best){ const dk=days[job.pref]; plan[dk].push({who:null,with:[],period:'lunch',tasks:job.tasks}); return; }
+    load[best.c.who]=(load[best.c.who]||0)+1; dayLoad[best.dk+'|'+best.c.who]=(dayLoad[best.dk+'|'+best.c.who]||0)+1;
+    const same=plan[best.dk].find(a=>a.who===best.c.who&&a.period===best.c.period);
+    if(same) same.tasks.push(...job.tasks); else plan[best.dk].push({who:best.c.who,with:best.c.with,period:best.c.period,tasks:[...job.tasks]});
+  });
+  return PLAN_CACHE[ck]=plan;
+}
+const dayPlan=(G,k)=>planWeek(G,k)[k]||[];
+const whoLabel=(a,G)=>a.who?[a.who,...a.with].join(' + ')+(a.period==='dinner'?' · start of dinner':''):G.fallback;
+const whoHtml=(a,G)=>a.who?e([a.who,...a.with].join(' + '))+(a.period==='dinner'?'<small>start of dinner</small>':''):e(G.fallback);
+/* Everything listed for a day is to be done that day, so no frequency tags are shown. */
+const tagHtml=x=>'';
+/* whole week at a glance: Mon–Fri of the week that contains k (days with nothing are left out) */
+function weekSummary(G,k){
+  const plan=planWeek(G,k), W=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'], rows=[];
+  Object.keys(plan).sort().forEach((kk,i)=>{ if(!plan[kk].length) return;
+    rows.push(`<div class="bws${kk===k?' on':''}"><div class="bwh"><b>${W[i]} ${+kk.slice(8)}</b></div>`+
+      plan[kk].map(a=>`<div class="bwp"><span>${e(whoLabel(a,G))}</span></div><ul>`+a.tasks.map(t=>`<li>${e(t)}</li>`).join('')+`</ul>`).join('')+`</div>`);});
+  return `<details class="fb bwk"><summary><span>${G.label.replace(/^\S+\s/,'')} cleaning this week</span><span class="car">▾</span></summary><div class="fbb">${rows.join('')}</div></details>`;
 }
 
 function build(k){
@@ -544,9 +649,9 @@ function build(k){
   (TASKS[k]||[]).forEach(([t,w])=>{const ns=w.split(' + '); ns.forEach(n=>{const p=M.get(n); if(!p) return;
     const lunchCleaner=p.lunch.blocks.some(([r])=>CLEAN_ROLES.includes(r));
     (lunchCleaner?p.lunch:p.dinner).items.push({t,clean:true,with:ns.filter(x=>x!==n)});});});
-  { const bc=barCleaner(D), bt=barTasks(k);
-    if(bc&&bt.length){ [bc.who,...bc.with].forEach(n=>{const p=M.get(n); if(!p) return; const o=[bc.who,...bc.with].filter(x=>x!==n);
-      bt.forEach(x=>p.lunch.items.push({t:x.t,clean:true,with:o}));}); } }
+  CHECKLISTS.forEach(G=>dayPlan(G,k).forEach(a=>{ if(!a.who) return; const all=[a.who,...a.with];
+    all.forEach(n=>{const p=M.get(n); if(!p) return; const o=all.filter(x=>x!==n); const slot=a.period==='dinner'&&p.dinner.blocks.length?p.dinner:p.lunch;
+      a.tasks.forEach(t=>slot.items.push({t,clean:true,with:o}));}); }));
   if(TASKS[k]&&COVER[k]){const n=COVER[k].split(' ')[0],p=M.get(n); if(p) p.lunch.items.push({t:'Cover the floor during cleaning',with:[]});}
   const washes=p=>p.dinner.items.some(i=>/washroom/i.test(i.t)&&!i.clean);
   return {D,P,M,L,washes};
@@ -870,13 +975,17 @@ function render(k){
   { const d=new Date(k+'T12:00:00');
     const wn=Math.ceil(d.getDate()/7); const baffle=(wn===1||wn===3);
     document.getElementById('wk').innerHTML=`<span class="pill">Week ${wn} of ${MON[d.getMonth()]}</span>`+(baffle?`<span class="pill b">Baffle filter week</span>`:`<span class="pill off">No baffle filter this week</span>`); }
-  const TK=TASKS[k]; document.getElementById('tasksec').hidden=!TK;
+  const TK=TASKS[k]; document.getElementById('tasksec').hidden=!(TK||CHECKLISTS.some(G=>dayPlan(G,k).length));
   {const sw=document.getElementById('tswap'); sw.hidden=!SWAP[k]; sw.textContent=(SWAP[k]||'').replace(/^🔄\s*/,'');}
   if(TK) document.getElementById('tcover').innerHTML=e(COVER[k]||'')+'.';
-  { const bc=barCleaner(D), bt=barTasks(k), el=document.getElementById('bartasks');
-    el.innerHTML=bt.length?`<p class="note tsub"><b>🍸 Bar</b> · lunch bartender, before 15:00. Sign the paper Bartender Checklist when done.</p><div class="list">`+
-      bt.map(x=>`<div class="trow"><span class="tt">${e(x.t)}${x.bi?' <span class="k">Bi-weekly</span>':''}</span><span class="tw">${e(bc?[bc.who,...bc.with].join(' + '):'Bar')}</span></div>`).join('')+`</div>`:'';
-    el.innerHTML+=barWeekSummary(k); }
+  CHECKLISTS.forEach(G=>{ const dp=dayPlan(G,k), bt=dp.flatMap(a=>a.tasks.map(t=>({t,a})));
+    document.getElementById('cn-'+G.id).textContent=bt.length||'';
+    document.getElementById('cp-'+G.id).innerHTML=`<p class="note">${e(G.who[0].toUpperCase()+G.who.slice(1))}. Sign the paper ${G.sheet} when done.</p>`+
+      (bt.length?`<div class="list">`+bt.map(x=>`<div class="trow"><span class="tt">${e(x.t)}</span><span class="tw">${whoHtml(x.a,G)}</span></div>`).join('')+`</div>`
+        :`<p class="note empty">Nothing on the list today.</p>`)+(G.summary===false?'':weekSummary(G,k)); });
+  document.getElementById('cn-srv').textContent=(TASKS[k]||[]).length||'';
+  document.getElementById('tasks').hidden=!TK; document.getElementById('tcover').hidden=!TK;
+  { const el=document.getElementById('srvempty')||Object.assign(document.createElement('p'),{id:'srvempty',className:'note empty',textContent:'Nothing on the list today.'}); if(!el.parentNode) document.getElementById('tasks').after(el); el.hidden=!!TK; }
   if(TK) document.getElementById('tasks').innerHTML=TK.map(([t,w])=>`<div class="trow"><span class="tt">${e(t)}</span><span class="tw">${e(w)}</span></div>`).join('');
   document.getElementById('brkh').innerHTML=`Break order <span class="hint">From ${D.brk}</span>`;
   const li=([n,c])=>`<li><div><b>${e(n)}</b> <span>— ${e(c)}</span></div></li>`;
@@ -892,6 +1001,10 @@ document.getElementById('tabs').innerHTML=KEYS.map(k=>{const [w,md]=DAYS[k].titl
 /* Tap "Partner" on a card: open the explanation and scroll to it. */
 document.getElementById('cards').addEventListener('click',ev=>{const a=ev.target.closest('.plink'); if(!a) return; ev.preventDefault();
   const d=document.getElementById('pdef'); d.open=true; d.scrollIntoView({behavior:'smooth',block:'start'});});
+/* Cleaning tabs: show one role at a time. */
+document.querySelector('.ctabs').addEventListener('click',ev=>{const b=ev.target.closest('.ctab'); if(!b) return;
+  document.querySelectorAll('.ctab').forEach(x=>{const on=x===b; x.classList.toggle('on',on); x.setAttribute('aria-selected',on);});
+  document.querySelectorAll('.cpanel').forEach(p=>p.hidden=p.id!=='cp-'+b.dataset.p);});
 /* Tap a name: scroll to that card and highlight it (works inside any frame, no page jump). */
 document.getElementById('jump').addEventListener('click',ev=>{const a=ev.target.closest('a'); if(!a) return; ev.preventDefault();
   const c=document.getElementById(a.getAttribute('href').slice(1)); if(!c) return;
