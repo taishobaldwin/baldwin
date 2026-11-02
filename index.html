@@ -652,6 +652,7 @@ function build(k){
   CHECKLISTS.forEach(G=>dayPlan(G,k).forEach(a=>{ if(!a.who) return; const all=[a.who,...a.with];
     all.forEach(n=>{const p=M.get(n); if(!p) return; const o=all.filter(x=>x!==n); const slot=a.period==='dinner'&&p.dinner.blocks.length?p.dinner:p.lunch;
       a.tasks.forEach(t=>slot.items.push({t,clean:true,with:o}));}); }));
+  if([1,4].includes(new Date(k+'T12:00:00').getDay())) M.forEach(p=>{ if(p.lunch.blocks.some(([r])=>r==='Host'||r==='IC/Host')) p.lunch.items.push({t:'After 13:45, avoid seating B5, A6 and B1 (kitchen floor wash at 15:45)',with:[]}); });
   if(TASKS[k]&&COVER[k]){const n=COVER[k].split(' ')[0],p=M.get(n); if(p) p.lunch.items.push({t:'Cover the floor during cleaning',with:[]});}
   const washes=p=>p.dinner.items.some(i=>/washroom/i.test(i.t)&&!i.clean);
   return {D,P,M,L,washes};
@@ -662,6 +663,9 @@ function build(k){
    e.g. 'A and B sections swapped tonight'. Leave the day out when there is nothing. */
 const NOTES={
 };
+/* Notices that repeat on a weekday (0=Sun … 6=Sat). */
+const FLOOR_WASH='Kitchen washes the floor at 15:45. After 13:45, try not to seat guests at B5, A6 or B1.';
+const WEEKDAY_NOTES={1:['🧽 '+FLOOR_WASH],4:['🧽 '+FLOOR_WASH]};
 /* Everyday lines: a different one each day by date, so no repeat for 60 days. Care for the person, not the job. */
 const WARM=[
  "Hope you slept well and ate something good today.",
@@ -871,7 +875,7 @@ function loadWeather(){
     .then(r=>r.ok?r.json():null).then(j=>{if(j&&j.daily){WX=j.daily; paintNote(cur);}}).catch(()=>{});
 }
 function changes(m,k){
-  return (NOTES[k]||[]).map(e);
+  return [...(WEEKDAY_NOTES[new Date(k+'T12:00:00').getDay()]||[]),...(NOTES[k]||[])].map(e);
 }
 
 /* ---------- map (unchanged drawing; names, times and marks come from the model) ---------- */
