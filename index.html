@@ -269,8 +269,8 @@ function render(k){
   drawPlan(D.plan);
   document.getElementById('who').innerHTML=D.team.map(([g,rows])=>`<div class="grp">${e(g)}</div>`+rows.map(([n,t,d])=>`<div class="row"><span class="z"></span><span class="n">${e(n)}</span><span class="t">${t}</span>${d?`<span class="d">${e(d)}</span>`:''}</div>`).join('')).join('');
   const MON=['January','February','March','April','May','June','July','August','September','October','November','December'];
-  { const d=new Date(k+'T12:00:00'); const mon=new Date(d); mon.setDate(d.getDate()-((d.getDay()+6)%7));
-    const wn=Math.ceil(mon.getDate()/7); const baffle=(wn===1||wn===3);
+  { const d=new Date(k+'T12:00:00'); const mon=d; /* calendar month: each day counts by its own date */
+    const wn=Math.ceil(d.getDate()/7); const baffle=(wn===1||wn===3);
     document.getElementById('wk').innerHTML=`<span class="pill">📅 Week ${wn} of ${MON[mon.getMonth()]}</span>`+(baffle?`<span class="pill b">✅ Baffle filter week</span>`:`<span class="pill" style="opacity:.55">No baffle filter this week</span>`); }
   const TK=TASKS[k]; document.getElementById('tasksec').hidden=!TK;
   if(TK) document.getElementById('tcover').innerHTML='🤝 <b>'+e(COVER[k]||'')+'</b>';
