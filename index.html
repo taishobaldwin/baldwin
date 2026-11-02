@@ -59,6 +59,13 @@ svg .who{font-family:var(--f-serif);font-size:30px;font-weight:600;fill:var(--in
 .wk{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 10px}
 .wk .pill{font-family:var(--f-mono);font-weight:600;font-size:1rem;padding:8px 14px;border-radius:999px;background:var(--ink);color:var(--paper)}
 .wk .pill.b{background:var(--gold);color:#1d1d1f}
+.rv{position:relative;overflow:hidden;background:var(--sheet);border:1px solid var(--hair);border-radius:14px;padding:16px 18px 14px;text-align:center;box-shadow:0 1px 0 var(--hair)}
+.rv::before{content:"";position:absolute;inset:0 0 auto 0;height:5px;background:linear-gradient(90deg,#4285F4 0 25%,#EA4335 25% 50%,#FBBC05 50% 75%,#34A853 75%)}
+.rv-stars{font-size:1.9rem;letter-spacing:.12em;color:#FBBC05;line-height:1;margin:4px 0 8px;text-shadow:0 1px 0 rgba(0,0,0,.08)}
+.rv-main{display:flex;align-items:center;justify-content:center;gap:12px}
+.rv-num{font-family:var(--f-serif);font-weight:600;font-size:2.6rem;line-height:1;color:var(--ink)}
+.rv-txt{font-family:var(--f-serif);font-weight:600;font-size:1.05rem;line-height:1.2;text-align:left;color:var(--ink)}
+.rv-sub{margin-top:8px;font-size:.86rem;color:var(--soft)}
 .leave{font-size:.88rem;color:var(--soft);text-align:center}
 [hidden]{display:none!important}
 .tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
@@ -76,7 +83,11 @@ svg .who{font-family:var(--f-serif);font-size:30px;font-weight:600;fill:var(--in
     <div class="meta" id="meta"></div>
   </header>
 
-  <div class="goal"><span class="num">⭐5+</span><div><b>Google reviews per person</b><span>Ask every happy table before they leave 😊</span></div></div>
+  <div class="rv">
+    <div class="rv-stars" aria-label="5 stars">★★★★★</div>
+    <div class="rv-main"><span class="rv-num">5+</span><span class="rv-txt">Google reviews<br>per person today</span></div>
+    <div class="rv-sub">Ask every happy table before they leave 😊</div>
+  </div>
 
   <section>
     <h2>🗺️ Dinner floor plan</h2>
