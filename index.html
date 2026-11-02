@@ -247,6 +247,13 @@ h2 .hint.tapme{flex-basis:100%;text-align:left;font-size:.92rem;font-weight:600;
 .tsub{margin:14px 0 8px}
 .trow .k,.k{white-space:nowrap}
 .trow .k{margin-left:4px;vertical-align:1px}
+.bwk{margin-top:10px}
+.bws{padding:10px 0;border-top:1px solid var(--hair)}
+.bws:first-child{border-top:0}
+.bws.on .bwh b{color:var(--red)}
+.bwh{display:flex;justify-content:space-between;gap:10px;font-size:.92rem}
+.bwh span{color:var(--soft);font-weight:600}
+.bws ul{margin:4px 0 0;padding-left:18px;font-size:.88rem;display:flex;flex-direction:column;gap:2px}
 </style></head><body>
 
 <div class="wrap">
@@ -476,6 +483,19 @@ function barCleaner(D){
   if(!lead) return null;
   const helpers=lunch.filter(r=>r!==lead).map(([n])=>base(n));
   return {who:base(lead[0]),with:helpers};
+}
+
+/* whole week at a glance: Mon–Thu of the week that contains k */
+function barWeekSummary(k){
+  const d=new Date(k+'T12:00:00'), mon=new Date(d); mon.setDate(d.getDate()-((d.getDay()+6)%7));
+  const W=['Mon','Tue','Wed','Thu'], rows=[];
+  for(let i=0;i<4;i++){const x=new Date(mon); x.setDate(mon.getDate()+i);
+    const kk=`${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,'0')}-${String(x.getDate()).padStart(2,'0')}`;
+    const bt=barTasks(kk), bc=DAYS[kk]?barCleaner(DAYS[kk]):null;
+    rows.push(`<div class="bws${kk===k?' on':''}"><div class="bwh"><b>${W[i]} ${x.getDate()}</b><span>${e(bc?[bc.who,...bc.with].join(' + '):'Lunch bartender')}</span></div><ul>`+
+      bt.map(t=>`<li>${e(t.t)}${t.bi?' <span class="k">Bi-weekly</span>':''}</li>`).join('')+`</ul></div>`);}
+  const wn=weekOfMonth(k);
+  return `<details class="fb bwk"><summary><span>Bar cleaning this week <span class="hint">${wn===1||wn===3?'with bi-weekly tasks':'weekly tasks only'}</span></span><span class="car">▾</span></summary><div class="fbb">${rows.join('')}</div></details>`;
 }
 
 function build(k){
@@ -855,7 +875,8 @@ function render(k){
   if(TK) document.getElementById('tcover').innerHTML=e(COVER[k]||'')+'.';
   { const bc=barCleaner(D), bt=barTasks(k), el=document.getElementById('bartasks');
     el.innerHTML=bt.length?`<p class="note tsub"><b>🍸 Bar</b> · lunch bartender, before 15:00</p><div class="list">`+
-      bt.map(x=>`<div class="trow"><span class="tt">${e(x.t)}${x.bi?' <span class="k">Bi-weekly</span>':''}</span><span class="tw">${e(bc?[bc.who,...bc.with].join(' + '):'Bar')}</span></div>`).join('')+`</div>`:''; }
+      bt.map(x=>`<div class="trow"><span class="tt">${e(x.t)}${x.bi?' <span class="k">Bi-weekly</span>':''}</span><span class="tw">${e(bc?[bc.who,...bc.with].join(' + '):'Bar')}</span></div>`).join('')+`</div>`:'';
+    el.innerHTML+=barWeekSummary(k); }
   if(TK) document.getElementById('tasks').innerHTML=TK.map(([t,w])=>`<div class="trow"><span class="tt">${e(t)}</span><span class="tw">${e(w)}</span></div>`).join('');
   document.getElementById('brkh').innerHTML=`Break order <span class="hint">From ${D.brk}</span>`;
   const li=([n,c])=>`<li><div><b>${e(n)}</b> <span>— ${e(c)}</span></div></li>`;
