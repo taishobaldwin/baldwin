@@ -240,6 +240,8 @@ h2::after{content:"";position:absolute;left:0;bottom:-5px;width:26px;height:2px;
 .tab.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
 .chg{border:1px solid var(--hair)}
 :focus-visible{outline-color:var(--gold)}
+h2:has(.tapme){flex-wrap:wrap;row-gap:2px}
+h2 .hint.tapme{flex-basis:100%;text-align:left;font-size:.92rem;font-weight:600;color:var(--red)}
 </style></head><body>
 
 <div class="wrap">
@@ -261,7 +263,7 @@ h2::after{content:"";position:absolute;left:0;bottom:-5px;width:26px;height:2px;
   <img class="rvimg" alt="Google reviews. Today's goal: 5+ per person. Invite guests to share their experience." src="images/review.webp">
 
   <section>
-    <h2>Find your name <span class="hint">Tap your name to see your day</span></h2>
+    <h2>Find your name <span class="hint tapme">Tap your name to see your day</span></h2>
     <nav class="jump" id="jump" aria-label="Jump to a person"></nav>
   </section>
 
