@@ -242,6 +242,8 @@ h2::after{content:"";position:absolute;left:0;bottom:-5px;width:26px;height:2px;
 :focus-visible{outline-color:var(--gold)}
 h2:has(.tapme){flex-wrap:wrap;row-gap:2px}
 h2 .hint.tapme{flex-basis:100%;text-align:left;font-size:.92rem;font-weight:600;color:var(--red)}
+.warm.long{font-size:1.18rem;line-height:1.36}
+.chg.pic:has(.warm.long){padding-right:24%;background-position:right center!important}
 </style></head><body>
 
 <div class="wrap">
@@ -629,6 +631,11 @@ function specialDay(k){
   return null;
 }
 
+/* ---------- one-off notes for a specific date: these win over everything else ---------- */
+const DATE_NOTE={
+ '2026-11-06':"Today is Anh's last shift with us. Anh is going home to Vietnam to get married. Congratulations, and thank you for everything! We wish you a beautiful wedding and a lifetime of happiness."
+};
+
 /* ---------- payday: every second Sunday, counting from Sunday, Nov 15, 2026 ---------- */
 const PAY_ANCHOR=Date.UTC(2026,10,15);
 const PAY_SUN=[
@@ -696,7 +703,7 @@ function paintNote(k){
   const pic=bgFor(k,n,season); ch.classList.toggle('pic',!!pic);
   if(pic) ch.style.setProperty('--bg',`url(${pic})`);
   document.getElementById('kj').textContent={winter:'冬',spring:'春',summer:'夏',autumn:'秋'}[season];
-  document.getElementById('warm').textContent=specialDay(k)||paydayLine(k)||WARM[n%WARM.length];
+  const wt=DATE_NOTE[k]||specialDay(k)||paydayLine(k)||WARM[n%WARM.length]; const we=document.getElementById('warm'); we.textContent=wt; we.classList.toggle('long',wt.length>110);
   const w=weatherLine(k), el=document.getElementById('wx'); el.textContent=w; el.hidden=!w;
 }
 function loadWeather(){
