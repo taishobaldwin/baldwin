@@ -294,10 +294,10 @@ h2 .hint.tapme{flex-basis:100%;text-align:left;font-size:.92rem;font-weight:600;
     <details class="fb" id="pdef">
       <summary><span>What is a Partner?</span><span class="car">▾</span></summary>
       <div class="fbb pdef">
-        <p>Every new team member works next to a <b>Partner</b>: an experienced server in the neighbouring section.</p>
+        <p>Every new team member works with a <b>Partner</b>: an experienced teammate close by. For servers, that is the server in the neighbouring section.</p>
         <ul>
           <li><b>New team member:</b> ask your Partner first whenever you're unsure.</li>
-          <li><b>Partner:</b> keep an eye on your new teammate's tables and step in when they need help.</li>
+          <li><b>Partner:</b> keep an eye on your new teammate and step in when they need help.</li>
           <li>Until the Partner arrives, the IC/Service looks after the new team member.</li>
         </ul>
       </div>
@@ -354,7 +354,7 @@ const DAYS={
   ['🤝 Service Support',[['Kevin 🌙','18:00–24:00','🧹 Check washrooms hourly']]],
   ['🙋 Host',[['Annie','15:00–22:30','🍱 Covers Charidise 15:00–16:00']]],
   ['🍱 Charidise',[['Amelia','11:30–15:00<br>16:00–22:00','']]],
-  ['🍸 Bar',[['Billy','11:15–15:00<br>16:30–23:00','']]],
+  ['🍸 Bar',[['Billy','11:15–15:00<br>16:30–23:00','🤝 Partner for Greg'],['Greg','11:15–16:30','Bar trainee · 🤝 Partner: Billy']]],
   ['🧺 Busser',[['Naoki','11:00–15:00<br>16:30–23:00','👑 Busser IC · 🖨️ Printer duty'],['Yuka','12:00–16:30<br>18:00–23:15',''],['Riku','18:00–23:00','']]],
  ],
  breaks:[['Carolina','Kevin covers A section'],['Ayuko','Kevin covers B section'],['Anh','Kevin covers F & K'],['Kevin','Haru covers Service Support']],
@@ -382,7 +382,7 @@ const DAYS={
   ['🤝 Service Support',[['Carolina 🌙','18:00–24:00','🧹 Check washrooms hourly']]],
   ['🙋 Host',[['Asteria','15:00–23:00','🍱 Covers Charidise 15:00–16:00']]],
   ['🍱 Charidise',[['Ayuko','11:30–15:00',''],['Helen','16:00–23:00','']]],
-  ['🍸 Bar',[['A.A','11:15–16:30',''],['Billy','16:30–23:00','']]],
+  ['🍸 Bar',[['A.A','11:15–16:30',''],['Billy','16:30–23:00','🤝 Partner for Greg'],['Greg','16:30–23:00','Bar trainee · 🤝 Partner: Billy']]],
   ['🧺 Busser',[['Thai','11:00–15:00<br>16:30–23:00','👑 Busser IC · 🖨️ Printer duty'],['Insang','12:00–16:30<br>18:00–23:00',''],['Yuka','18:00–23:15','']]],
  ],
  breaks:[['Riku','Carolina covers A&B'],['Samantha','Carolina covers K section'],['Karma','Carolina covers A section'],['Anh','Carolina covers B section'],['Ayuko','Carolina covers F & K'],['Carolina','Haru covers Service Support']],
@@ -396,7 +396,7 @@ const DAYS={
   ['🤝 Service Support',[['Seungjun 🌙','15:00–24:00','🧹 Check washrooms hourly']]],
   ['🙋 Host',[['Annie','12:30–15:00<br>16:30–23:00','']]],
   ['🍱 Charidise',[['Ayuko','11:30–15:00<br>16:00–23:00','']]],
-  ['🍸 Bar',[['Billy','11:15–15:00<br>16:30–23:00','']]],
+  ['🍸 Bar',[['Billy','11:15–15:00<br>16:30–23:00','🤝 Partner for Rachel'],['Rachel','15:00–23:00','Bar trainee · 🤝 Partner: Billy']]],
   ['🧺 Busser',[['Thai','11:30–15:00<br>16:00–23:00','👑 Busser IC · 🖨️ Printer duty'],['Daniel','12:00–16:00<br>17:00–23:00',''],['Winson','15:00–23:15','']]],
  ],
  breaks:[['Riku','Seungjun covers A&B'],['Karma','Seungjun covers A section'],['Samantha','Seungjun covers K section'],['Zirui','Seungjun covers B section'],['Wan','Seungjun covers F & K'],['Seungjun','Lisa covers Service Support']],
@@ -408,9 +408,9 @@ const DAYS={
   ['🧭 In charge',[['Osa','11:30–16:30<br>17:30–22:00','IC/Host'],['Tyler 🌙','12:30–16:30<br>17:30–23:00','IC'],['Lisa 🌙','12:30–16:00<br>17:00–23:00','Server Assistant at lunch · 🍱 Covers Charidise 15:00–16:00 · IC/Service at dinner']]],
   ['🍽️ Server',[['Wan','11:00–15:00<br>16:00–22:00',''],['Zirui','11:00–16:00<br>17:30–22:00','🤝 Partner for Kevin & Seungjun'],['Kevin 🌙','15:00–23:00','✅ Sign Closing Checklist · 🤝 Partner: Zirui'],['Samantha 🌙','17:30–23:00',''],['Seungjun 🌙','17:30–23:00','🧹 Check washrooms hourly · 🤝 Partner: Zirui · Takes over Service Support after 22:00']]],
   ['🤝 Service Support',[['Daniel','15:00–22:00','🧹 Check washrooms hourly · Hands over to Seungjun at 22:00']]],
-  ['🙋 Host',[['Annie','12:00–15:00<br>16:30–21:30','']]],
+  ['🙋 Host',[['Annie','12:00–16:30',''],['Billy','16:30–21:30','']]],
   ['🍱 Charidise',[['Amelia','11:30–15:00<br>16:00–22:00','']]],
-  ['🍸 Bar',[['Billy','11:15–15:00<br>16:30–22:00','']]],
+  ['🍸 Bar',[['Billy','11:15–15:00',''],['Rachel','15:00–22:00','Bar trainee']]],
   ['🧺 Busser',[['Naoki','11:30–15:00<br>16:00–22:00',''],['Thai','11:30–16:00<br>17:00–22:00','👑 Busser IC · 🖨️ Printer duty'],['Winson','15:00–22:15','']]],
  ],
  breaks:[['Kevin','Daniel covers A section'],['Daniel','Lisa covers Service Support'],['Wan','Daniel covers F & K'],['Zirui','Daniel covers B section'],['Samantha','Daniel covers K section'],['Seungjun','Daniel covers A&B']],
@@ -459,7 +459,7 @@ function build(k){
     const ts=t.split('<br>'); let rowDinner=false;
     ts.forEach(x=>{const l=isLunch(x); if(!l) rowDinner=true; (l?p.lunch:p.dinner).blocks.push([l?(lr||any||role):(dr||any||role),x]);});
     rest.forEach(s=>{let m;
-      if(/Busser IC|Printer/.test(s)) p.tags.push(plain(s));
+      if(/Busser IC|Printer|trainee/.test(s)) p.tags.push(plain(s));
       else if(/Covers Charidise|In charge after|Hands over|Takes over/.test(s)) p.hand.push(plain(s));
       else if((m=s.match(/Partner: (.+)$/))) p.partner=m[1];
       else if((m=s.match(/Partner for (.+)$/))) p.mentee=m[1].split(' & ');
@@ -764,19 +764,24 @@ function card(p,m){
   const row=(lab,body)=>`<div class="blk"><span class="bl">${lab}</span><div class="bb">${body}</div></div>`;
   const shift=b=>b.map(([r,t])=>`<div class="rt"><span>${e(r)}</span><span class="tm">${t}</span></div>`).join('');
   const items=a=>a.length?`<ul>${a.map(i=>`<li>${i.clean?'<span class="k">Clean</span> ':''}${e(i.t)}${i.with&&i.with.length?` <span class="w">with ${e(i.with.join(', '))}</span>`:''}</li>`).join('')}</ul>`:'';
-  if(p.lunch.blocks.length) h+=row('Lunch',shift(p.lunch.blocks)+items(p.lunch.items));
-  if(p.dinner.blocks.length){
-    const di=[...p.dinner.items];
-    let extra='';
-    if(p.partner){const q=m.M.get(p.partner), qz=q&&q.zone;
-      const late=q&&q.dinner.blocks.length&&p.dinner.blocks.length&&st(q.dinner.blocks[0][1])>st(p.dinner.blocks[0][1]);
-      const svc=m.L.filter(x=>x.dinner.blocks.some(([r])=>r==='IC/Service')).map(x=>x.name);
-      extra+=`<div class="pt"><b><a class="plink" href="#pdef">Partner</a>: ${e(p.partner)}</b>${qz?` · ${e(qz.label)}, next to you`:''}<span class="ps">Ask them first whenever you're unsure.</span>`+
-        (late?`<span class="ps">Until ${e(p.partner)} arrives at ${st(q.dinner.blocks[0][1])}, ${svc.length?e(svc.join(' or '))+' (IC/Service)':'the IC/Service'} looks after you.</span>`:'')+`</div>`;}
-    if(p.mentee.length){
-      extra+=`<div class="pt"><b><a class="plink" href="#pdef">Partner</a> for ${e(p.mentee.join(' & '))}</b> · `+p.mentee.map(n=>{const q=m.M.get(n);return q&&q.zone?e(q.zone.label):''}).filter(Boolean).join(', ')+`<span class="ps">Keep an eye on their tables and step in when they need help.</span></div>`;}
-    h+=row('Dinner',shift(p.dinner.blocks)+items(di)+extra);
-  }
+  /* Partner box: in the dinner block, or the lunch block for someone who only works lunch */
+  let extra='';
+  const firstStart=x=>{const b=x.dinner.blocks.length?x.dinner.blocks:x.lunch.blocks; return b.length?st(b[0][1]):'';};
+  if(p.partner){const q=m.M.get(p.partner), qz=q&&q.zone;
+    const late=p.group.includes('Server')&&q&&firstStart(q)>firstStart(p);
+    const svc=m.L.filter(x=>x.dinner.blocks.some(([r])=>r==='IC/Service')).map(x=>x.name);
+    extra+=`<div class="pt"><b><a class="plink" href="#pdef">Partner</a>: ${e(p.partner)}</b>${qz?` · ${e(qz.label)}, next to you`:''}<span class="ps">Ask them first whenever you're unsure.</span>`+
+      (late?`<span class="ps">Until ${e(p.partner)} arrives at ${firstStart(q)}, ${svc.length?e(svc.join(' or '))+' (IC/Service)':'the IC/Service'} looks after you.</span>`:'')+`</div>`;}
+  let mbox='';
+  if(p.mentee.length){
+    const zs=p.mentee.map(n=>{const q=m.M.get(n);return q&&q.zone?e(q.zone.label):''}).filter(Boolean).join(', ');
+    mbox=`<div class="pt"><b><a class="plink" href="#pdef">Partner</a> for ${e(p.mentee.join(' & '))}</b>${zs?' · '+zs:''}<span class="ps">Keep an eye on them and step in when they need help.</span></div>`;}
+  /* put each box in the part of the day the two of them actually work together */
+  const lunchOnly=x=>x&&!x.dinner.blocks.length&&x.lunch.blocks.length;
+  const pInLunch=!p.dinner.blocks.length;
+  const mInLunch=p.lunch.blocks.length&&p.mentee.length&&p.mentee.every(n=>lunchOnly(m.M.get(n)));
+  if(p.lunch.blocks.length) h+=row('Lunch',shift(p.lunch.blocks)+items(p.lunch.items)+(pInLunch?extra:'')+(mInLunch?mbox:''));
+  if(p.dinner.blocks.length) h+=row('Dinner',shift(p.dinner.blocks)+items(p.dinner.items)+extra+(mInLunch?'':mbox));
   if(p.brk||p.cover.length){
     let b='';
     if(p.brk) b+=`<div><b>#${p.brk.ord} of ${p.brk.of}</b>${p.brk.busser?' (bussers)':''} · ${e(p.brk.by)}</div><div class="bw">From ${m.D.brk} · wait for the IC to call you</div>`;
