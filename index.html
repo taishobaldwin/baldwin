@@ -296,7 +296,7 @@ h2::after{content:"";position:absolute;left:0;bottom:-5px;width:26px;height:2px;
         <ul>
           <li><b>New team member:</b> ask your Partner first whenever you're unsure.</li>
           <li><b>Partner:</b> keep an eye on your new teammate's tables and step in when they need help.</li>
-          <li>Until the Partner arrives, the main IC looks after the new team member.</li>
+          <li>Until the Partner arrives, the IC/Service looks after the new team member.</li>
         </ul>
       </div>
     </details>
@@ -768,9 +768,9 @@ function card(p,m){
     let extra='';
     if(p.partner){const q=m.M.get(p.partner), qz=q&&q.zone;
       const late=q&&q.dinner.blocks.length&&p.dinner.blocks.length&&st(q.dinner.blocks[0][1])>st(p.dinner.blocks[0][1]);
-      const main=m.L.find(x=>x.group.includes('In charge')&&x.dinner.blocks.length);
+      const svc=m.L.filter(x=>x.dinner.blocks.some(([r])=>r==='IC/Service')).map(x=>x.name);
       extra+=`<div class="pt"><b><a class="plink" href="#pdef">Partner</a>: ${e(p.partner)}</b>${qz?` · ${e(qz.label)}, next to you`:''}<span class="ps">Ask them first whenever you're unsure.</span>`+
-        (late?`<span class="ps">Until ${e(p.partner)} arrives at ${st(q.dinner.blocks[0][1])}, ${e(main?main.name:'the main IC')} looks after you.</span>`:'')+`</div>`;}
+        (late?`<span class="ps">Until ${e(p.partner)} arrives at ${st(q.dinner.blocks[0][1])}, ${svc.length?e(svc.join(' or '))+' (IC/Service)':'the IC/Service'} looks after you.</span>`:'')+`</div>`;}
     if(p.mentee.length){
       extra+=`<div class="pt"><b><a class="plink" href="#pdef">Partner</a> for ${e(p.mentee.join(' & '))}</b> · `+p.mentee.map(n=>{const q=m.M.get(n);return q&&q.zone?e(q.zone.label):''}).filter(Boolean).join(', ')+`<span class="ps">Keep an eye on their tables and step in when they need help.</span></div>`;}
     h+=row('Dinner',shift(p.dinner.blocks)+items(di)+extra);
