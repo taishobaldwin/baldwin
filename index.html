@@ -298,6 +298,12 @@ h2 .hint.tapme{flex-basis:100%;text-align:left;font-size:.92rem;font-weight:600;
 .rrush{margin:10px 0 0;padding:9px 12px;border-radius:10px;background:color-mix(in srgb,var(--ai) 9%,var(--sheet));border:1px solid color-mix(in srgb,var(--ai) 28%,transparent);font-size:.92rem}
 .rrush b{color:var(--ai)}
 .rrush small{display:block;font-size:.76rem;color:var(--soft);margin-top:2px}
+.rbig{margin:10px 0 0;padding:9px 12px;border-radius:10px;background:color-mix(in srgb,var(--gold) 14%,var(--sheet));border:1px solid color-mix(in srgb,var(--gold) 40%,transparent);font-size:.92rem}
+.rbig ul{margin:4px 0 0;padding-left:1.1rem}
+.rbig b{font-family:var(--f-serif);font-weight:600}
+.rlast{margin:10px 0 0;padding:9px 12px;border-radius:10px;background:var(--sheet);border:1px solid var(--hair);font-size:.92rem}
+.rlast b{font-family:var(--f-serif);font-weight:600}
+.rsrc{display:block;font-size:.76rem;color:var(--soft);margin-top:2px}
 .dcol{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex:0 0 auto;max-width:44%}
 .dcol .tw{max-width:none}
 .dn{font:inherit;font-size:.8rem;font-weight:600;padding:5px 12px;border-radius:999px;border:1px solid var(--hair);background:var(--paper);color:var(--ink);cursor:pointer;white-space:nowrap}
@@ -360,8 +366,10 @@ h2 .hint.tapme{flex-basis:100%;text-align:left;font-size:.92rem;font-weight:600;
       <div class="rbox dinner"><span class="rl">🏮 Dinner <small>16:00 and after</small></span><span class="rn" id="rd"></span></div>
     </div>
     <p class="rrush" id="rrush"></p>
+    <div class="rbig" id="rbig" hidden></div>
     <p class="rpeak" id="rpeak"></p>
-    <p class="rfoot">🚶 Booked tables only; walk-ins not included. <span id="resvsync"></span></p>
+    <p class="rlast" id="rlast" hidden></p>
+    <p class="rfoot">🚶 Lunch and dinner counts are bookings only. Source: Snappy. <span id="resvsync"></span></p>
   </section>
 
   <section>
@@ -757,6 +765,20 @@ const RESV={
  '2026-11-07':[['14:00',4],['18:00',17],['18:30',6],['19:00',7],['19:30',6]],
  '2026-11-08':[['12:00',12],['16:00',4],['18:30',6]]
 };
+/* Typical walk-in waitlist guests per night by weekday (0=Sun … 6=Sat), Snappy, last 12 weeks (Aug 9 – Nov 1, 2026). */
+const WL_EST={0:55,1:20,2:5,3:10,4:20,5:170,6:200};
+/* Big-table alert: Mon–Thu 6+ guests, Fri–Sun 10+ guests. */
+const BIG_MIN=d=>(d>=1&&d<=4)?6:10;
+/* Same weekday last week, from Snappy: [walk-in waitlist guests, waitlist groups, groups that left without being seated, longest typical wait in min (90th pct), booked guests]. Keyed by THIS week's date. */
+const LASTWK={
+ '2026-11-02':[14,6,3,64,56],
+ '2026-11-03':[4,2,1,8,60],
+ '2026-11-04':[2,1,0,0,30],
+ '2026-11-05':[35,17,5,21,72],
+ '2026-11-06':[58,25,7,19,27],
+ '2026-11-07':[62,29,11,37,42],
+ '2026-11-08':[29,12,4,14,23]
+};
 /* Expected rush by weekday (0=Sun … 6=Sat), from the last 12 weeks of Snappy waitlist + bookings (Aug 9 – Nov 1, 2026),
    checked against 2 years of history (Nov 2024 – Nov 2026). Holiday dates override this in RUSH_DAY. */
 const RUSH={
@@ -782,9 +804,20 @@ const RUSH_DAY={
 function paintResv(k){
   const sec=document.getElementById('resv'), R=RESV[k]||null;
   const ru=RUSH_DAY[k]||RUSH[new Date(k+'T12:00:00').getDay()], rr=document.getElementById('rrush');
-  rr.innerHTML=`⏱️ Expected rush: <b>${ru[0]}</b> · ${ru[1]}<small>${RUSH_DAY[k]?'Based on the same day in past years.':'Based on the last 12 weeks of walk-ins and bookings.'}</small>`;
+  const wd=new Date(k+'T12:00:00').getDay(), est=WL_EST[wd];
+  const estTxt=RUSH_DAY[k]?'':(est>=15?`<br>👥 Expect about <b>${est}</b> walk-in guests on the waitlist.`:'<br>👥 Usually little or no waitlist.');
+  rr.innerHTML=`⏱️ Expected rush: <b>${ru[0]}</b> · ${ru[1]}${estTxt}<small>Source: Snappy · ${RUSH_DAY[k]?'the same day in past years.':'last 12 weeks of walk-ins and bookings.'}</small>`;
+  const lw=LASTWK[k], rl=document.getElementById('rlast');
+  if(lw){const dn=new Date(k+'T12:00:00').toLocaleDateString('en-US',{weekday:'long'});
+    rl.hidden=false;
+    rl.innerHTML=lw[0]?`📊 Last ${dn}: <b>${lw[0]}</b> walk-in guests waited`+(lw[3]?`, longest wait about <b>${lw[3]}</b> min`:'')+(lw[2]?`, <b>${lw[2]}</b> ${lw[2]===1?'group':'groups'} left before being seated`:'')+`. <b>${lw[4]}</b> guests came on bookings.<span class="rsrc">Source: Snappy waitlist and bookings.</span>`
+      :`📊 Last ${dn}: no waitlist. <b>${lw[4]}</b> guests came on bookings.<span class="rsrc">Source: Snappy waitlist and bookings.</span>`;
+  } else rl.hidden=true;
   sec.querySelector('.rgrid').hidden=!R; sec.querySelector('.rfoot').hidden=!R;
-  sec.hidden=false; if(!R){document.getElementById('rpeak').hidden=true; return;}
+  sec.hidden=false; const rb=document.getElementById('rbig');
+  if(!R){document.getElementById('rpeak').hidden=true; rb.hidden=true; return;}
+  {const mn=BIG_MIN(wd), big=R.filter(([,n])=>n>=mn);
+   if(big.length){rb.hidden=false; rb.innerHTML=`🎉 Big tables today (${mn}+ guests): set them up early.<ul>${big.map(([t,n])=>`<li><b>${t}</b> · ${n} guests</li>`).join('')}</ul><span class="rsrc">Source: Snappy bookings.</span>`;} else rb.hidden=true;}
   const part=f=>{const x=R.filter(([t])=>f(t)); const g=x.reduce((a,[,n])=>a+n,0); return x.length?`<span>🍽️ <b>${x.length}</b> ${x.length===1?'table':'tables'}</span><span>👥 <b>${g}</b> ${g===1?'guest':'guests'}</span>`:'<span class="r0">😌 No bookings</span>';};
   document.getElementById('rl').innerHTML=part(t=>t<'16:00');
   document.getElementById('rd').innerHTML=part(t=>t>='16:00');
