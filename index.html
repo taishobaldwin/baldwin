@@ -298,6 +298,41 @@ h2 .hint.tapme{flex-basis:100%;text-align:left;font-size:.92rem;font-weight:600;
 .rrush{margin:10px 0 0;padding:9px 12px;border-radius:10px;background:color-mix(in srgb,var(--ai) 9%,var(--sheet));border:1px solid color-mix(in srgb,var(--ai) 28%,transparent);font-size:.92rem}
 .rrush b{color:var(--ai)}
 .rrush small{display:block;font-size:.76rem;color:var(--soft);margin-top:2px}
+.dcol{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex:0 0 auto;max-width:44%}
+.dcol .tw{max-width:none}
+.dn{font:inherit;font-size:.8rem;font-weight:600;padding:5px 12px;border-radius:999px;border:1px solid var(--hair);background:var(--paper);color:var(--ink);cursor:pointer;white-space:nowrap}
+.trow.isdone .tt{color:var(--soft);text-decoration:line-through;text-decoration-color:color-mix(in srgb,var(--soft) 60%,transparent)}
+.trow.isdone .dn{background:color-mix(in srgb,#2f8a4b 14%,var(--sheet));border-color:color-mix(in srgb,#2f8a4b 45%,transparent);color:#2f7a45}
+.prog{margin:0 0 12px;padding:10px 12px;border-radius:10px;background:var(--sheet);border:1px solid var(--hair);font-size:.86rem;display:flex;flex-direction:column;gap:4px}
+.prog span:last-child{color:var(--soft)}
+.pb{height:6px;border-radius:999px;background:var(--hair);overflow:hidden}
+.pb span{display:block;height:100%;background:#2f8a4b;border-radius:999px}
+#tasksec .trow[data-dk]{display:block}
+.tmain{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+.dact{display:flex;justify-content:flex-end;gap:8px;margin-top:8px}
+.nd{font:inherit;font-size:.8rem;font-weight:600;padding:5px 12px;border-radius:999px;border:1px solid var(--hair);background:transparent;color:var(--soft);cursor:pointer;white-space:nowrap}
+.trow.isnot .nd{background:color-mix(in srgb,#c47a1c 14%,var(--sheet));border-color:color-mix(in srgb,#c47a1c 50%,transparent);color:#a2620f}
+.nform{display:flex;gap:6px;margin-top:8px}
+.ninp{flex:1 1 auto;min-width:0;font:inherit;font-size:.88rem;padding:7px 10px;border-radius:8px;border:1px solid var(--hair);background:var(--paper);color:var(--ink)}
+.nsave,.ncancel{font:inherit;font-size:.8rem;font-weight:600;padding:6px 10px;border-radius:8px;border:1px solid var(--hair);background:var(--sheet);color:var(--ink);cursor:pointer}
+.nsave{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.nnote{margin:6px 0 0;font-size:.84rem;color:#a2620f}
+.ndc{color:#a2620f}
+.dcol{display:block;text-align:right}
+.icrow{display:flex;justify-content:flex-end;flex-wrap:wrap;gap:6px;margin-top:6px}
+.icb{font:inherit;font-size:.78rem;font-weight:600;padding:4px 11px;border-radius:999px;border:1px dashed color-mix(in srgb,var(--ai) 55%,transparent);background:transparent;color:var(--ai);cursor:pointer;white-space:nowrap}
+.trow.ischecked .icb{border-style:solid;background:color-mix(in srgb,var(--ai) 12%,var(--sheet))}
+.icpick{display:flex;gap:6px}
+.icok{font:inherit;font-size:.78rem;font-weight:600;padding:4px 10px;border-radius:8px;border:0;background:var(--ai);color:#fff;cursor:pointer}
+.ckc{color:var(--ai)}
+.ckw{color:var(--soft)}
+.trow.isdone.ischecked .dn{opacity:.75}
+.icpin{width:64px;font:inherit;font-size:.9rem;letter-spacing:.2em;text-align:center;padding:4px 6px;border-radius:8px;border:1px solid var(--hair);background:var(--paper);color:var(--ink)}
+.icerr{flex-basis:100%;text-align:right;font-size:.8rem;font-weight:600;color:var(--red)}
+.icpick{flex-wrap:wrap;justify-content:flex-end}
+.cobar{margin:0 0 10px;padding:8px 12px;border-radius:8px;font-size:.84rem;background:color-mix(in srgb,var(--ai) 10%,var(--sheet));border:1px dashed color-mix(in srgb,var(--ai) 45%,transparent);color:var(--ai)}
+.cobar.err{color:var(--red);border-color:color-mix(in srgb,var(--red) 45%,transparent);background:color-mix(in srgb,var(--red) 7%,var(--sheet))}
+.trow.busy{opacity:.6}
 </style></head><body>
 
 <div class="wrap">
@@ -345,6 +380,8 @@ h2 .hint.tapme{flex-basis:100%;text-align:left;font-size:.92rem;font-weight:600;
     <h2>Today's cleaning <span class="hint">The IC may reassign</span></h2>
     <p class="wkline">Do your <b>daily checklist</b> as usual. Below are today's extra <b>weekly</b> tasks, by role.</p>
     <div class="wk" id="wk"></div>
+    <p class="cobar" id="cobar" hidden></p>
+    <div class="prog" id="prog" hidden></div>
     <div class="ctabs" role="tablist" aria-label="Cleaning by role">
       <button class="ctab on" role="tab" data-p="srv" aria-selected="true">Server <span class="cn2" id="cn-srv"></span></button>
       <button class="ctab" role="tab" data-p="host" aria-selected="false">Host <span class="cn2" id="cn-host"></span></button>
@@ -1071,17 +1108,103 @@ function render(k){
   CHECKLISTS.forEach(G=>{ const dp=dayPlan(G,k), bt=dp.flatMap(a=>a.tasks.map(t=>({t,a})));
     document.getElementById('cn-'+G.id).textContent=bt.length||'';
     document.getElementById('cp-'+G.id).innerHTML=`<p class="note">${e(G.who[0].toUpperCase()+G.who.slice(1))}. Sign the paper ${G.sheet} when done.</p>`+
-      (bt.length?`<div class="list">`+bt.map(x=>`<div class="trow"><span class="tt">${e(x.t)}</span><span class="tw">${whoHtml(x.a,G)}</span></div>`).join('')+`</div>`
+      (bt.length?`<div class="list">`+bt.map(x=>CHECKOFF?doneRow(k,G.id,x.t,`<span class="tw">${whoHtml(x.a,G)}</span>`):`<div class="trow"><span class="tt">${e(x.t)}</span><span class="tw">${whoHtml(x.a,G)}</span></div>`).join('')+`</div>`
         :`<p class="note empty">Nothing on the list today.</p>`)+(G.summary===false?'':weekSummary(G,k)); });
   document.getElementById('cn-srv').textContent=(TASKS[k]||[]).length||'';
   document.getElementById('tasks').hidden=!TK; document.getElementById('tcover').hidden=!TK;
   { const el=document.getElementById('srvempty')||Object.assign(document.createElement('p'),{id:'srvempty',className:'note empty',textContent:'Nothing on the list today.'}); if(!el.parentNode) document.getElementById('tasks').after(el); el.hidden=!!TK; }
-  if(TK) document.getElementById('tasks').innerHTML=TK.map(([t,w])=>`<div class="trow"><span class="tt">${e(t)}</span><span class="tw">${e(w)}</span></div>`).join('');
+  if(TK) document.getElementById('tasks').innerHTML=TK.map(([t,w])=>CHECKOFF?doneRow(k,'srv',t,`<span class="tw">${e(w)}</span>`):`<div class="trow"><span class="tt">${e(t)}</span><span class="tw">${e(w)}</span></div>`).join('');
+  if(CHECKOFF) coAfterRender(k);
   document.getElementById('brkh').innerHTML=`Break order <span class="hint">From ${D.brk}</span>`;
   const li=([n,c])=>`<li><div><b>${e(n)}</b> <span>— ${e(c)}</span></div></li>`;
   document.getElementById('brk').innerHTML=D.breaks.map(li).join('');
   document.getElementById('brkB').innerHTML=D.bbreaks.map(li).join('');
   document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on',b.dataset.k===k));
+}
+
+
+/* ---------- online check-off (TEST: only with ?checkoff=1 in the link) ----------
+   Staff tap Done / Not done (reason required); the IC confirms with their own 4-digit code.
+   Everything is saved in Ru's Google Sheet "Baldwin Check-off" through its Apps Script web app.
+   The codes live only in the Sheet; this page never sees them. */
+const CHECKOFF=new URLSearchParams(location.search).get('checkoff')==='1';
+const SHEET_API='';   /* paste the Apps Script web-app URL here (ends in /exec) */
+let DONE={}, CO_DAY=null, CO_OK=false;
+const tkey=(k,role,t)=>{let h=0;for(const c of t)h=(h*31+c.charCodeAt(0))>>>0;return `${k}_${role}_${h.toString(36)}`;};
+function doneRow(k,role,t,whoHtml){
+  return `<div class="trow" data-dk="${tkey(k,role,t)}" data-date="${k}" data-role="${role}" data-task="${e(t)}" data-who="${e(whoHtml.replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim())}">`+
+   `<div class="tmain"><span class="tt">${e(t)}</span><span class="dcol">${whoHtml}</span></div>`+
+   `<div class="dact" hidden><button class="dn" type="button">Done</button><button class="nd" type="button">Not done</button></div>`+
+   `<div class="nform" hidden><input class="ninp" type="text" maxlength="200" placeholder="Reason (required)" aria-label="Reason it was not finished"><button class="nsave" type="button">Save</button><button class="ncancel" type="button">Cancel</button></div>`+
+   `<p class="nnote" hidden></p>`+
+   `<div class="icrow" hidden><button class="icb" type="button">IC check</button><span class="icpick" hidden><input class="icpin" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="IC code" aria-label="IC code" autocomplete="off"><button class="icok" type="button">Confirm</button></span><span class="icerr" hidden>Code not recognised</span></div></div>`;
+}
+const hhmm=ms=>{const d=new Date(ms);return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');};
+function coBar(msg,err){const b=document.getElementById('cobar'); b.hidden=!msg; b.textContent=msg||''; b.classList.toggle('err',!!err);}
+function paintDone(){
+  const rows=[...document.querySelectorAll('#tasksec .trow[data-dk]')];
+  rows.forEach(r=>{const d=DONE[r.dataset.dk], st=d?d.status:null;
+    r.querySelector('.dact').hidden=!CO_OK||!r.querySelector('.nform').hidden;
+    const b=r.querySelector('.dn'), n=r.querySelector('.nd'), note=r.querySelector('.nnote');
+    r.classList.toggle('isdone',st==='done'); r.classList.toggle('isnot',st==='notdone');
+    b.textContent=st==='done'?`✓ Done ${hhmm(d.at)}`:'Done'; b.hidden=st==='notdone';
+    n.textContent=st==='notdone'?`Not done ${hhmm(d.at)} · undo`:'Not done'; n.hidden=st==='done';
+    if(!note.dataset.err){ note.hidden=st!=='notdone'; note.textContent=st==='notdone'?'Note: '+(d.note||''):''; }
+    const ic=r.querySelector('.icrow'), icb=r.querySelector('.icb'); ic.hidden=st!=='done';
+    r.classList.toggle('ischecked',!!(d&&d.checkedBy));
+    icb.textContent=d&&d.checkedBy?`✓ Checked by ${d.checkedBy} ${hhmm(d.checkedAt)} · undo`:'IC check';});
+  const pr=document.getElementById('prog');
+  if(!CO_OK||!rows.length){pr.hidden=true;return;}
+  const roles=[['srv','Server'],['host','Host'],['bus','Busser'],['bar','Bar'],['chr','Charidise']];
+  const isDone=r=>(DONE[r.dataset.dk]||{}).status==='done';
+  const tot=rows.length, dn=rows.filter(isDone).length, nd=rows.filter(r=>(DONE[r.dataset.dk]||{}).status==='notdone').length, ck=rows.filter(r=>(DONE[r.dataset.dk]||{}).checkedBy).length;
+  pr.hidden=false;
+  pr.innerHTML=`<div class="pb"><span style="width:${Math.round(dn/tot*100)}%"></span></div><b>${dn} of ${tot} weekly tasks done today${nd?` · <span class="ndc">${nd} not done</span>`:''}</b><span class="ckc">${ck} of ${dn} checked by IC</span><span>`+
+    roles.map(([id,l])=>{const rr=rows.filter(r=>r.dataset.role===id); if(!rr.length) return ''; return `${l} ${rr.filter(isDone).length}/${rr.length}`;}).filter(Boolean).join(' · ')+`</span>`;
+}
+async function coLoad(k){
+  if(!SHEET_API){ coBar('Test version: online check-off is not connected to the Google Sheet yet.',true); return; }
+  try{ const r=await fetch(`${SHEET_API}?action=list&from=${k}&to=${k}`); const j=await r.json(); if(!j.ok) throw 0;
+    if(k!==CO_DAY) return; const m={}; j.rows.forEach(x=>m[x.key]=x); DONE=m; CO_OK=true; coBar(''); paintDone(); }
+  catch(err){ coBar('Could not reach the check-off sheet. Check your connection and refresh.',true); }
+}
+function coAfterRender(k){
+  document.querySelectorAll('#tasksec .cpanel > .note:first-child').forEach(p=>{ if(!/paper/i.test(p.textContent)) return;
+    const rest=p.textContent.replace(/\s*Sign the paper[\s\S]*$/,'').trim(); p.textContent=(rest?rest+' ':'')+'Tap Done when finished. If not, tap Not done and write why.'; });
+  if(k!==CO_DAY){ CO_DAY=k; DONE={}; } paintDone(); coLoad(k);
+}
+async function coSend(r,body){
+  r.classList.add('busy'); r.querySelectorAll('button').forEach(x=>x.disabled=true);
+  const note=r.querySelector('.nnote'); delete note.dataset.err;
+  try{ const res=await fetch(SHEET_API,{method:'POST',body:JSON.stringify({key:r.dataset.dk,date:r.dataset.date,role:r.dataset.role,task:r.dataset.task,assigned:r.dataset.who,...body})});
+    const j=await res.json();
+    if(!j.ok){ if(j.error==='code') return 'code'; throw new Error(j.error); }
+    if(j.row) DONE[r.dataset.dk]=j.row; else delete DONE[r.dataset.dk];
+    return 'ok';
+  }catch(err){ note.dataset.err=1; note.hidden=false; note.textContent=err&&err.message==='checked'?'Already checked by the IC. Ask the IC to undo first.':'Could not save. Tap again.'; return 'err'; }
+  finally{ r.classList.remove('busy'); r.querySelectorAll('button').forEach(x=>x.disabled=false); paintDone(); }
+}
+if(CHECKOFF){
+document.addEventListener('click',ev=>{
+  const r=ev.target.closest('#tasksec .trow[data-dk]'); if(!r||!CO_OK||r.classList.contains('busy')) return;
+  const cur=DONE[r.dataset.dk], st=cur?cur.status:null, form=r.querySelector('.nform');
+  if(ev.target.closest('.icb')){ const pk=r.querySelector('.icpick'); pk.hidden=!pk.hidden; r.querySelector('.icerr').hidden=true; r.querySelector('.icpin').value=''; if(!pk.hidden) r.querySelector('.icpin').focus(); return; }
+  if(ev.target.closest('.icok')){ const pin=r.querySelector('.icpin'), er=r.querySelector('.icerr');
+    if(!/^\d{4}$/.test(pin.value)){ er.hidden=false; pin.value=''; pin.focus(); return; }
+    coSend(r,{action:cur&&cur.checkedBy?'uncheck':'check',code:pin.value}).then(x=>{ if(x==='code'){ er.hidden=false; pin.value=''; pin.focus(); } else if(x==='ok'){ er.hidden=true; r.querySelector('.icpick').hidden=true; pin.value=''; } }); return; }
+  if(ev.target.closest('.dn')){ if(st==='done'&&cur.checkedBy) return; coSend(r,{action:st==='done'?'clear':'done'}); }
+  else if(ev.target.closest('.nd')){ if(st==='notdone') coSend(r,{action:'clear'}); else { form.hidden=false; r.querySelector('.dact').hidden=true; r.querySelector('.ninp').focus(); } }
+  else if(ev.target.closest('.ncancel')){ form.hidden=true; paintDone(); }
+  else if(ev.target.closest('.nsave')){ const v=r.querySelector('.ninp').value.trim();
+    if(!v){ r.querySelector('.ninp').placeholder='Please write a short reason first'; r.querySelector('.ninp').focus(); return; }
+    form.hidden=true; coSend(r,{action:'notdone',note:v}); }
+});
+document.addEventListener('keydown',ev=>{ const t=ev.target; if(ev.key!=='Enter'||!t.classList) return;
+  if(t.classList.contains('icpin')) t.closest('.trow').querySelector('.icok').click();
+  else if(t.classList.contains('ninp')) t.closest('.trow').querySelector('.nsave').click(); });
+/* pick up what others marked: every 30 s, and when the phone comes back to the page */
+setInterval(()=>{ if(CO_DAY&&!document.hidden) coLoad(CO_DAY); },30000);
+document.addEventListener('visibilitychange',()=>{ if(!document.hidden&&CO_DAY) coLoad(CO_DAY); });
 }
 
 /* Staff see only today; add ?all=1 to the link to see the whole week. */
