@@ -1123,11 +1123,11 @@ function render(k){
 }
 
 
-/* ---------- online check-off (TEST: only with ?checkoff=1 in the link) ----------
+/* ---------- online check-off (live for all staff) ----------
    Staff tap Done / Not done (reason required); the IC confirms with their own 4-digit code.
    Everything is saved in Ru's Google Sheet "Baldwin Check-off" through its Apps Script web app.
    The codes live only in the Sheet; this page never sees them. */
-const CHECKOFF=new URLSearchParams(location.search).get('checkoff')==='1';
+const CHECKOFF=new URLSearchParams(location.search).get('checkoff')!=='0';   /* on for everyone; add ?checkoff=0 to hide */
 const SHEET_API='https://script.google.com/macros/s/AKfycbzaPrUdZSb4nYqaQpeTR3v45Axz6JCQfZmb7_CEFqkT1xdUg3J2V06CBSYTustEHtT8/exec';   /* paste the Apps Script web-app URL here (ends in /exec) */
 let DONE={}, CO_DAY=null, CO_OK=false;
 const tkey=(k,role,t)=>{let h=0;for(const c of t)h=(h*31+c.charCodeAt(0))>>>0;return `${k}_${role}_${h.toString(36)}`;};
@@ -1163,7 +1163,7 @@ function paintDone(){
     roles.map(([id,l])=>{const rr=rows.filter(r=>r.dataset.role===id); if(!rr.length) return ''; return `${l} ${rr.filter(isDone).length}/${rr.length}`;}).filter(Boolean).join(' · ')+`</span>`;
 }
 async function coLoad(k){
-  if(!SHEET_API){ coBar('Test version: online check-off is not connected to the Google Sheet yet.',true); return; }
+  if(!SHEET_API){ coBar('Online check-off is not connected to the Google Sheet yet.',true); return; }
   try{ const r=await fetch(`${SHEET_API}?action=list`); const j=await r.json(); if(!j.ok) throw 0;
     if(k!==CO_DAY) return; const m={}; j.rows.forEach(x=>{ if(String(x.key).startsWith(k+'_')) m[x.key]=x; }); DONE=m; CO_OK=true; coBar(''); paintDone(); }
   catch(err){ coBar('Could not reach the check-off sheet. Check your connection and refresh.',true); }
