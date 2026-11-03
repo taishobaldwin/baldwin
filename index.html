@@ -1164,8 +1164,8 @@ function paintDone(){
 }
 async function coLoad(k){
   if(!SHEET_API){ coBar('Test version: online check-off is not connected to the Google Sheet yet.',true); return; }
-  try{ const r=await fetch(`${SHEET_API}?action=list&from=${k}&to=${k}`); const j=await r.json(); if(!j.ok) throw 0;
-    if(k!==CO_DAY) return; const m={}; j.rows.forEach(x=>m[x.key]=x); DONE=m; CO_OK=true; coBar(''); paintDone(); }
+  try{ const r=await fetch(`${SHEET_API}?action=list`); const j=await r.json(); if(!j.ok) throw 0;
+    if(k!==CO_DAY) return; const m={}; j.rows.forEach(x=>{ if(String(x.key).startsWith(k+'_')) m[x.key]=x; }); DONE=m; CO_OK=true; coBar(''); paintDone(); }
   catch(err){ coBar('Could not reach the check-off sheet. Check your connection and refresh.',true); }
 }
 function coAfterRender(k){
