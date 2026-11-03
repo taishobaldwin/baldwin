@@ -757,21 +757,32 @@ const RESV={
  '2026-11-07':[['14:00',4],['18:00',17],['18:30',6],['19:00',7],['19:30',6]],
  '2026-11-08':[['12:00',12],['16:00',4],['18:30',6]]
 };
-/* Expected rush by weekday (0=Sun … 6=Sat), from 8 weeks of Snappy waitlist + bookings (Sep 7 – Nov 1, 2026).
-   Holiday Mondays behave like a Sunday. */
+/* Expected rush by weekday (0=Sun … 6=Sat), from the last 12 weeks of Snappy waitlist + bookings (Aug 9 – Nov 1, 2026),
+   checked against 2 years of history (Nov 2024 – Nov 2026). Holiday dates override this in RUSH_DAY. */
 const RUSH={
- 0:['18:30–20:30','Waitlist likely, worst around 19:30.'],
- 1:['18:30–20:00','Usually no waitlist.'],
- 2:['18:00–19:00','Booked tables tend to arrive together. Usually no waitlist.'],
- 3:['18:00–20:00','Usually the quietest night.'],
- 4:['19:30–21:00','Getting busier lately. Finish breaks by 19:00.'],
- 5:['18:30–21:30','Long waitlist, worst around 19:00. Be ready by 18:15.'],
- 6:['17:00–21:30','Longest waitlist of the week, worst 18:00–19:30. Be ready by 17:00.']
+ 0:['18:00–20:30','Waitlist almost every Sunday now, worst around 19:00 (waits ~25 min).'],
+ 1:['18:00–20:30','Usually no waitlist. Holiday Mondays run like a Sunday.'],
+ 2:['18:00–19:30','Booked tables tend to arrive together at 18:00. Waitlist rare and short.'],
+ 3:['18:00–20:30','Usually the quietest night. A short waitlist is possible around 20:00.'],
+ 4:['19:30–21:00','Short waitlist most Thursdays now, worst around 20:00. Finish breaks by 19:00.'],
+ 5:['18:00–22:00','Long waitlist, worst 19:00–20:00 (waits ~45 min). Stays busy until 22:00. Be ready by 18:00.'],
+ 6:['17:00–22:00','Busiest night: waitlist from 17:00, worst around 19:00 (waits ~45 min). Be ready by 17:00.']
+};
+/* Special dates, from the same days in past years. */
+const RUSH_DAY={
+ '2026-12-24':['17:00–21:00','Christmas Eve: busy, waitlist likely around 19:00, plus heavy bookings.'],
+ '2026-12-25':['12:00–20:00','Christmas Day: mostly booked tables, about 3× a normal day. Few walk-ins.'],
+ '2026-12-26':['18:00–21:00','Boxing Day: last year it was much quieter than a normal weekend night.'],
+ '2026-12-30':['18:00–21:00','Last year Dec 30 had a full waitlist, like a Saturday.'],
+ '2026-12-31':['17:00–21:00','New Year\'s Eve: the busiest weekday of the year, with long waits and about 4× the bookings.'],
+ '2027-01-01':['12:00–20:00','New Year\'s Day: mostly bookings, few walk-ins.'],
+ '2027-02-14':['16:30–22:00','Valentine\'s Day: the busiest day of the year (3–5× a normal waitlist). Every station full from 16:30.'],
+ '2027-02-15':['17:00–21:00','Family Day: last year it ran as busy as a Saturday.']
 };
 function paintResv(k){
   const sec=document.getElementById('resv'), R=RESV[k]||null;
-  const ru=RUSH[new Date(k+'T12:00:00').getDay()], rr=document.getElementById('rrush');
-  rr.innerHTML=`⏱️ Expected rush: <b>${ru[0]}</b> · ${ru[1]}<small>Based on the last 8 weeks of walk-ins and bookings.</small>`;
+  const ru=RUSH_DAY[k]||RUSH[new Date(k+'T12:00:00').getDay()], rr=document.getElementById('rrush');
+  rr.innerHTML=`⏱️ Expected rush: <b>${ru[0]}</b> · ${ru[1]}<small>${RUSH_DAY[k]?'Based on the same day in past years.':'Based on the last 12 weeks of walk-ins and bookings.'}</small>`;
   sec.querySelector('.rgrid').hidden=!R; sec.querySelector('.rfoot').hidden=!R;
   sec.hidden=false; if(!R){document.getElementById('rpeak').hidden=true; return;}
   const part=f=>{const x=R.filter(([t])=>f(t)); const g=x.reduce((a,[,n])=>a+n,0); return x.length?`<span>🍽️ <b>${x.length}</b> ${x.length===1?'table':'tables'}</span><span>👥 <b>${g}</b> ${g===1?'guest':'guests'}</span>`:'<span class="r0">😌 No bookings</span>';};
