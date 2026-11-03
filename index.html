@@ -281,7 +281,8 @@ h2 .hint.tapme{flex-basis:100%;text-align:left;font-size:.92rem;font-weight:600;
 .brand-stack .dsp{font-family:var(--f-sans);font-size:.62rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:#7a6a58;padding-left:.24em;display:flex;align-items:center;gap:8px}
 .brand-stack .dsp::before,.brand-stack .dsp::after{content:"";width:18px;height:1px;background:#c8302a;opacity:.7}
 .brand.art h1{margin-top:6px}
-.resv h2{margin-bottom:12px}
+.resv h2{margin-bottom:4px}
+.rsync{margin:10px 2px 12px;font-size:.78rem;color:var(--soft)}
 .rgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .rbox{background:var(--sheet);border:1px solid var(--hair);border-radius:12px;padding:12px 14px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:4px}
 .rl{font-family:var(--f-serif);font-weight:600;font-size:1.05rem}
@@ -361,6 +362,7 @@ h2 .hint.tapme{flex-basis:100%;text-align:left;font-size:.92rem;font-weight:600;
 
   <section class="resv" id="resv" hidden>
     <h2>📅 Today's reservations</h2>
+    <p class="rsync" id="resvsync"></p>
     <div class="rgrid">
       <div class="rbox lunch"><span class="rl">☀️ Lunch <small>before 16:00</small></span><span class="rn" id="rl"></span></div>
       <div class="rbox dinner"><span class="rl">🏮 Dinner <small>16:00 and after</small></span><span class="rn" id="rd"></span></div>
@@ -369,7 +371,7 @@ h2 .hint.tapme{flex-basis:100%;text-align:left;font-size:.92rem;font-weight:600;
     <div class="rbig" id="rbig" hidden></div>
     <p class="rpeak" id="rpeak"></p>
     <p class="rlast" id="rlast" hidden></p>
-    <p class="rfoot">🚶 Lunch and dinner counts are bookings only. Source: Snappy. <span id="resvsync"></span></p>
+    <p class="rfoot">🚶 Lunch and dinner counts are bookings only. Source: Snappy.</p>
   </section>
 
   <section>
@@ -825,7 +827,7 @@ function paintResv(k){
   const top=Object.entries(by).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0]))[0];
   const pk=document.getElementById('rpeak');
   if(top){const h=+top[0]; pk.hidden=false; pk.innerHTML=`🔥 Busiest booked hour: <b>${String(h).padStart(2,'0')}:00–${String(h+1).padStart(2,'0')}:00</b> · ${top[1]} guests booked`;} else pk.hidden=true;
-  {const d=new Date(RESV_SYNCED.replace(' ','T')+':00'); document.getElementById('resvsync').textContent='· Updated '+d.toLocaleDateString('en-US',{month:'short',day:'numeric'})+', '+RESV_SYNCED.slice(11);}
+  {const d=new Date(RESV_SYNCED.replace(' ','T')+':00'); document.getElementById('resvsync').textContent='🔄 Updated '+d.toLocaleDateString('en-US',{month:'short',day:'numeric'})+', '+RESV_SYNCED.slice(11);}
 }
 /* Notices that repeat on a weekday (0=Sun … 6=Sat). */
 const FLOOR_WASH='The kitchen starts washing the floor at 15:45. After 13:45, try not to seat guests at B5, A6 or B1.';
