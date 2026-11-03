@@ -1128,7 +1128,7 @@ function render(k){
    Everything is saved in Ru's Google Sheet "Baldwin Check-off" through its Apps Script web app.
    The codes live only in the Sheet; this page never sees them. */
 const CHECKOFF=new URLSearchParams(location.search).get('checkoff')==='1';
-const SHEET_API='';   /* paste the Apps Script web-app URL here (ends in /exec) */
+const SHEET_API='https://script.google.com/macros/s/AKfycbzaPrUdZSb4nYqaQpeTR3v45Axz6JCQfZmb7_CEFqkT1xdUg3J2V06CBSYTustEHtT8/exec';   /* paste the Apps Script web-app URL here (ends in /exec) */
 let DONE={}, CO_DAY=null, CO_OK=false;
 const tkey=(k,role,t)=>{let h=0;for(const c of t)h=(h*31+c.charCodeAt(0))>>>0;return `${k}_${role}_${h.toString(36)}`;};
 function doneRow(k,role,t,whoHtml){
