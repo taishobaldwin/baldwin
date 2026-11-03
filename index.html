@@ -554,7 +554,9 @@ function todayKey(){
   const p=new Intl.DateTimeFormat('en-CA',{timeZone:'America/Toronto',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date());
   const g=t=>p.find(x=>x.type===t).value; return `${g('year')}-${g('month')}-${g('day')}`;
 }
-function pickKey(){const t=todayKey(); if(DAYS[t])return t; if(t<KEYS[0])return KEYS[0]; return KEYS[KEYS.length-1];}
+/* ?day=YYYY-MM-DD opens that day early (e.g. post tomorrow's plan tonight); once that day has passed, today is shown again. */
+const DAYQ=new URLSearchParams(location.search).get('day');
+function pickKey(){const t0=todayKey(), t=(DAYQ&&DAYS[DAYQ]&&DAYQ>t0)?DAYQ:t0; if(DAYS[t])return t; if(t<KEYS[0])return KEYS[0]; return KEYS[KEYS.length-1];}
 
 /* ---------- one model per day: the map, the cards and the top notes all read this ---------- */
 const base=n=>n.replace(/🌙/gu,'').trim();
