@@ -477,19 +477,17 @@ const DAYS={
  bbreaks:[['Yuka','Insang covers'],['Riku','Insang covers'],['Insang','Yuka takes over Busser IC & printer']]},
 
 '2026-11-04':{title:'Wednesday, Nov 4',kitchen:'23:00',brk:'20:00',
- plan:{A:'Carolina',B:'Ayuko',FK:'Anh',SS:'Kevin',Kopt:'Haru'},
+ plan:{A:'Carolina',B:'Kevin',FK:'Ayuko',Kopt:'Haru'},
  team:[
   ['🧭 In charge',[['Tyler','11:30–16:30<br>17:30–23:00','IC/Host'],['Haru 🌙','12:30–15:00<br>16:30–24:00','Server Assistant at lunch · IC/Service at dinner']]],
-  ['🍽️ Server',[['Ayuko','11:00–16:00<br>17:30–23:00','🤝 Partner for Carolina'],['Carolina 🌙','16:00–24:00','✅ Sign Closing Checklist · 🤝 Partner: Ayuko'],['Anh','18:00–23:30','🧹 Check washrooms hourly']]],
-  ['🤝 Service Support',[['Kevin 🌙','18:00–24:00','🧹 Check washrooms hourly']]],
+  ['🍽️ Server',[['Ayuko','11:00–16:00<br>17:30–23:00','🤝 Partner for Carolina · 🧹 Check washrooms hourly · Hands over washroom check to Kevin at 23:00'],['Carolina 🌙','16:00–24:00','✅ Sign Closing Checklist · 🤝 Partner: Ayuko'],['Kevin 🌙','18:00–24:00','Takes over washroom check after 23:00']]],
   ['🙋 Host',[['Annie','15:00–22:30','🍱 Covers Charidise 15:00–16:00']]],
   ['🍱 Charidise',[['Amelia','11:30–15:00<br>16:00–22:00','']]],
-  ['🍸 Bar',[['Billy','11:15–15:00<br>16:30–23:00','🤝 Partner for Greg'],['Greg','11:15–16:30','Bar trainee · 🤝 Partner: Billy']]],
-  ['🧺 Busser',[['Naoki','11:00–15:00<br>16:30–23:00','👑 Busser IC · 🖨️ Printer duty'],['Yuka','12:00–16:30<br>18:00–23:15',''],['Riku','18:00–23:00','']]],
+  ['🍸 Bar',[['Billy','11:15–15:00<br>16:30–23:00','']]],
+  ['🧺 Busser',[['Naoki','11:00–15:00<br>16:30–23:00','👑 Busser IC · 🖨️ Printer duty'],['Yuka','12:00–16:30',''],['Riku','18:00–23:00','']]],
  ],
- breaks:[['Carolina','Kevin covers A section'],['Ayuko','Kevin covers B section'],['Anh','Kevin covers F & K'],['Kevin','Haru covers Service Support']],
- bbreaks:[['Naoki','Yuka takes over Busser IC & printer'],['Yuka','Naoki covers'],['Riku','Naoki covers']]},
-
+ breaks:[['Carolina','Haru covers A section'],['Ayuko','Haru covers F & K'],['Kevin','Haru covers B section']],
+ bbreaks:[['Naoki','Riku takes over Busser IC & printer'],['Riku','Amelia (2nd floor) helps bus']]},
 '2026-11-05':{title:'Thursday, Nov 5',kitchen:'23:00',brk:'20:00',
  plan:{A:'Carolina',B:'Samantha',FK:'Riku',SS:'Kevin',K:'Wan'},
  team:[
@@ -1061,7 +1059,7 @@ function mapData(m){
   if(P.AB) o.AB=[mk(P.AB),tm(P.AB)];
   o.K=P.Kopt?{merged:mk(P.FK)+' + '+mk(P.Kopt),floater:P.Kopt}:{who:mk(P.K),t:tm(P.K)};
   const ss=m.M.get(P.SS), ho=ss&&ss.hand.map(h=>h.match(/^Hands over to (\S+)/)).find(Boolean);
-  o.SS=[mk(P.SS),tm(P.SS)+(ho?' → '+ho[1]:'')];
+  o.SS=P.SS?[mk(P.SS),tm(P.SS)+(ho?' → '+ho[1]:'')]:null;
   return o;
 }
 function drawPlan(P){
@@ -1086,7 +1084,7 @@ function drawPlan(P){
     p+=label('K','K',P.K.who,P.K.t,140,760,110,772);
   }
   p+=`<path d="M336 772 H348" style="stroke:var(--kaki)" stroke-width=".8"/><circle cx="354" cy="772" r="2.2" style="fill:var(--kaki)"/><text class="what" x="300" y="752" text-anchor="middle" style="font-size:11px">+ K5 · K6</text>`;
-  p+=`<rect x="170" y="222" width="262" height="76" rx="6" style="fill:color-mix(in srgb,var(--slate) 7%,transparent);stroke:var(--slate)" stroke-opacity=".5" stroke-width=".9" stroke-dasharray="3 3"/><text class="code" x="182" y="242" style="fill:var(--slate)">🤝 SERVICE SUPPORT</text><text class="who" x="182" y="272"${P.SS[0].length>10?' style="font-size:26px"':''}>${e(P.SS[0])}</text><text class="what" x="182" y="290">${e(P.SS[1])}</text>`;
+  if(P.SS&&P.SS[0]) p+=`<rect x="170" y="222" width="262" height="76" rx="6" style="fill:color-mix(in srgb,var(--slate) 7%,transparent);stroke:var(--slate)" stroke-opacity=".5" stroke-width=".9" stroke-dasharray="3 3"/><text class="code" x="182" y="242" style="fill:var(--slate)">🤝 SERVICE SUPPORT</text><text class="who" x="182" y="272"${P.SS[0].length>10?' style="font-size:26px"':''}>${e(P.SS[0])}</text><text class="what" x="182" y="290">${e(P.SS[1])}</text>`;
   document.getElementById('plan').innerHTML=p;
 }
 
