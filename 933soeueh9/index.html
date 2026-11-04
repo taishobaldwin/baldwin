@@ -1,0 +1,1279 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow, noarchive, noimageindex">
+<title>Taisho Baldwin · Daily Service Plan</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,500&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+:root{
+  --paper:#f7f7f4; --sheet:#ffffff; --ink:#1d1d1f; --soft:#6b6b70; --hair:#dcdcd6;
+  --ai:#2f4a6b; --uguisu:#5f6b3a; --fuji:#6f5f92; --kaki:#9a5a35; --enji:#8f3a46; --slate:#5c6270;
+  --goal-bg:#1d1d1f; --goal-fg:#f7f7f4; --gold:#d6ae4f;
+  --f-serif:"Fraunces",Georgia,serif; --f-sans:"IBM Plex Sans",system-ui,sans-serif; --f-mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#121314; --sheet:#1a1b1d; --ink:#ececea; --soft:#9c9ca2; --hair:#303135;
+  --ai:#8fa9cc; --uguisu:#aab57e; --fuji:#ad9fd2; --kaki:#d6996f; --enji:#d38792; --slate:#a9afbd;
+  --goal-bg:#2b2618; --goal-fg:#f3eddc; --gold:#e6c46e; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#121314; --sheet:#1a1b1d; --ink:#ececea; --soft:#9c9ca2; --hair:#303135;
+  --ai:#8fa9cc; --uguisu:#aab57e; --fuji:#ad9fd2; --kaki:#d6996f; --enji:#d38792; --slate:#a9afbd;
+  --goal-bg:#2b2618; --goal-fg:#f3eddc; --gold:#e6c46e; color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--f-sans);font-size:16px;line-height:1.45}
+.wrap{max-width:480px;margin:0 auto;padding-block:24px 40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:22px}
+.day{font-family:var(--f-mono);font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--soft)}
+h1{font-family:var(--f-serif);font-weight:600;font-size:2rem;line-height:1.1;margin:4px 0 6px}
+.meta{font-size:.9rem;color:var(--soft)}
+.meta b{color:var(--ink);font-weight:600}
+h2{font-family:var(--f-mono);font-weight:600;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--soft);margin:0 0 8px}
+.list{background:var(--sheet);border:1px solid var(--hair);border-radius:8px}
+.row{display:grid;grid-template-columns:40px minmax(0,1fr) auto;gap:2px 12px;align-items:baseline;padding:12px 14px;border-top:1px solid var(--hair)}
+.row:first-child{border-top:0}
+.grp{font-family:var(--f-mono);font-size:.7rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);background:var(--paper);padding:8px 14px;border-top:1px solid var(--hair)}
+.grp:first-child{border-top:0;border-radius:8px 8px 0 0}
+.grp+.row{border-top:1px solid var(--hair)}
+.z{font-family:var(--f-mono);font-size:.72rem;line-height:1.25;font-weight:600;letter-spacing:.06em;color:var(--c)}
+.n{font-family:var(--f-serif);font-weight:600;font-size:1.25rem}
+.t{font-family:var(--f-mono);font-size:.82rem;color:var(--soft);white-space:nowrap;text-align:right;line-height:1.35}
+.d{grid-column:2/-1;font-size:.84rem;color:var(--soft)}
+.breaks{display:flex;flex-direction:column;gap:6px;margin:0;padding:0;list-style:none;counter-reset:b}
+.breaks li{display:grid;grid-template-columns:28px minmax(0,1fr);gap:10px;align-items:baseline;font-size:.95rem;counter-increment:b}
+.breaks li::before{content:counter(b);font-family:var(--f-mono);font-size:.82rem;color:var(--soft);text-align:right}
+.breaks b{font-weight:600}
+.breaks span{color:var(--soft);font-size:.86rem}
+.note{font-size:.88rem;margin:0 0 10px}
+.goal{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:8px;background:var(--goal-bg);color:var(--goal-fg)}
+.goal .num{font-family:var(--f-serif);font-size:2.2rem;font-weight:600;color:var(--gold);line-height:1}
+.goal b{display:block;font-family:var(--f-serif);font-weight:600;font-size:1.08rem}
+.goal span{font-size:.82rem;opacity:.75}
+.plan{background:var(--sheet);border:1px solid var(--hair);border-radius:8px;padding:8px}
+svg{display:block;width:100%;height:auto}
+svg text{font-family:var(--f-sans)}
+.tn{font-family:var(--f-mono);font-size:11px;font-weight:500;fill:var(--soft)}
+.code{font-family:var(--f-mono);font-size:12px;font-weight:600;letter-spacing:.16em}
+svg .who{font-family:var(--f-serif);font-size:30px;font-weight:600;fill:var(--ink)}
+.what{font-family:var(--f-mono);font-size:13px;fill:var(--soft)}
+.trow{display:flex;justify-content:space-between;gap:12px;align-items:baseline;padding:10px 14px;border-top:1px solid var(--hair);font-size:.92rem}
+.trow:first-child{border-top:0}
+.tw{font-family:var(--f-serif);font-weight:600;white-space:nowrap}
+.wk{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 10px}
+.wk .pill{font-family:var(--f-mono);font-weight:600;font-size:1rem;padding:8px 14px;border-radius:999px;background:var(--ink);color:var(--paper)}
+.wk .pill.b{background:var(--gold);color:#1d1d1f}
+.rv{position:relative;overflow:hidden;background:var(--sheet);border:1px solid var(--hair);border-radius:14px;padding:16px 18px 14px;text-align:center;box-shadow:0 1px 0 var(--hair)}
+.rv::before{content:"";position:absolute;inset:0 0 auto 0;height:5px;background:linear-gradient(90deg,#4285F4 0 25%,#EA4335 25% 50%,#FBBC05 50% 75%,#34A853 75%)}
+.rv-stars{font-size:1.9rem;letter-spacing:.12em;color:#FBBC05;line-height:1;margin:4px 0 8px;text-shadow:0 1px 0 rgba(0,0,0,.08)}
+.rv-main{display:flex;align-items:center;justify-content:center;gap:12px}
+.rv-num{font-family:var(--f-serif);font-weight:600;font-size:2.6rem;line-height:1;color:var(--ink)}
+.rv-txt{font-family:var(--f-serif);font-weight:600;font-size:1.05rem;line-height:1.2;text-align:left;color:var(--ink)}
+.rv-sub{margin-top:8px;font-size:.86rem;color:var(--soft)}
+.brand{background:#fff;color:#1d1d1f;border-radius:14px;padding:18px 18px 16px;text-align:center;border:1px solid var(--hair);position:relative;overflow:hidden}
+.brand::after{content:"";position:absolute;left:0;right:0;bottom:0;height:5px;background:#d93a2b}
+.brand .logo{display:block;width:min(100%,320px);height:auto;margin:2px auto 12px}
+.brand-bar{display:flex;align-items:center;justify-content:center;gap:10px;font-family:var(--f-mono);font-size:.7rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#6b6b70}
+.brand-bar i{width:5px;height:5px;border-radius:50%;background:#d93a2b;display:inline-block}
+.brand h1{color:#1d1d1f;margin:8px 0 4px}
+.brand .meta{color:#6b6b70}
+.brand .meta b{color:#1d1d1f}
+.leave{font-size:.88rem;color:var(--soft);text-align:center}
+[hidden]{display:none!important}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;font-family:var(--f-mono);font-size:.74rem;font-weight:600;padding:7px 10px;border-radius:999px;border:1px solid var(--hair);background:var(--sheet);color:var(--soft);cursor:pointer}
+.tab.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.tab .td{display:block;font-size:.62rem;font-weight:500;opacity:.8}
+.jump{display:flex;flex-wrap:wrap;gap:6px}
+.jump a{font-weight:600;font-size:.84rem;padding:5px 10px;border-radius:999px;background:var(--sheet);border:1px solid var(--hair);color:var(--ink);text-decoration:none}
+.cards{display:flex;flex-direction:column;gap:8px}
+.cg{font-family:var(--f-mono);font-size:.68rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--soft);margin:10px 0 0}
+.cg:first-child{margin-top:0}
+.card{background:var(--sheet);border:1px solid var(--hair);border-left:4px solid var(--c);border-radius:8px;padding:9px 12px 8px;scroll-margin-top:10px;min-width:0}
+.card:target,.card.hit{outline:2px solid var(--ink);outline-offset:1px}
+.jump a{cursor:pointer}
+.ch{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.cn{font-family:var(--f-serif);font-weight:600;font-size:1.22rem;line-height:1.2}
+.bdg{font-size:.72rem;font-weight:600;color:var(--soft);white-space:nowrap}
+.tg{font-size:.82rem;font-weight:600;margin-top:1px}
+.zn{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 8px;margin:4px 0 2px;font-size:.88rem;line-height:1.35}
+.zn b{font-weight:600}
+.zc{font-family:var(--f-mono);font-weight:600;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--c);padding:2px 7px;border-radius:4px;background:color-mix(in srgb,var(--c) 13%,transparent);white-space:nowrap}
+.blk{display:grid;grid-template-columns:62px minmax(0,1fr);gap:8px;padding:6px 0 4px;border-top:1px solid var(--hair);margin-top:6px;font-size:.88rem;line-height:1.35}
+.blk+.blk{margin-top:0}
+.bl{font-family:var(--f-mono);font-size:.64rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--soft);padding-top:2px}
+.bb{min-width:0;overflow-wrap:anywhere}
+.rt{display:flex;flex-wrap:wrap;gap:0 8px;color:var(--soft);font-size:.82rem}
+.rt span:first-child{color:var(--ink);font-weight:500}
+.tm{font-family:var(--f-mono);font-size:.76rem}
+.bb ul{margin:3px 0 0;padding-left:15px;display:flex;flex-direction:column;gap:2px}
+.bb ul:first-child{margin-top:0;}
+.k{font-family:var(--f-mono);font-size:.62rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--soft);border:1px solid var(--hair);border-radius:3px;padding:0 4px;vertical-align:1px}
+.w{color:var(--soft)}
+.pt{margin-top:4px;padding:5px 8px;border-radius:6px;background:color-mix(in srgb,var(--gold) 14%,transparent);font-size:.85rem}
+.pt b{font-weight:600}
+.fb+.fb{margin-top:10px}
+.fb{background:var(--sheet);border:1px solid var(--hair);border-radius:8px}
+.fb summary{display:flex;justify-content:space-between;align-items:center;cursor:pointer;list-style:none;padding:11px 14px;font-weight:600;font-size:.92rem}
+.fb summary::-webkit-details-marker{display:none}
+.fb .car{color:var(--soft);transition:transform .15s}
+.fb[open] .car{transform:rotate(180deg)}
+.fbb{padding:2px 14px 14px;border-top:1px solid var(--hair)}
+.fbb .note:first-child{margin-top:10px}
+#jobs .cards{padding:2px 10px 12px;border-top:1px solid var(--hair)}
+#jobs .cg:first-child{margin-top:10px}
+.bw{color:var(--soft);font-size:.8rem}
+.pdef p{margin:10px 0 6px;font-size:.92rem}
+.pdef ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px;font-size:.9rem}
+.pdef b{font-weight:600}
+.plink{color:inherit;text-decoration:underline;text-decoration-style:dotted;text-underline-offset:3px;cursor:pointer}
+.plink::after{content:"?";display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;margin-left:3px;border-radius:50%;border:1px solid currentColor;font-size:.62rem;font-weight:600;vertical-align:2px;opacity:.7}
+.pt .ps{display:block;color:var(--soft);font-size:.8rem;margin-top:1px}
+
+/* ---------- refined layer ---------- */
+:root{--red:#c8302a}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--red:#e0574c}}
+:root[data-theme="dark"]{--red:#e0574c}
+h2{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font-family:var(--f-serif);font-weight:600;font-size:1.12rem;letter-spacing:0;text-transform:none;color:var(--ink);margin:0 0 10px;padding-bottom:6px;border-bottom:1px solid var(--hair)}
+.hint,h2 .hint{font-family:var(--f-sans);font-weight:400;font-size:.8rem;color:var(--soft);letter-spacing:0;text-align:right}
+/* daily note: a paper slip with a hanko seal */
+/* daily note: washi paper, tinted by season, signed with a small seal */
+.chg{--wash:#e6ecf4;--ink2:#2f3e55;position:relative;overflow:hidden;border-radius:18px;padding:22px 22px 20px;
+  background:linear-gradient(160deg,color-mix(in srgb,var(--wash) 92%,#fff) 0%,var(--wash) 55%,color-mix(in srgb,var(--wash) 80%,var(--ink2)) 140%);
+  box-shadow:0 1px 0 rgba(255,255,255,.6) inset,0 18px 40px -28px color-mix(in srgb,var(--ink2) 70%,transparent);color:var(--ink2)}
+.chg::before{content:"";position:absolute;inset:0;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");opacity:.09;mix-blend-mode:multiply;pointer-events:none}
+.chg::after{display:none;right:-95px;top:-105px;width:190px;height:190px;border-radius:50%;
+  border:12px solid color-mix(in srgb,var(--ink2) 7%,transparent);border-left-color:transparent;transform:rotate(18deg);pointer-events:none}
+.chg[data-season="spring"]{--wash:#f5e4e8;--ink2:#5a2f3c}
+.chg[data-season="summer"]{--wash:#e2efe4;--ink2:#26473a}
+.chg[data-season="autumn"]{--wash:#f3e3d1;--ink2:#5b3720}
+.chg[data-season="winter"]{--wash:#e6ecf4;--ink2:#2f3e55}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .chg{background:linear-gradient(160deg,color-mix(in srgb,var(--wash) 16%,#18191b) 0%,color-mix(in srgb,var(--wash) 9%,#141517) 100%);color:color-mix(in srgb,var(--wash) 85%,#fff)}
+  :root:not([data-theme="light"]) .chg::before{mix-blend-mode:screen;opacity:.06}}
+:root[data-theme="dark"] .chg{background:linear-gradient(160deg,color-mix(in srgb,var(--wash) 16%,#18191b) 0%,color-mix(in srgb,var(--wash) 9%,#141517) 100%);color:color-mix(in srgb,var(--wash) 85%,#fff)}
+.chg.pic{min-height:210px;padding-right:34%;color:#4a2f1d!important;box-shadow:0 18px 40px -26px rgba(90,55,30,.55)!important;
+  background:linear-gradient(90deg,rgba(251,245,234,.96) 0%,rgba(251,245,234,.88) 52%,rgba(251,245,234,0) 80%),var(--bg) right bottom/cover no-repeat!important}
+.chg.pic::before{display:none}
+.chg.pic .wx{border-top-color:rgba(74,47,29,.18)}
+.chg .lbl{position:relative;display:flex;align-items:center;gap:8px;font-family:var(--f-sans);font-size:.8rem;letter-spacing:.02em;opacity:.75}
+.chg .kj{font-family:"Hiragino Mincho ProN","Yu Mincho","Noto Serif JP",serif;font-size:1rem;opacity:.9}
+.warm{position:relative;margin:10px 0 2px;font-family:"Newsreader",Georgia,serif;font-optical-sizing:auto;font-weight:400;font-size:1.45rem;line-height:1.32;letter-spacing:-.005em;color:inherit;text-wrap:pretty}
+.seal{position:relative;float:right;margin:14px -2px -2px 12px;width:30px;height:30px;display:flex;align-items:center;justify-content:center;writing-mode:vertical-rl;font-family:"Hiragino Mincho ProN","Yu Mincho","Noto Serif JP",serif;font-weight:700;font-size:.66rem;color:#fff;background:var(--red);border-radius:3px;box-shadow:inset 0 0 0 1.5px color-mix(in srgb,#fff 40%,transparent);transform:rotate(-6deg);opacity:.92}
+.wx{position:relative;margin:14px 0 0;padding-top:12px;border-top:1px solid color-mix(in srgb,currentColor 18%,transparent);font-size:.92rem;line-height:1.4}
+.chg ul{position:relative;margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:4px;font-size:.92rem}
+.chg ul:not(:empty){margin-top:12px;padding-top:10px;border-top:1px solid color-mix(in srgb,currentColor 18%,transparent)}
+/* quieter chrome */
+.jump a{font-weight:500}
+.wk{gap:6px}
+.wk .pill{font-family:var(--f-sans);font-weight:500;font-size:.82rem;padding:4px 11px;border-radius:999px;background:transparent;color:var(--ink);border:1px solid var(--hair)}
+.wk .pill.b{background:transparent;color:var(--red);border-color:color-mix(in srgb,var(--red) 55%,transparent)}
+.wk .pill.off{color:var(--soft)}
+.note.swap{background:var(--sheet);border-left:3px solid var(--red);padding:9px 12px;border-radius:0 6px 6px 0;margin:0 0 10px}
+#tcover{color:var(--soft)}
+.tw{font-family:var(--f-sans);font-weight:600;font-size:.88rem}
+.cg{font-family:var(--f-sans);font-size:.8rem;font-weight:600;letter-spacing:0;text-transform:none;color:var(--soft)}
+.bl{font-family:var(--f-sans);font-size:.74rem;letter-spacing:0;text-transform:none;color:var(--soft)}
+.zc{font-family:var(--f-sans);font-size:.76rem;letter-spacing:0;text-transform:none;border-radius:999px;padding:1px 9px}
+.k{font-family:var(--f-sans);font-size:.68rem;letter-spacing:0;text-transform:none;border-radius:999px;padding:0 6px}
+.bdg{font-weight:500}
+.fb summary{font-family:var(--f-serif);font-weight:600;font-size:1.02rem;gap:12px}
+.fb summary .hint{margin-left:auto;margin-right:10px}
+.rv-stars{text-shadow:none}
+.leave{font-size:.84rem}
+:focus-visible{outline:2px solid var(--red);outline-offset:2px}
+.rvimg{display:block;width:100%;height:auto;border-radius:14px;border:1px solid var(--hair);box-shadow:0 10px 24px -20px rgba(0,0,0,.4)}
+.brand.art{aspect-ratio:2/1;min-height:190px;display:flex;flex-direction:column;justify-content:flex-end;padding:0 18px 14px;border-radius:16px;border:1px solid var(--hair);
+  background:url(images/header.webp) center top/cover no-repeat,#f4ecdf}
+.brand.art::after{display:none}
+.brand.art .brand-bar{color:#7a6a58;font-size:.62rem}
+.brand.art .brand-bar i{background:#c8302a}
+.brand.art h1{margin:4px 0 0;font-size:1.75rem;color:#1d1d1f}
+.brand.art .meta{color:#5d5348;font-size:.86rem}
+.brand.art .meta b{color:#1d1d1f}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ---------- palette: washi paper, sumi ink, vermilion, maple — taken from the header art ---------- */
+:root{
+  --paper:#f5efe4; --sheet:#fffcf6; --ink:#2b241e; --soft:#7b6f63; --hair:#e6dccb;
+  --ai:#355d8c; --uguisu:#677a35; --fuji:#76659f; --kaki:#bf6232; --enji:#9b3a4b; --slate:#6a6f78;
+  --gold:#c98a3c; --red:#c43d2c; --goal-bg:#2b241e; --goal-fg:#f5efe4;
+  --f-serif:"Newsreader",Georgia,serif;
+  --shadow:0 1px 0 rgba(255,255,255,.7) inset,0 12px 26px -22px rgba(84,52,24,.45);
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#171412; --sheet:#211d1a; --ink:#f0e9df; --soft:#ab9f92; --hair:#39312b;
+  --ai:#8eaed6; --uguisu:#adbf7c; --fuji:#b4a6db; --kaki:#e3946a; --enji:#d98a99; --slate:#a9aeb7;
+  --gold:#e0ad62; --red:#e2665a; --goal-bg:#f0e9df; --goal-fg:#171412;
+  --shadow:0 14px 28px -22px rgba(0,0,0,.8)}}
+:root[data-theme="dark"]{
+  --paper:#171412; --sheet:#211d1a; --ink:#f0e9df; --soft:#ab9f92; --hair:#39312b;
+  --ai:#8eaed6; --uguisu:#adbf7c; --fuji:#b4a6db; --kaki:#e3946a; --enji:#d98a99; --slate:#a9aeb7;
+  --gold:#e0ad62; --red:#e2665a; --goal-bg:#f0e9df; --goal-fg:#171412;
+  --shadow:0 14px 28px -22px rgba(0,0,0,.8)}
+body{background:var(--paper)}
+.wrap{gap:26px}
+/* headings: one serif family across the page */
+h1,.cn,.n,.tw,.brand h1{font-family:var(--f-serif)}
+.brand.art h1{font-weight:600;letter-spacing:-.01em}
+h2{font-family:var(--f-serif);font-weight:600;font-size:1.2rem;letter-spacing:-.005em;border-bottom:0;padding-bottom:0;margin-bottom:12px;position:relative}
+h2::after{content:"";position:absolute;left:0;bottom:-5px;width:26px;height:2px;border-radius:2px;background:var(--red)}
+/* surfaces */
+.list,.plan,.fb,.card,.jump a,.rvimg{background:var(--sheet);border-color:var(--hair);box-shadow:var(--shadow)}
+.list,.plan,.fb{border-radius:14px}
+.card{border-radius:12px;border-left-width:4px}
+.plan{padding:10px}
+.jump{gap:7px}
+.jump a{border-radius:999px;padding:6px 13px;font-weight:500;box-shadow:none;transition:background .15s,border-color .15s}
+.jump a:hover{border-color:var(--gold);background:color-mix(in srgb,var(--gold) 10%,var(--sheet))}
+.cn{font-size:1.32rem;font-weight:600;letter-spacing:-.01em}
+.blk{border-top-color:var(--hair)}
+.zc{background:color-mix(in srgb,var(--c) 14%,transparent)}
+.pt{background:color-mix(in srgb,var(--gold) 13%,var(--sheet));border:1px solid color-mix(in srgb,var(--gold) 28%,transparent)}
+.bdg{color:var(--gold)}
+.cg{color:var(--soft);margin-top:14px}
+.trow{border-top-color:var(--hair)}
+.tw{font-weight:600;font-size:.98rem}
+.note.swap{background:color-mix(in srgb,var(--red) 7%,var(--sheet));border-left-color:var(--red)}
+.wk .pill{background:var(--sheet)}
+.wk .pill.b{background:color-mix(in srgb,var(--red) 8%,var(--sheet))}
+.fb summary{font-size:1.08rem}
+.fb .car{color:var(--gold)}
+.breaks li::before{color:var(--gold);font-weight:600}
+.leave{color:var(--soft);font-family:var(--f-serif);font-style:italic;font-size:.98rem}
+.tab.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.chg{border:1px solid var(--hair)}
+:focus-visible{outline-color:var(--gold)}
+h2:has(.tapme){flex-wrap:wrap;row-gap:2px}
+h2 .hint.tapme{flex-basis:100%;text-align:left;font-size:.92rem;font-weight:600;color:var(--red)}
+.warm.long{font-size:1.18rem;line-height:1.36}
+.chg.pic:has(.warm.long){padding-right:24%;background-position:right center!important}
+.tsub{margin:14px 0 8px}
+.trow .k,.k{white-space:nowrap}
+.trow .k{margin-left:4px;vertical-align:1px}
+.bwk{margin-top:10px}
+.bws{padding:10px 0;border-top:1px solid var(--hair)}
+.bws:first-child{border-top:0}
+.bws.on .bwh b{color:var(--red)}
+.bwh{display:flex;justify-content:space-between;gap:10px;font-size:.92rem}
+.bwh span{color:var(--soft);font-weight:600}
+.bws ul{margin:4px 0 0;padding-left:18px;font-size:.88rem;display:flex;flex-direction:column;gap:2px}
+.ctabs{display:flex;flex-wrap:wrap;gap:4px;padding:4px;margin:4px 0 12px;background:color-mix(in srgb,var(--hair) 55%,var(--paper));border-radius:12px}
+.ctab{font:inherit;font-weight:600;font-size:.92rem;padding:9px 6px;border:0;border-radius:9px;background:transparent;color:var(--soft);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
+.ctab.on{background:var(--sheet);color:var(--ink);box-shadow:0 1px 2px rgba(60,40,20,.15)}
+.cn2:not(:empty){min-width:20px;height:20px;padding:0 6px;border-radius:999px;font-size:.72rem;display:inline-flex;align-items:center;justify-content:center;background:color-mix(in srgb,var(--gold) 22%,transparent);color:var(--ink)}
+.ctab.on .cn2:not(:empty){background:var(--red);color:#fff}
+.note.empty{color:var(--soft)}
+.bwp{margin-top:4px;font-size:.86rem;color:var(--soft);font-weight:600}
+.trow .tw{flex:0 0 auto;max-width:42%;text-align:right}
+.trow .tw small{display:block;font-family:var(--f-sans);font-weight:500;font-size:.72rem;color:var(--soft)}
+.ctab{font-size:.86rem;padding:9px 4px;gap:4px;white-space:nowrap}
+.cn2:not(:empty){min-width:18px;height:18px;padding:0 5px;font-size:.68rem}
+.ctabs .ctab{flex:1 1 30%}
+.ctabs .ctab:nth-child(n+4){flex-basis:45%}
+.wkline{margin:0 0 10px;padding:9px 12px;border-radius:8px;background:color-mix(in srgb,var(--gold) 12%,var(--sheet));font-size:.88rem}
+.alert{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border-radius:12px;background:color-mix(in srgb,var(--red) 9%,var(--sheet));border:1px solid color-mix(in srgb,var(--red) 35%,transparent);box-shadow:var(--shadow)}
+.alert .ai{font-size:1.3rem;line-height:1.2}
+.alert b{font-weight:700}
+.alert div>b:first-child{display:block;font-size:1rem;color:var(--red)}
+.alert span{font-size:.9rem}
+#plan.wash rect.tb.wt{fill:color-mix(in srgb,var(--red) 18%,var(--sheet));stroke:var(--red);stroke-opacity:1;stroke-width:1.6;stroke-dasharray:3 2}
+#plan.wash text.tn.wt{fill:var(--red);font-weight:700}
+.brand.art{aspect-ratio:auto;min-height:0;padding-top:41%;padding-bottom:14px}
+.brand-stack{display:flex;flex-direction:column;align-items:center;gap:2px;margin-bottom:2px}
+.brand-stack .loc2{font-family:var(--f-serif);font-weight:600;font-size:1.25rem;letter-spacing:.32em;text-transform:uppercase;color:#1d1d1f;padding-left:.32em}
+.brand-stack .dsp{font-family:var(--f-sans);font-size:.62rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:#7a6a58;padding-left:.24em;display:flex;align-items:center;gap:8px}
+.brand-stack .dsp::before,.brand-stack .dsp::after{content:"";width:18px;height:1px;background:#c8302a;opacity:.7}
+.brand.art h1{margin-top:6px}
+.resv h2{margin-bottom:4px}
+.rsync{margin:10px 2px 12px;font-size:.78rem;color:var(--soft)}
+.rgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.rbox{background:var(--sheet);border:1px solid var(--hair);border-radius:12px;padding:12px 14px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:4px}
+.rl{font-family:var(--f-serif);font-weight:600;font-size:1.05rem}
+.rl small{display:block;font-family:var(--f-sans);font-weight:400;font-size:.72rem;color:var(--soft)}
+.rn{font-size:.92rem;display:flex;flex-direction:column;gap:0}
+.rn b{font-family:var(--f-serif);font-size:1.5rem;font-weight:600}
+.r0{color:var(--soft)}
+.rpeak{margin:10px 0 0;padding:9px 12px;border-radius:10px;background:color-mix(in srgb,var(--red) 8%,var(--sheet));border:1px solid color-mix(in srgb,var(--red) 25%,transparent);font-size:.92rem}
+.rpeak b{color:var(--red)}
+.rfoot{margin:6px 2px 0;font-size:.76rem;color:var(--soft)}
+.rbox.lunch{background:linear-gradient(160deg,color-mix(in srgb,var(--gold) 16%,var(--sheet)),var(--sheet) 70%);border-color:color-mix(in srgb,var(--gold) 35%,var(--hair))}
+.rbox.dinner{background:linear-gradient(160deg,color-mix(in srgb,var(--ai) 14%,var(--sheet)),var(--sheet) 70%);border-color:color-mix(in srgb,var(--ai) 30%,var(--hair))}
+.rn span{white-space:nowrap}
+.rrush{margin:10px 0 0;padding:9px 12px;border-radius:10px;background:color-mix(in srgb,var(--ai) 9%,var(--sheet));border:1px solid color-mix(in srgb,var(--ai) 28%,transparent);font-size:.92rem}
+.rrush b{color:var(--ai)}
+.rrush small{display:block;font-size:.76rem;color:var(--soft);margin-top:2px}
+.rbig{margin:10px 0 0;padding:9px 12px;border-radius:10px;background:color-mix(in srgb,var(--gold) 14%,var(--sheet));border:1px solid color-mix(in srgb,var(--gold) 40%,transparent);font-size:.92rem}
+.rbig ul{margin:4px 0 0;padding-left:1.1rem}
+.rbig b{font-family:var(--f-serif);font-weight:600}
+.rlast{margin:10px 0 0;padding:9px 12px;border-radius:10px;background:var(--sheet);border:1px solid var(--hair);font-size:.92rem}
+.rlast b{font-family:var(--f-serif);font-weight:600}
+.rsrc{display:block;font-size:.76rem;color:var(--soft);margin-top:2px}
+.dcol{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex:0 0 auto;max-width:44%}
+.dcol .tw{max-width:none}
+.dn{font:inherit;font-size:.8rem;font-weight:600;padding:5px 12px;border-radius:999px;border:1px solid var(--hair);background:var(--paper);color:var(--ink);cursor:pointer;white-space:nowrap}
+.trow.isdone .tt{color:var(--soft);text-decoration:line-through;text-decoration-color:color-mix(in srgb,var(--soft) 60%,transparent)}
+.trow.isdone .dn{background:color-mix(in srgb,#2f8a4b 14%,var(--sheet));border-color:color-mix(in srgb,#2f8a4b 45%,transparent);color:#2f7a45}
+.prog{margin:0 0 12px;padding:10px 12px;border-radius:10px;background:var(--sheet);border:1px solid var(--hair);font-size:.86rem;display:flex;flex-direction:column;gap:4px}
+.prog span:last-child{color:var(--soft)}
+.pb{height:6px;border-radius:999px;background:var(--hair);overflow:hidden}
+.pb span{display:block;height:100%;background:#2f8a4b;border-radius:999px}
+#tasksec .trow[data-dk]{display:block}
+.tmain{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+.dact{display:flex;justify-content:flex-end;gap:8px;margin-top:8px}
+.nd{font:inherit;font-size:.8rem;font-weight:600;padding:5px 12px;border-radius:999px;border:1px solid var(--hair);background:transparent;color:var(--soft);cursor:pointer;white-space:nowrap}
+.trow.isnot .nd{background:color-mix(in srgb,#c47a1c 14%,var(--sheet));border-color:color-mix(in srgb,#c47a1c 50%,transparent);color:#a2620f}
+.nform{display:flex;gap:6px;margin-top:8px}
+.ninp{flex:1 1 auto;min-width:0;font:inherit;font-size:.88rem;padding:7px 10px;border-radius:8px;border:1px solid var(--hair);background:var(--paper);color:var(--ink)}
+.nsave,.ncancel{font:inherit;font-size:.8rem;font-weight:600;padding:6px 10px;border-radius:8px;border:1px solid var(--hair);background:var(--sheet);color:var(--ink);cursor:pointer}
+.nsave{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.nnote{margin:6px 0 0;font-size:.84rem;color:#a2620f}
+.ndc{color:#a2620f}
+.dcol{display:block;text-align:right}
+.icrow{display:flex;justify-content:flex-end;flex-wrap:wrap;gap:6px;margin-top:6px}
+.icb{font:inherit;font-size:.78rem;font-weight:600;padding:4px 11px;border-radius:999px;border:1px dashed color-mix(in srgb,var(--ai) 55%,transparent);background:transparent;color:var(--ai);cursor:pointer;white-space:nowrap}
+.trow.ischecked .icb{border-style:solid;background:color-mix(in srgb,var(--ai) 12%,var(--sheet))}
+.icpick{display:flex;gap:6px}
+.icok{font:inherit;font-size:.78rem;font-weight:600;padding:4px 10px;border-radius:8px;border:0;background:var(--ai);color:#fff;cursor:pointer}
+.ckc{color:var(--ai)}
+.ckw{color:var(--soft)}
+.trow.isdone.ischecked .dn{opacity:.75}
+.icpin{width:64px;font:inherit;font-size:.9rem;letter-spacing:.2em;text-align:center;padding:4px 6px;border-radius:8px;border:1px solid var(--hair);background:var(--paper);color:var(--ink)}
+.icerr{flex-basis:100%;text-align:right;font-size:.8rem;font-weight:600;color:var(--red)}
+.icpick{flex-wrap:wrap;justify-content:flex-end}
+.cobar{margin:0 0 10px;padding:8px 12px;border-radius:8px;font-size:.84rem;background:color-mix(in srgb,var(--ai) 10%,var(--sheet));border:1px dashed color-mix(in srgb,var(--ai) 45%,transparent);color:var(--ai)}
+.cobar.err{color:var(--red);border-color:color-mix(in srgb,var(--red) 45%,transparent);background:color-mix(in srgb,var(--red) 7%,var(--sheet))}
+.trow.busy{opacity:.6}
+</style></head><body>
+
+<div class="wrap">
+  <nav class="tabs" id="tabs" aria-label="Pick a day"></nav>
+  <header class="brand art">
+    <span class="sr">Taisho Japanese Grill</span>
+    <div class="brand-stack"><span class="loc2">Baldwin</span><span class="dsp">Daily Service Plan</span></div>
+    <h1 id="title"></h1>
+    <div class="meta" id="meta"></div>
+  </header>
+
+  <section class="chg" id="chg">
+    <span class="lbl"><span class="kj" id="kj"></span>A note for you</span>
+    <p class="warm" id="warm"></p>
+    <p class="wx" id="wx" hidden></p>
+    <ul id="chgl"></ul>
+  </section>
+
+  <img class="rvimg" alt="Google reviews. Today's goal: 5+ reviews per server. Invite guests to share their experience." src="images/review.webp">
+
+  <section class="resv" id="resv" hidden>
+    <h2>Today's reservations</h2>
+    <p class="rsync" id="resvsync"></p>
+    <div class="rgrid">
+      <div class="rbox lunch"><span class="rl">☀️ Lunch <small>before 16:00</small></span><span class="rn" id="rl"></span></div>
+      <div class="rbox dinner"><span class="rl">🏮 Dinner <small>from 16:00</small></span><span class="rn" id="rd"></span></div>
+    </div>
+    <p class="rrush" id="rrush"></p>
+    <div class="rbig" id="rbig" hidden></div>
+    <p class="rpeak" id="rpeak"></p>
+    <p class="rlast" id="rlast" hidden></p>
+    <p class="rfoot">🚶 Lunch and dinner counts are reservations only. Source: Snappy.</p>
+  </section>
+
+  <section>
+    <h2>Find your name <span class="hint tapme">Tap your name to see your day</span></h2>
+    <nav class="jump" id="jump" aria-label="Jump to a person"></nav>
+  </section>
+
+  <div class="alert" id="alert" hidden></div>
+
+  <section>
+    <h2>Dinner floor plan <span class="hint">🌙 closing&ensp;🧹 washroom check</span></h2>
+    <div class="plan"><svg id="plan" viewBox="0 0 500 880" role="img" aria-label="Floor plan with each server's section"></svg></div>
+  </section>
+
+  <section id="tasksec">
+    <h2>Today's cleaning <span class="hint">The IC may reassign</span></h2>
+    <p class="wkline">Do your <b>daily checklist</b> as usual. Below are today's extra <b>weekly</b> tasks, by role.</p>
+    <div class="wk" id="wk"></div>
+    <p class="cobar" id="cobar" hidden></p>
+    <div class="prog" id="prog" hidden></div>
+    <div class="ctabs" role="tablist" aria-label="Cleaning by role">
+      <button class="ctab on" role="tab" data-p="srv" aria-selected="true">Server <span class="cn2" id="cn-srv"></span></button>
+      <button class="ctab" role="tab" data-p="host" aria-selected="false">Host <span class="cn2" id="cn-host"></span></button>
+      <button class="ctab" role="tab" data-p="bus" aria-selected="false">Busser <span class="cn2" id="cn-bus"></span></button>
+      <button class="ctab" role="tab" data-p="bar" aria-selected="false">Bar <span class="cn2" id="cn-bar"></span></button>
+      <button class="ctab" role="tab" data-p="chr" aria-selected="false">Charidise <span class="cn2" id="cn-chr"></span></button>
+    </div>
+    <div class="cpanel" id="cp-srv">
+      <p class="note">Sign the paper checklist when done ✍️ If not finished, write the reason.</p>
+      <p class="note swap" id="tswap" hidden></p>
+      <p class="note" id="tcover" style="margin:-4px 0 10px"></p>
+      <div class="list" id="tasks"></div>
+    </div>
+    <div class="cpanel" id="cp-bar" hidden></div>
+    <div class="cpanel" id="cp-bus" hidden></div>
+    <div class="cpanel" id="cp-chr" hidden></div>
+    <div class="cpanel" id="cp-host" hidden></div>
+  </section>
+
+  <section>
+    <details class="fb">
+      <summary><span id="brkh"></span><span class="car">▾</span></summary>
+      <div class="fbb">
+        <p class="note">🙌 <b>Wait for the IC to call you.</b> One at a time.</p>
+        <ol class="breaks" id="brk"></ol>
+        <p class="note" style="margin:14px 0 8px"><b>🧺 Bussers</b></p>
+        <ol class="breaks" id="brkB"></ol>
+      </div>
+    </details>
+    <details class="fb" id="pdef">
+      <summary><span>What is a Partner?</span><span class="car">▾</span></summary>
+      <div class="fbb pdef">
+        <p>Every new team member works with a <b>Partner</b>: an experienced teammate close by. For servers, it's the server in the next section.</p>
+        <ul>
+          <li><b>New team member:</b> ask your Partner first whenever you're unsure.</li>
+          <li><b>Partner:</b> keep an eye on your new teammate and step in when they need help.</li>
+          <li>Until the Partner arrives, the IC/Service looks after the new team member.</li>
+        </ul>
+      </div>
+    </details>
+    <details class="fb" id="jobs">
+      <summary><span>Everyone's jobs today</span><span class="car">▾</span></summary>
+      <div class="cards" id="cards"></div>
+    </details>
+  </section>
+
+
+
+  <p class="leave">Report to the person in charge before you leave.</p>
+</div>
+
+<script>
+/* One entry per day. Times are 24h. 🌙 after a name = closer.
+   plan = who owns each dinner section (map + cards both read this; zones are not repeated in team notes).
+   Kopt = 3-server night: K opens only if needed, F&K server takes K1–K6 with this person helping. */
+const DAYS={
+'2026-11-02':{title:'Monday, Nov 2',kitchen:'23:00',brk:'20:00',
+ plan:{A:'Seungjun',B:'Ayuko',FK:'Wan',SS:'Kevin',Kopt:'Haru'},
+ team:[
+  ['🧭 In charge',[['Osa','11:30–16:30<br>17:30–23:00','IC/Host'],['Haru 🌙','12:00–15:00<br>16:30–24:00','Server Assistant at lunch · IC/Service at dinner · 🧭 In charge after 23:00']]],
+  ['🍽️ Server',[['Wan','11:00–16:00<br>17:30–23:00','🧹 Check washrooms hourly'],['Ayuko','16:00–23:30','🤝 Partner for Seungjun'],['Seungjun 🌙','18:00–24:00','✅ Sign Closing Checklist · 🤝 Partner: Ayuko']]],
+  ['🤝 Service Support',[['Kevin 🌙','18:00–24:00','🧹 Check washrooms hourly']]],
+  ['🙋 Host',[['Asteria','15:00–22:30','🍱 Covers Charidise 15:00–16:00']]],
+  ['🍱 Charidise',[['Ayuko','11:30–15:00',''],['Annie','16:00–22:00','']]],
+  ['🍸 Bar',[['A.A','11:15–15:00<br>16:30–23:00','']]],
+  ['🧺 Busser',[['Insang','11:00–15:00<br>16:30–23:00',''],['Naoki','12:00–16:30<br>18:00–23:00',''],['Thai','18:00–23:15','👑 Busser IC · 🖨️ Printer duty']]],
+ ],
+ breaks:[['Ayuko','Kevin covers B section'],['Wan','Kevin covers F & K'],['Seungjun','Kevin covers A section'],['Kevin','Haru covers Service Support']],
+ bbreaks:[['Insang','Thai covers'],['Naoki','Insang covers'],['Thai','Insang takes over Busser IC & printer']]},
+
+'2026-11-03':{title:'Tuesday, Nov 3',kitchen:'23:00',brk:'20:00',
+ plan:{A:'Wan',B:'Anh',FK:'Ayuko',SS:'Seungjun',Kopt:'Haru'},
+ team:[
+  ['🧭 In charge',[['Tyler','11:30–16:30<br>17:30–23:00','IC/Host'],['Haru 🌙','18:00–24:00','IC/Service']]],
+  ['🍽️ Server',[['Riku','11:00–16:00','Lunch'],['Wan 🌙','16:00–24:00','✅ Sign Closing Checklist'],['Ayuko','12:30–15:00<br>16:30–23:00','Server Assistant at lunch · 🧹 Check washrooms hourly'],['Anh','18:00–23:30','']]],
+  ['🤝 Service Support',[['Seungjun 🌙','18:00–24:00','🧹 Check washrooms hourly']]],
+  ['🙋 Host',[['Asteria','15:00–22:30','🍱 Covers Charidise 15:00–16:00']]],
+  ['🍱 Charidise',[['Helen','11:30–15:00<br>16:00–22:00','']]],
+  ['🍸 Bar',[['A.A','11:15–15:00<br>16:30–23:00','']]],
+  ['🧺 Busser',[['Yuka','11:00–15:00<br>16:30–23:00',''],['Insang','12:00–16:30<br>18:00–23:00','👑 Busser IC · 🖨️ Printer duty'],['Riku','17:30–23:15','']]],
+ ],
+ breaks:[['Wan','Seungjun covers A section'],['Ayuko','Seungjun covers F & K'],['Anh','Seungjun covers B section'],['Seungjun','Haru covers Service Support']],
+ bbreaks:[['Yuka','Insang covers'],['Riku','Insang covers'],['Insang','Yuka takes over Busser IC & printer']]},
+
+'2026-11-04':{title:'Wednesday, Nov 4',kitchen:'23:00',brk:'20:00',
+ plan:{A:'Carolina',B:'Kevin',FK:'Ayuko',Kopt:'Haru'},
+ team:[
+  ['🧭 In charge',[['Tyler','11:30–16:30<br>17:30–23:00','IC/Host'],['Haru 🌙','12:30–15:00<br>16:30–24:00','Server Assistant at lunch · IC/Service at dinner']]],
+  ['🍽️ Server',[['Ayuko','11:00–16:00<br>17:30–23:00','🤝 Partner for Carolina · 🧹 Check washrooms hourly · Hands over washroom check to Kevin at 23:00'],['Carolina 🌙','16:00–24:00','✅ Sign Closing Checklist · 🤝 Partner: Ayuko'],['Kevin 🌙','18:00–24:00','Takes over washroom check after 23:00']]],
+  ['🙋 Host',[['Annie','15:00–22:30','🍱 Covers Charidise 15:00–16:00']]],
+  ['🍱 Charidise',[['Amelia','11:30–15:00<br>16:00–22:00','']]],
+  ['🍸 Bar',[['Billy','11:15–15:00<br>16:30–23:00','🤝 Partner for Greg'],['Greg','11:15–16:30','Bar trainee · 🤝 Partner: Billy']]],
+  ['🧺 Busser',[['Naoki','11:00–15:00<br>16:30–23:00','👑 Busser IC · 🖨️ Printer duty'],['Yuka','12:00–16:30',''],['Riku','18:00–23:00','']]],
+ ],
+ breaks:[['Carolina','Haru covers A section'],['Ayuko','Haru covers F & K'],['Kevin','Haru covers B section']],
+ bbreaks:[['Naoki','Riku takes over Busser IC & printer'],['Riku','Amelia (2nd floor) helps run food']]},
+'2026-11-05':{title:'Thursday, Nov 5',kitchen:'23:00',brk:'20:00',
+ plan:{A:'Carolina',B:'Samantha',FK:'Riku',SS:'Kevin',K:'Wan'},
+ team:[
+  ['🧭 In charge',[['Osa','11:30–16:30<br>17:30–23:00','IC/Host'],['Tyler 🌙','12:30–16:30<br>17:30–24:00','IC'],['Lisa 🌙','16:30–24:00','IC/Service']]],
+  ['🍽️ Server',[['Samantha','11:00–16:00<br>17:30–23:00','🤝 Partner for Carolina'],['Riku','11:00–16:00<br>17:30–23:00','🧹 Check washrooms hourly'],['Wan','16:00–23:30',''],['Carolina 🌙','16:00–24:00','✅ Sign Closing Checklist · 🤝 Partner: Samantha']]],
+  ['🤝 Service Support',[['Kevin 🌙','18:00–24:00','🧹 Check washrooms hourly']]],
+  ['🙋 Host',[['Asteria','11:30–16:30<br>17:30–22:30','🍱 Covers Charidise 15:00–16:00']]],
+  ['🍱 Charidise',[['Amelia','11:30–15:00<br>16:00–22:00','']]],
+  ['🍸 Bar',[['A.A','11:15–15:00<br>16:30–23:00','']]],
+  ['🧺 Busser',[['Insang','11:00–15:00<br>16:30–23:00','👑 Busser IC · 🖨️ Printer duty'],['Naoki','12:00–16:30<br>18:00–23:00',''],['Seungjun','18:00–23:15','']]],
+ ],
+ breaks:[['Wan','Kevin covers K section'],['Carolina','Kevin covers A section'],['Samantha','Kevin covers B section'],['Riku','Kevin covers F & K'],['Kevin','Lisa covers Service Support']],
+ bbreaks:[['Insang','Naoki takes over Busser IC & printer'],['Naoki','Insang covers'],['Seungjun','Insang covers']]},
+
+'2026-11-06':{title:'Friday, Nov 6',kitchen:'23:00',brk:'21:00',
+ plan:{A:'Karma',B:'Anh',AB:'Riku',FK:'Ayuko',SS:'Carolina',K:'Samantha'},
+ team:[
+  ['🧭 In charge',[['Tyler','11:30–16:30<br>17:30–23:00','IC/Host'],['Lisa 🌙','12:30–16:00<br>17:00–24:00','Server Assistant at lunch · IC/Service at dinner'],['Haru 🌙','16:00–24:00','IC/Service']]],
+  ['🍽️ Server',[['Karma','11:00–16:00<br>17:30–23:00','🤝 Partner: Anh'],['Riku 🌙','16:00–24:00','✅ Sign Closing Checklist · 🧹 Check washrooms hourly'],['Samantha 🌙','16:00–24:00',''],['Anh','18:00–23:30','🤝 Partner for Karma'],['Ayuko','18:00–23:00','']]],
+  ['🤝 Service Support',[['Carolina 🌙','18:00–24:00','🧹 Check washrooms hourly']]],
+  ['🙋 Host',[['Asteria','16:30–23:00','']]],
+  ['🍱 Charidise',[['Ayuko','11:30–16:30',''],['Helen','16:30–23:00','']]],
+  ['🍸 Bar',[['A.A','11:15–16:30',''],['Billy','16:30–23:00','🤝 Partner for Greg'],['Greg','16:30–23:00','Bar trainee · 🤝 Partner: Billy']]],
+  ['🧺 Busser',[['Thai','11:00–15:00<br>16:30–23:00','👑 Busser IC · 🖨️ Printer duty'],['Insang','12:00–16:30<br>18:00–23:00',''],['Yuka','18:00–23:15','']]],
+ ],
+ breaks:[['Riku','Carolina covers A&B'],['Samantha','Carolina covers K section'],['Karma','Carolina covers A section'],['Anh','Carolina covers B section'],['Ayuko','Carolina covers F & K'],['Carolina','Haru covers Service Support']],
+ bbreaks:[['Thai','Insang takes over Busser IC & printer'],['Insang','Thai covers'],['Yuka','Thai covers']]},
+
+'2026-11-07':{title:'Saturday, Nov 7',kitchen:'23:00',brk:'21:00',
+ plan:{A:'Karma',B:'Zirui',AB:'Riku',FK:'Wan',SS:'Seungjun',K:'Samantha'},
+ team:[
+  ['🧭 In charge',[['Osa','11:30–16:30<br>17:30–23:00','IC/Host'],['Lisa 🌙','12:30–16:00<br>17:00–24:00','Server Assistant at lunch · 🍱 Covers Charidise 15:00–16:00 · IC/Service at dinner']]],
+  ['🍽️ Server',[['Karma','11:00–15:00<br>16:00–23:30','🤝 Partner: Riku'],['Zirui','11:00–16:00<br>17:30–23:00',''],['Riku 🌙','15:00–24:00','✅ Sign Closing Checklist · 🧹 Check washrooms hourly · 🤝 Partner for Karma'],['Samantha 🌙','16:30–24:00',''],['Wan','18:00–23:00','']]],
+  ['🤝 Service Support',[['Seungjun 🌙','15:00–24:00','🧹 Check washrooms hourly']]],
+  ['🙋 Host',[['Annie','12:30–15:00<br>16:30–23:00','']]],
+  ['🍱 Charidise',[['Ayuko','11:30–15:00<br>16:00–23:00','']]],
+  ['🍸 Bar',[['Billy','11:15–15:00<br>16:30–23:00','🤝 Partner for Rachel'],['Rachel','15:00–23:00','Bar trainee · 🤝 Partner: Billy']]],
+  ['🧺 Busser',[['Thai','11:30–15:00<br>16:00–23:00','👑 Busser IC · 🖨️ Printer duty'],['Daniel','12:00–16:00<br>17:00–23:00',''],['Winson','15:00–23:15','']]],
+ ],
+ breaks:[['Riku','Seungjun covers A&B'],['Karma','Seungjun covers A section'],['Samantha','Seungjun covers K section'],['Zirui','Seungjun covers B section'],['Wan','Seungjun covers F & K'],['Seungjun','Lisa covers Service Support']],
+ bbreaks:[['Winson','Thai covers'],['Thai','Winson takes over Busser IC & printer'],['Daniel','Thai covers']]},
+
+'2026-11-08':{title:'Sunday, Nov 8',kitchen:'22:00',brk:'20:00',
+ plan:{A:'Kevin',B:'Zirui',AB:'Seungjun',FK:'Wan',SS:'Daniel',K:'Samantha'},
+ team:[
+  ['🧭 In charge',[['Osa','11:30–16:30<br>17:30–22:00','IC/Host'],['Tyler 🌙','12:30–16:30<br>17:30–23:00','IC'],['Lisa 🌙','12:30–16:00<br>17:00–23:00','Server Assistant at lunch · 🍱 Covers Charidise 15:00–16:00 · IC/Service at dinner']]],
+  ['🍽️ Server',[['Wan','11:00–15:00<br>16:00–22:00',''],['Zirui','11:00–16:00<br>17:30–22:00','🤝 Partner for Kevin & Seungjun'],['Kevin 🌙','15:00–23:00','✅ Sign Closing Checklist · 🤝 Partner: Zirui'],['Samantha 🌙','17:30–23:00',''],['Seungjun 🌙','17:30–23:00','🧹 Check washrooms hourly · 🤝 Partner: Zirui · Takes over Service Support after 22:00']]],
+  ['🤝 Service Support',[['Daniel','15:00–22:00','🧹 Check washrooms hourly · Hands over to Seungjun at 22:00']]],
+  ['🙋 Host',[['Annie','12:00–16:30',''],['Billy','16:30–21:30','']]],
+  ['🍱 Charidise',[['Amelia','11:30–15:00<br>16:00–22:00','']]],
+  ['🍸 Bar',[['Billy','11:15–15:00',''],['Rachel','15:00–22:00','Bar trainee']]],
+  ['🧺 Busser',[['Naoki','11:30–15:00<br>16:00–22:00',''],['Thai','11:30–16:00<br>17:00–22:00','👑 Busser IC · 🖨️ Printer duty'],['Winson','15:00–22:15','']]],
+ ],
+ breaks:[['Kevin','Daniel covers A section'],['Daniel','Lisa covers Service Support'],['Wan','Daniel covers F & K'],['Zirui','Daniel covers B section'],['Samantha','Daniel covers K section'],['Seungjun','Daniel covers A&B']],
+ bbreaks:[['Winson','Thai covers'],['Naoki','Thai covers'],['Thai','Winson takes over Busser IC & printer']]}
+};
+
+const TASKS={
+'2026-11-02':[['Clean greasy areas on the floor','Wan'],['Clean the grate / metal cover under all tables','Wan'],['Refill grill net & napkins','Wan + Naoki'],['Clean window glass (A section)','Ayuko'],['Deep clean Soy Sauce & Chilli Pepper bottles','Seungjun']],
+'2026-11-03':[['Clean stove — A + F1 & F2','Riku + Insang'],['Clean baffle filter — A + F1 & F2','Riku + Insang'],['Clean window glass (F section)','Riku + Insang'],['Wipe the F section entrance wall','Anh'],['Clean the gap between glass & table (F section)','Anh']],
+'2026-11-04':[['Clean stove — B','Ayuko + Yuka'],['Clean baffle filter — B','Ayuko + Yuka'],['Walls and benches (A & B section)','Carolina'],['Clean & wipe underneath the bench tables','Ayuko'],['Clean and wipe the menu stands','Carolina']],
+'2026-11-05':[['Clean stove — K + F3 & F4','Samantha + Naoki'],['Clean baffle filter — K + F3 & F4','Samantha + Naoki'],['Organize and clean A & B stations','Riku'],['Walls and benches (F & K section)','Kevin'],['Organize and clean K station','Kevin']],
+'2026-11-06':[['Brush and bleach the washrooms','Karma + Insang'],['Deep clean the toilets','Karma + Insang'],['Wipe the toilet doors and walls','Karma + Insang'],['Refill toilet supplies','Karma + Insang'],['Deep clean the Salt & Pepper bottle stand (all sections)','Anh']],
+};
+const SWAP={'2026-11-02':'🔄 This week only: Monday and Friday checklists are swapped — this morning is expected to be busier than usual, so today gets the lighter Friday list.','2026-11-06':'🔄 This week only: Monday and Friday checklists are swapped — Monday morning was expected to be busier than usual, so the Monday list is done today.'};
+const COVER={'2026-11-02':'Haru covers the floor during cleaning','2026-11-03':'Ayuko covers the floor during cleaning','2026-11-04':'Haru covers the floor during cleaning','2026-11-05':'Riku covers the floor during cleaning','2026-11-06':'Lisa covers the floor during cleaning'};
+const KEYS=Object.keys(DAYS).sort();
+const COL={A:'--ai',B:'--uguisu','F&K':'--fuji',K:'--kaki','A&B':'--enji'};
+const e=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+/* Today in Toronto time: switches right after midnight. */
+function todayKey(){
+  const p=new Intl.DateTimeFormat('en-CA',{timeZone:'America/Toronto',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date());
+  const g=t=>p.find(x=>x.type===t).value; return `${g('year')}-${g('month')}-${g('day')}`;
+}
+/* ?day=YYYY-MM-DD opens that day early (e.g. post tomorrow's plan tonight); once that day has passed, today is shown again. */
+const DAYQ=new URLSearchParams(location.search).get('day');
+function pickKey(){const t0=todayKey(), t=(DAYQ&&DAYS[DAYQ]&&DAYQ>t0)?DAYQ:t0; if(DAYS[t])return t; if(t<KEYS[0])return KEYS[0]; return KEYS[KEYS.length-1];}
+
+/* ---------- one model per day: the map, the cards and the top notes all read this ---------- */
+const base=n=>n.replace(/🌙/gu,'').trim();
+const st=t=>t.split('–')[0], en=t=>t.split('–')[1];
+const isLunch=t=>en(t)<='17:00';            /* a block that ends by 17:00 is a lunch block */
+const plain=s=>s.replace(/^[^A-Za-z0-9]+/u,'').trim();   /* drop the leading emoji */
+const slug=n=>'p-'+n.replace(/[^A-Za-z0-9]/g,'');
+const CLEAN_ROLES=['Server','Busser','Server Assistant'];
+
+/* ---------- role checklists (Bartender / Busser paper sheets): reminders only, sign-off stays on paper ----------
+   weekly: every week. biweekly: week 1 and week 3 of the month (same weeks as the baffle filters).
+   monthly: {week of month: [tasks]}. Day numbers: 1=Mon … 5=Fri.
+   skip: tasks already done for that date ('YYYY-MM-DD|task'). */
+const weekOfMonth=k=>Math.ceil(+k.slice(8,10)/7);
+const CHECKLISTS=[
+ {id:'bar',label:'🍸 Bar',summary:false,who:'lunch bartender: before 15:00. Dinner bartender: at the start of your shift',sheet:'Bartender Checklist',fallback:'Lunch bartender',
+  weekly:{
+   1:['Fridge: empty, wipe clean, and reorganize','Deep clean the garbage bin'],
+   2:['Bleach-clean all pots, shakers, pitchers, and blender jars','Soda machine: soak the heads in hot water, rinse, and replace'],
+   3:['Tea station: take everything out and clean thoroughly'],
+   4:['Bar shelving: clear and wipe down','Deep clean every corner of the Sapporo & Asahi area']},
+  biweekly:{
+   1:['Basement inventory: organize and throw out garbage'],
+   2:['Glass display shelves: clear and wipe'],
+   3:['Back counter / storage: clear, wipe, and organize','Bar cabinets: organize and clean inside every cabinet'],
+   4:['Sugar barrels, corners, walls, and floors','Wipe the middle shelf and deep clean the floor around the bar']},
+  monthly:{},
+  /* anyone on bar that day can take it; lunch is preferred, a dinner bartender does it at the start of the shift */
+  cands:D=>roleCands(D,'Bar',[]) },
+ {id:'bus',label:'🧺 Busser',summary:false,who:'do it during your lunch shift',sheet:'Busser Maintenance Checklist',fallback:'12:00 busser',
+  weekly:{
+   1:['Deep clean the employee washroom and breakroom'],
+   2:['Wash and dry all trays'],
+   3:['Clean the gelato freezer']},
+  biweekly:{
+   4:['Organize and clean the packer station']},
+  monthly:{
+   1:{5:['Wash the Noren curtain']},
+   3:{5:['Wash and dry the busser-station garbage bin']}},
+  skip:{'2026-11-06|Wash the Noren curtain':1},          /* Insang already signed it for November */
+  /* lunch bussers only; the 11:00 busser already has the harder shift, so they are picked last */
+  cands:D=>roleCands(D,'Busser',['11:00']).filter(c=>c.period==='lunch') },
+ {id:'host',label:'🙋 Host',summary:false,weekendPen:12,who:'do it during a quiet moment in your shift',sheet:'Host checklist (weekly section)',fallback:'Host',
+  weekly:{
+   1:['Clear all items off the counter and wipe behind the monitors'],
+   2:['Vacuum and wipe the crevice behind the bench'],
+   3:['Check for spills underneath the gelato machine and mop if necessary'],
+   4:['Wipe the garage door windows'],
+   5:['Organize the drawers and storage']},
+  biweekly:{},monthly:{},
+  cands:D=>roleCands(D,'Host',[]).map(c=>({...c,pen:0})) },
+ /* Charidise weekly checklist: two-week rotation, tasks stay on the day the sheet gives them.
+    Week 1 of the rotation starts Mon, Nov 2, 2026, then alternates. */
+ {id:'chr',label:'🍱 Charidise',summary:false,who:'do it during your shift',sheet:'Charidise weekly checklist',fallback:'Charidise',
+  rotationStart:'2026-11-02',
+  rotation:[{1:["Wipe all tables incl. stands with hot water. Wipe all sofas (gaps & corners). Wipe the black frames.","Wipe and clean the fake flowers and all other decorations."],2:["Brush and bleach the washroom floor, toilet and corners. Wipe walls, mirror and bin. Refill sanitizer and toilet paper.","Check that all tables and chairs are level, and fix any that wobble."],3:["Vacuum the floor and deep clean the corners and under the tables. Move tables to clean underneath.","Check and clean all the corners of windows SC1–SC4."],4:["Clean and organize the rooftop patio. Clean the garage door window (inside & out) and the side door."],5:["Wipe the stairway handrail, and all glass and windows from the inside out.","Organize and wipe the cashier station. Deep clean the garbage bins."]},{1:["Wipe the stairway handrail, and all glass and windows from the inside out.","Organize and wipe the cashier station. Deep clean the garbage bins."],2:["Wipe all tables incl. stands with hot water. Wipe all sofas (gaps & corners). Wipe the black frames.","Wipe and clean the fake flowers and all other decorations."],3:["Brush and bleach the washroom floor, toilet and corners. Wipe walls, mirror and bin. Refill sanitizer and toilet paper.","Check that all tables and chairs are level, and fix any that wobble."],4:["Vacuum the floor and deep clean the corners and under the tables. Move tables to clean underneath.","Check and clean all the corners of windows SC1–SC4."],5:["Clean and organize the rooftop patio. Clean the garage door window (inside & out) and the side door."]}],
+  weekly:{},biweekly:{},monthly:{},
+  cands:D=>roleCands(D,'Charidise',[]).map(c=>({...c,pen:c.period==='dinner'?2:0})) }
+];
+/* Everyone in a role that day, with their period. A trainee on the same period joins their Partner. */
+function roleCands(D,role,heavyStarts){
+  const rows=(D.team.find(([g])=>g.includes(role))||[,[]])[1], out=[];
+  rows.forEach(([n,t,d])=>{ if(/trainee/.test(d||'')) return;
+    t.split('<br>').forEach(x=>{const period=isLunch(x)?'lunch':'dinner';
+      const helpers=rows.filter(([n2,t2,d2])=>/trainee/.test(d2||'')&&new RegExp('Partner: '+base(n)).test(d2||'')&&t2.split('<br>').some(y=>(isLunch(y)?'lunch':'dinner')===period)).map(([n2])=>base(n2));
+      out.push({who:base(n),with:helpers,period,pen:(period==='dinner'?6:0)+(heavyStarts.some(h=>x.startsWith(h))?2:0)});});});
+  return out;
+}
+const dayKey=x=>`${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,'0')}-${String(x.getDate()).padStart(2,'0')}`;
+/* The week's jobs for one checklist: each day's list from the sheet is one job, preferred on its own day. */
+function weekJobs(G,monKey){
+  const mon=new Date(monKey+'T12:00:00'), jobs=[];
+  for(let i=0;i<5;i++){const x=new Date(mon); x.setDate(mon.getDate()+i); const k=dayKey(x), dow=i+1, wn=weekOfMonth(k), bi=(wn===1||wn===3);
+    const add=(list)=>{const t=(list||[]).filter(t=>!(G.skip&&G.skip[k+'|'+t])); if(t.length) jobs.push({pref:i,tasks:t});};
+    if(G.rotation){const wk=Math.floor((new Date(monKey+'T12:00:00')-new Date(G.rotationStart+'T12:00:00'))/(7*864e5));
+      const R=G.rotation[((wk%G.rotation.length)+G.rotation.length)%G.rotation.length];
+      (R[dow]||[]).forEach(t=>jobs.push({pref:i,tasks:[t],fixed:true})); continue;}
+    add(G.weekly[dow]); if(bi) add(G.biweekly[dow]); add((G.monthly[wn]||{})[dow]);}
+  return jobs;
+}
+/* Spread the jobs so nobody carries the week: least-loaded person first, at most 2 jobs a day each,
+   then closest to the planned day, then lunch over dinner. Same answer for everyone who opens the page. */
+/* Who did each checklist job in past weeks, so the same job doesn't keep going to the same person.
+   One entry per week (the Monday), filled in when the next week's schedule is added. Only earlier weeks count. */
+const HISTORY={
+ '2026-11-02':{"bar": {"Fridge: empty, wipe clean, and reorganize": "A.A", "Deep clean the garbage bin": "A.A", "Bleach-clean all pots, shakers, pitchers, and blender jars": "A.A", "Soda machine: soak the heads in hot water, rinse, and replace": "A.A", "Basement inventory: organize and throw out garbage": "Billy", "Glass display shelves: clear and wipe": "Billy", "Tea station: take everything out and clean thoroughly": "A.A", "Back counter / storage: clear, wipe, and organize": "Billy", "Bar cabinets: organize and clean inside every cabinet": "Billy", "Bar shelving: clear and wipe down": "A.A", "Deep clean every corner of the Sapporo & Asahi area": "A.A", "Sugar barrels, corners, walls, and floors": "Billy", "Wipe the middle shelf and deep clean the floor around the bar": "Billy"}, "bus": {"Deep clean the employee washroom and breakroom": "Naoki", "Wash and dry all trays": "Yuka", "Organize and clean the packer station": "Insang", "Clean the gelato freezer": "Thai"}, "host": {"Clear all items off the counter and wipe behind the monitors": "Asteria", "Check for spills underneath the gelato machine and mop if necessary": "Asteria", "Vacuum and wipe the crevice behind the bench": "Annie", "Wipe the garage door windows": "Asteria", "Organize the drawers and storage": "Billy"}, "chr": {"Wipe all tables incl. stands with hot water. Wipe all sofas (gaps & corners). Wipe the black frames.": "Ayuko", "Wipe and clean the fake flowers and all other decorations.": "Annie", "Brush and bleach the washroom floor, toilet and corners. Wipe walls, mirror and bin. Refill sanitizer and toilet paper.": "Helen", "Check that all tables and chairs are level, and fix any that wobble.": "Helen", "Vacuum the floor and deep clean the corners and under the tables. Move tables to clean underneath.": "Amelia", "Check and clean all the corners of windows SC1–SC4.": "Amelia", "Clean and organize the rooftop patio. Clean the garage door window (inside & out) and the side door.": "Amelia", "Wipe the stairway handrail, and all glass and windows from the inside out.": "Ayuko", "Organize and wipe the cashier station. Deep clean the garbage bins.": "Helen"}}
+};
+function lastDoneBy(G,task,mk){
+  const wk=Object.keys(HISTORY).filter(w=>w<mk).sort().reverse();
+  for(const w of wk){const who=((HISTORY[w]||{})[G.id]||{})[task]; if(who) return who;}
+  return null;
+}
+const PLAN_CACHE={};
+function planWeek(G,k){
+  const d=new Date(k+'T12:00:00'), mon=new Date(d); mon.setDate(d.getDate()-((d.getDay()+6)%7)); const mk=dayKey(mon);
+  const ck=G.id+'|'+mk; if(PLAN_CACHE[ck]) return PLAN_CACHE[ck];
+  const days=[...Array(7)].map((_,i)=>{const x=new Date(mon); x.setDate(mon.getDate()+i); return dayKey(x);});
+  const load={}, dayLoad={}, plan={}; days.forEach(dk=>plan[dk]=[]);
+  /* jobs a busser already has from the server cleaning list count toward their load */
+  if(G.id==='bus') days.forEach(dk=>new Set((TASKS[dk]||[]).flatMap(([,w])=>w.split(' + '))).forEach(n=>{load[n]=(load[n]||0)+0.5;}));
+  weekJobs(G,mk).forEach(job=>{
+    let best=null;
+    days.forEach((dk,i)=>{ if(i>=5||!DAYS[dk]||(job.fixed&&i!==job.pref)) return;   /* weekly cleaning is Mon–Fri only, never weekends */ G.cands(DAYS[dk]).forEach(c=>{
+      const dl=dayLoad[dk+'|'+c.who]||0; if(dl>=2) return;
+      const again=lastDoneBy(G,job.tasks[0],mk)===c.who?9:0;   /* did this exact job last time: pass it to someone else */
+      const sc=(load[c.who]||0)*8+dl*6+Math.abs(i-job.pref)*3+c.pen+(i>=5?(G.weekendPen??4):0)+again;   /* weekends are possible but a last resort */
+      if(!best||sc<best.sc) best={sc,dk,c};});});
+    if(!best){ const dk=days[job.pref]; plan[dk].push({who:null,with:[],period:'lunch',tasks:job.tasks}); return; }
+    load[best.c.who]=(load[best.c.who]||0)+1; dayLoad[best.dk+'|'+best.c.who]=(dayLoad[best.dk+'|'+best.c.who]||0)+1;
+    const same=plan[best.dk].find(a=>a.who===best.c.who&&a.period===best.c.period);
+    if(same) same.tasks.push(...job.tasks); else plan[best.dk].push({who:best.c.who,with:best.c.with,period:best.c.period,tasks:[...job.tasks]});
+  });
+  return PLAN_CACHE[ck]=plan;
+}
+const dayPlan=(G,k)=>planWeek(G,k)[k]||[];
+const whoLabel=(a,G)=>a.who?[a.who,...a.with].join(' + ')+(a.period==='dinner'?' · start of dinner':''):G.fallback;
+const whoHtml=(a,G)=>a.who?e([a.who,...a.with].join(' + '))+(a.period==='dinner'?'<small>start of dinner</small>':''):e(G.fallback);
+/* Everything listed for a day is to be done that day, so no frequency tags are shown. */
+const tagHtml=x=>'';
+/* whole week at a glance: Mon–Fri of the week that contains k (days with nothing are left out) */
+function weekSummary(G,k){
+  const plan=planWeek(G,k), W=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'], rows=[];
+  Object.keys(plan).sort().forEach((kk,i)=>{ if(!plan[kk].length) return;
+    rows.push(`<div class="bws${kk===k?' on':''}"><div class="bwh"><b>${W[i]} ${+kk.slice(8)}</b></div>`+
+      plan[kk].map(a=>`<div class="bwp"><span>${e(whoLabel(a,G))}</span></div><ul>`+a.tasks.map(t=>`<li>${e(t)}</li>`).join('')+`</ul>`).join('')+`</div>`);});
+  return `<details class="fb bwk"><summary><span>${G.label.replace(/^\S+\s/,'')} cleaning this week</span><span class="car">▾</span></summary><div class="fbb">${rows.join('')}</div></details>`;
+}
+
+function build(k){
+  const D=DAYS[k], P=D.plan, M=new Map(), L=[];
+  const get=(n,g)=>{let p=M.get(n); if(!p){p={name:n,group:g,closer:false,tags:[],zone:null,
+      lunch:{blocks:[],items:[]},dinner:{blocks:[],items:[]},partner:null,mentee:[],brk:null,cover:[],hand:[]}; M.set(n,p); L.push(p);} return p;};
+  D.team.forEach(([g,rows])=>rows.forEach(([n,t,d])=>{
+    const p=get(base(n),g); if(n.includes('🌙')) p.closer=true;
+    const role=g.replace(/^\S+\s/,''); let lr=null,dr=null,any=null; const rest=[];
+    (d||'').split(' · ').filter(Boolean).forEach(s=>{let m;
+      if((m=s.match(/^(.+) at lunch$/))) lr=m[1];
+      else if((m=s.match(/^(.+) at dinner$/))) dr=m[1];
+      else if(/^IC(\/[A-Za-z]+)?$/.test(s)) any=s;
+      else if(s!=='Lunch') rest.push(s);});
+    const ts=t.split('<br>'); let rowDinner=false;
+    ts.forEach(x=>{const l=isLunch(x); if(!l) rowDinner=true; (l?p.lunch:p.dinner).blocks.push([l?(lr||any||role):(dr||any||role),x]);});
+    rest.forEach(s=>{let m;
+      if(/Busser IC|Printer|trainee/.test(s)) p.tags.push(plain(s));
+      else if(/Covers Charidise|In charge after|Hands over|Takes over/.test(s)) p.hand.push(plain(s));
+      else if((m=s.match(/Partner: (.+)$/))) p.partner=m[1];
+      else if((m=s.match(/Partner for (.+)$/))) p.mentee=m[1].split(' & ');
+      else (rowDinner?p.dinner:p.lunch).items.push({t:plain(s)});
+    });
+  }));
+  /* dinner sections — the only place zones are written */
+  const Z=(n,z)=>{const p=M.get(n); if(p) p.zone=z;};
+  Z(P.A,{code:'A',label:'A section',own:'A1–A6'});
+  Z(P.B,{code:'B',label:'B section',own:'B1–B8'});
+  if(P.AB) Z(P.AB,{code:'A&B',label:'A&B Support',assist:'A and B sections'});
+  if(P.Kopt){
+    Z(P.FK,{code:'F&K',label:'F & K section',own:'F1–F4',extra:`If K opens: K1–K6 too, ${P.Kopt} helps`});
+    Z(P.Kopt,{code:'K',label:'K support',assist:`K1–K6 alongside ${P.FK}, only if K opens. Otherwise float around the floor`});
+  } else {
+    Z(P.FK,{code:'F&K',label:'F section',own:'F1–F4',assist:'K section'});
+    Z(P.K,{code:'K',label:'K section',own:'K1–K6'});
+  }
+  /* breaks */
+  const brk=(list,busser)=>list.forEach(([n,c],i)=>{
+    const p=M.get(n); if(p) p.brk={ord:i+1,of:list.length,busser,by:c};
+    const who=c.split(' ')[0], q=M.get(who); if(!q) return;
+    let what=c.slice(who.length+1).replace(/^covers ?/,'').replace(/^takes over /,'take over ');
+    q.cover.push({who:n,ord:i+1,busser,what});
+  });
+  brk(D.breaks,false); brk(D.bbreaks,true);
+  /* morning cleaning list */
+  (TASKS[k]||[]).forEach(([t,w])=>{const ns=w.split(' + '); ns.forEach(n=>{const p=M.get(n); if(!p) return;
+    const lunchCleaner=p.lunch.blocks.some(([r])=>CLEAN_ROLES.includes(r));
+    (lunchCleaner?p.lunch:p.dinner).items.push({t,clean:true,with:ns.filter(x=>x!==n)});});});
+  CHECKLISTS.forEach(G=>dayPlan(G,k).forEach(a=>{ if(!a.who) return; const all=[a.who,...a.with];
+    all.forEach(n=>{const p=M.get(n); if(!p) return; const o=all.filter(x=>x!==n); const slot=a.period==='dinner'&&p.dinner.blocks.length?p.dinner:p.lunch;
+      a.tasks.forEach(t=>slot.items.push({t,clean:true,with:o}));}); }));
+  if(WASH_DAYS.includes(new Date(k+'T12:00:00').getDay())) M.forEach(p=>{ if(p.lunch.blocks.some(([r])=>r==='Host'||r==='IC/Host')) p.lunch.items.push({t:'After 13:45, avoid seating B5, A6 and B1 (kitchen floor wash at 15:45)',with:[]}); });
+  if(TASKS[k]&&COVER[k]){const n=COVER[k].split(' ')[0],p=M.get(n); if(p) p.lunch.items.push({t:'Cover the floor during cleaning',with:[]});}
+  const washes=p=>p.dinner.items.some(i=>/washroom/i.test(i.t)&&!i.clean);
+  return {D,P,M,L,washes};
+}
+
+/* ---------- top: only what is different today ---------- */
+/* Write a line here only when something is really different that day,
+   e.g. 'A and B sections swapped tonight'. Leave the day out when there is nothing. */
+const NOTES={
+};
+/* ---------- reservations from Snappy: time and party size only (no names or phone numbers).
+   Cancelled bookings and no-shows are left out. Lunch is before 16:00, dinner from 16:00. */
+const RESV_SYNCED='2026-11-04 13:20';
+const RESV={
+ '2026-11-02':[['12:00',6],['12:00',18],['12:00',8],['18:30',7],['20:00',5]],
+ '2026-11-03':[['12:30',2],['14:00',2],['16:00',2],['18:00',6],['18:30',4],['18:30',7]],
+ '2026-11-04':[['12:00',2],['16:00',2],['17:30',6],['18:00',4],['18:00',5],['20:00',7],['20:30',8]],
+ '2026-11-05':[['12:00',4],['16:00',2],['18:30',6],['21:00',6]],
+ '2026-11-06':[['15:30',11],['19:00',6],['19:00',6],['19:30',12]],
+ '2026-11-07':[['14:00',4],['18:00',17],['18:30',6],['19:00',7],['19:30',6]],
+ '2026-11-08':[['12:00',12],['16:00',4],['18:30',6]]
+};
+/* Typical walk-in waitlist guests per night by weekday (0=Sun … 6=Sat), Snappy, last 12 weeks (Aug 9 – Nov 1, 2026). */
+const WL_EST={0:55,1:20,2:5,3:10,4:20,5:170,6:200};
+/* Big-table alert: Mon–Thu 6+ guests, Fri–Sun 10+ guests. */
+const BIG_MIN=d=>(d>=1&&d<=4)?6:10;
+/* Same weekday last week, from Snappy: [walk-in waitlist guests, waitlist groups, groups that left without being seated, longest typical wait in min (90th pct), booked guests]. Keyed by THIS week's date. */
+const LASTWK={
+ '2026-11-02':[14,6,3,64,56],
+ '2026-11-03':[4,2,1,8,60],
+ '2026-11-04':[2,1,0,0,30],
+ '2026-11-05':[35,17,5,21,72],
+ '2026-11-06':[58,25,7,19,27],
+ '2026-11-07':[62,29,11,37,42],
+ '2026-11-08':[29,12,4,14,23]
+};
+/* Expected rush by weekday (0=Sun … 6=Sat), from the last 12 weeks of Snappy waitlist + bookings (Aug 9 – Nov 1, 2026),
+   checked against 2 years of history (Nov 2024 – Nov 2026). Holiday dates override this in RUSH_DAY. */
+const RUSH={
+ 0:['18:00–20:30','A wait almost every Sunday now, worst around 19:00 (about 25 min).'],
+ 1:['18:00–20:30','Usually no wait. Holiday Mondays run like a Sunday.'],
+ 2:['18:00–19:30','Reservations tend to arrive together at 18:00. Waits are rare and short.'],
+ 3:['18:00–20:30','Usually our quietest night of the week. Maybe a short wait around 20:00.'],
+ 4:['19:30–21:00','A short wait most Thursdays now, worst around 20:00. Finish breaks by 19:00.'],
+ 5:['18:00–22:00','Long waits, worst 19:00–20:00 (about 45 min). Stays busy until 22:00. Be ready by 18:00.'],
+ 6:['17:00–22:00','Busiest night: a wait from 17:00, worst around 19:00 (about 45 min). Be ready by 17:00.']
+};
+/* Special dates, from the same days in past years. */
+const RUSH_DAY={
+ '2026-12-24':['17:00–21:00','Christmas Eve: busy, with a wait likely around 19:00 and lots of reservations.'],
+ '2026-12-25':['12:00–20:00','Christmas Day: mostly booked tables, about 3× a normal day. Few walk-ins.'],
+ '2026-12-26':['18:00–21:00','Boxing Day: last year it was much quieter than a normal weekend night.'],
+ '2026-12-30':['18:00–21:00','Last year Dec 30 had long waits, like a Saturday.'],
+ '2026-12-31':['17:00–21:00','New Year\'s Eve: the busiest weekday of the year, with long waits and about 4× the usual reservations.'],
+ '2027-01-01':['12:00–20:00','New Year\'s Day: mostly reservations, few walk-ins.'],
+ '2027-02-14':['16:30–22:00','Valentine\'s Day: the busiest day of the year (3–5× the usual walk-ins). Every station full from 16:30.'],
+ '2027-02-15':['17:00–21:00','Family Day: last year it ran as busy as a Saturday.']
+};
+function paintResv(k){
+  const sec=document.getElementById('resv'), R=RESV[k]||null;
+  const ru=RUSH_DAY[k]||RUSH[new Date(k+'T12:00:00').getDay()], rr=document.getElementById('rrush');
+  const wd=new Date(k+'T12:00:00').getDay(), est=WL_EST[wd];
+  const estTxt=RUSH_DAY[k]?'':(est>=15?`<br>👥 Expect about <b>${est}</b> walk-in guests on the waitlist.`:'');
+  rr.innerHTML=`⏱️ Expected rush: <b>${ru[0]}</b> · ${ru[1]}${estTxt}<small>Source: Snappy · ${RUSH_DAY[k]?'the same day in past years.':'last 12 weeks of walk-ins and reservations.'}</small>`;
+  const lw=LASTWK[k], rl=document.getElementById('rlast');
+  if(lw){const dn=new Date(k+'T12:00:00').toLocaleDateString('en-US',{weekday:'long'});
+    rl.hidden=false;
+    rl.innerHTML=lw[0]?`📊 Last ${dn}: <b>${lw[0]}</b> walk-in guests waited`+(lw[3]?`, longest wait about <b>${lw[3]}</b> min`:'')+(lw[2]?`, <b>${lw[2]}</b> ${lw[2]===1?'group':'groups'} left before being seated`:'')+`. <b>${lw[4]}</b> guests came in with reservations.<span class="rsrc">Source: Snappy waitlist and reservations.</span>`
+      :`📊 Last ${dn}: no wait. <b>${lw[4]}</b> guests came in with reservations.<span class="rsrc">Source: Snappy waitlist and reservations.</span>`;
+  } else rl.hidden=true;
+  sec.querySelector('.rgrid').hidden=!R; sec.querySelector('.rfoot').hidden=!R;
+  sec.hidden=false; const rb=document.getElementById('rbig');
+  if(!R){document.getElementById('rpeak').hidden=true; rb.hidden=true; return;}
+  {const mn=BIG_MIN(wd), big=R.filter(([,n])=>n>=mn);
+   if(big.length){rb.hidden=false; rb.innerHTML=`🎉 Large parties today (${mn}+): set up early.<ul>${big.map(([t,n])=>`<li><b>${t}</b> · ${n} guests</li>`).join('')}</ul><span class="rsrc">Source: Snappy reservations.</span>`;} else rb.hidden=true;}
+  const part=f=>{const x=R.filter(([t])=>f(t)); const g=x.reduce((a,[,n])=>a+n,0); return x.length?`<span>🍽️ <b>${x.length}</b> ${x.length===1?'table':'tables'}</span><span>👥 <b>${g}</b> ${g===1?'guest':'guests'}</span>`:'<span class="r0">😌 No reservations</span>';};
+  document.getElementById('rl').innerHTML=part(t=>t<'16:00');
+  document.getElementById('rd').innerHTML=part(t=>t>='16:00');
+  const by={}; R.forEach(([t,n])=>{const h=t.slice(0,2); by[h]=(by[h]||0)+n;});
+  const top=Object.entries(by).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0]))[0];
+  const pk=document.getElementById('rpeak');
+  if(top){const h=+top[0]; pk.hidden=false; pk.innerHTML=`🔥 Busiest hour for reservations: <b>${String(h).padStart(2,'0')}:00–${String(h+1).padStart(2,'0')}:00</b> · ${top[1]} guests`;} else pk.hidden=true;
+  {const d=new Date(RESV_SYNCED.replace(' ','T')+':00'); document.getElementById('resvsync').textContent='🔄 Updated '+d.toLocaleDateString('en-US',{month:'short',day:'numeric'})+', '+RESV_SYNCED.slice(11);}
+}
+/* Notices that repeat on a weekday (0=Sun … 6=Sat). */
+const FLOOR_WASH='The kitchen starts washing the floor at 15:45. After 13:45, try not to seat guests at B5, A6 or B1.';
+const WASH_DAYS=[1,4], WASH_TABLES=['B5','A6','B1'];
+/* Everyday lines: a different one each day by date, so no repeat for 60 days. Care for the person, not the job. */
+const WARM=[
+ "Hope you slept well and ate something good today.",
+ "Don't forget to drink plenty of water today.",
+ "Hope you're doing well today. Take good care of yourself.",
+ "Be gentle with yourself today.",
+ "You matter here, on busy days and quiet days alike.",
+ "Take a deep breath. You're doing better than you think.",
+ "Hope someone made you smile today.",
+ "Call someone you care about this week. They'd love to hear from you.",
+ "Rest isn't a reward. It's something you need.",
+ "Whatever you're carrying today, you don't have to carry it alone.",
+ "Hope your family is doing well.",
+ "Get home safe tonight.",
+ "Treat yourself to something nice today, even something small.",
+ "We're really glad you're part of this team.",
+ "Your well-being comes first, always.",
+ "Hope this week is treating you well.",
+ "We're proud of how far you've come.",
+ "Don't forget to stretch and look after your back.",
+ "Have you eaten yet? Please don't skip meals.",
+ "Hope you get some time for yourself this week.",
+ "Sending you good energy today.",
+ "It's okay to have an off day. Be patient with yourself.",
+ "Hope you find a moment of calm today.",
+ "Thank you for being you.",
+ "Hope you're sleeping well. You deserve a good night's rest.",
+ "Step outside for some fresh air when you get a chance today.",
+ "If something is on your mind, we're always happy to listen.",
+ "Hope your plans and dreams are moving forward.",
+ "Small joys count. Hope you find a few today.",
+ "You're appreciated more than you know.",
+ "Hope your last day off was restful, and that the next one comes soon.",
+ "Take care of your health first. Everything else can wait.",
+ "Hope there's good music in your day.",
+ "Wishing you a peaceful mind today.",
+ "Hope you have something to look forward to this week.",
+ "Be as kind to yourself as you are to others.",
+ "Laughter is the best medicine. Hope you get a good laugh in today.",
+ "Hope your loved ones are healthy and happy.",
+ "You don't have to be perfect to be wonderful.",
+ "Hope today brings you a little good news.",
+ "Give your eyes and your mind a little rest today.",
+ "You belong here.",
+ "Hope your commute was an easy one today.",
+ "Take a moment for yourself today. You've earned it.",
+ "Hope today feels light and easy for you.",
+ "Every day you show up is something to be proud of.",
+ "Wishing you good health, today and always.",
+ "Hope you're making time for the people and things you love.",
+ "If you're feeling tired, that's okay. Rest well tonight.",
+ "Hope something made you happy this morning.",
+ "You're not alone here. We've got you.",
+ "Hope you have something fun planned for your next day off.",
+ "Every small step still moves you forward.",
+ "Do one nice thing just for yourself today.",
+ "Your smile makes this place brighter. Thank you for sharing it.",
+ "Hope you're taking care of your mind as well as your body.",
+ "Wishing you a day that feels a little easier than yesterday.",
+ "We're lucky to have you with us.",
+ "Hope you have someone to share a good meal with this week.",
+ "Grateful for you, today and every day."];
+
+/* ---------- special days: these replace the everyday line ---------- */
+const nthDow=(y,m,dow,n)=>{const d=new Date(Date.UTC(y,m,1));const off=(dow-d.getUTCDay()+7)%7;return 1+off+(n-1)*7;};      /* nth weekday of month */
+const lastDowBefore=(y,m,day,dow)=>{for(let d=day-1;d>0;d--){if(new Date(Date.UTC(y,m,d)).getUTCDay()===dow)return d;}};
+function easter(y){const a=y%19,b=Math.floor(y/100),c=y%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),
+  h=(19*a+b-d-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451),mo=Math.floor((h+l-7*m+114)/31),da=((h+l-7*m+114)%31)+1;return [mo-1,da];}
+/* Moon-calendar festivals: add new years here when known. */
+const LUNAR={'2027-02-06':'lny','2028-01-26':'lny','2027-09-15':'moon','2028-10-03':'moon','2026-11-08':'diwali','2027-10-29':'diwali','2028-10-17':'diwali'};
+const SPECIAL={
+  newyear:"Happy New Year! Wishing you health, happiness, and a wonderful year ahead.",
+  lny:"Happy Lunar New Year! Wishing you and your family health, luck, and joy.",
+  valentine:"Happy Valentine's Day. Sending love to you and everyone dear to you.",
+  family:"Happy Family Day. Hope you get some quality time with the people you love.",
+  patrick:"Happy St. Patrick's Day. Wishing you a little extra luck today.",
+  dstOn:"Clocks moved forward last night. Be gentle with yourself while your body catches up.",
+  dstOn2:"Still adjusting to the lost hour? Try to get to bed a little earlier tonight.",
+  goodfri:"Wishing you a peaceful Easter long weekend.",
+  easter:"Happy Easter. Hope your day is full of warmth and good company.",
+  mother:"Happy Mother's Day. Sending love to all the mothers and mother figures in your life.",
+  victoria:"Happy Victoria Day. Hope you find time to enjoy the long weekend.",
+  father:"Happy Father's Day. Sending love to all the fathers and father figures in your life.",
+  canada:"Happy Canada Day! Hope you get to enjoy the fireworks tonight.",
+  civic:"Happy Civic Holiday. Hope you get some summer sunshine and rest.",
+  labour:"Happy Labour Day. Hope you get a chance to rest and recharge.",
+  moon:"Happy Mid-Autumn Festival. Wishing you a bright full moon and a warm reunion with family.",
+  thanks:"Happy Thanksgiving. We're so thankful for you.",
+  halloween:"Happy Halloween. Hope your night is full of treats, not tricks.",
+  dstOff:"Clocks went back an hour last night. Hope you enjoyed the extra sleep.",
+  dstOff2:"How are you settling into the time change? It gets dark early now, so take care getting home.",
+  diwali:"Happy Diwali. Wishing you and your loved ones light, joy, and prosperity.",
+  remember:"Today we remember. A moment of silence and thanks for all who served.",
+  xmasEve:"Merry Christmas Eve. Wishing you warmth, rest, and time with the people you love.",
+  xmas:"Merry Christmas! Wishing you peace, joy, and a cozy day.",
+  boxing:"Happy Boxing Day. Hope you get to put your feet up today.",
+  nye:"Happy New Year's Eve. Thank you for being part of our year. Wishing you the very best in the next one."
+};
+function specialDay(k){
+  if(LUNAR[k]) return SPECIAL[LUNAR[k]];
+  const y=+k.slice(0,4), m=+k.slice(5,7)-1, d=+k.slice(8,10), is=(mm,dd)=>m===mm&&d===dd;
+  const [em,ed]=easter(y), ge=new Date(Date.UTC(y,em,ed-2));
+  const dstOnSun=nthDow(y,2,0,2), dstOffSun=nthDow(y,10,0,1);
+  if(is(0,1)) return SPECIAL.newyear;
+  if(is(1,14)) return SPECIAL.valentine;
+  if(is(1,nthDow(y,1,1,3))) return SPECIAL.family;
+  if(is(2,17)) return SPECIAL.patrick;
+  if(is(2,dstOnSun)) return SPECIAL.dstOn;
+  if(is(2,dstOnSun+1)) return SPECIAL.dstOn2;
+  if(m===ge.getUTCMonth()&&d===ge.getUTCDate()) return SPECIAL.goodfri;
+  if(is(em,ed)) return SPECIAL.easter;
+  if(is(4,nthDow(y,4,0,2))) return SPECIAL.mother;
+  if(is(4,lastDowBefore(y,4,25,1))) return SPECIAL.victoria;
+  if(is(5,nthDow(y,5,0,3))) return SPECIAL.father;
+  if(is(6,1)) return SPECIAL.canada;
+  if(is(7,nthDow(y,7,1,1))) return SPECIAL.civic;
+  if(is(8,nthDow(y,8,1,1))) return SPECIAL.labour;
+  if(is(9,nthDow(y,9,1,2))) return SPECIAL.thanks;
+  if(is(9,31)) return SPECIAL.halloween;
+  if(is(10,dstOffSun)) return SPECIAL.dstOff;
+  if(is(10,dstOffSun+1)) return SPECIAL.dstOff2;
+  if(is(10,11)) return SPECIAL.remember;
+  if(is(11,24)) return SPECIAL.xmasEve;
+  if(is(11,25)) return SPECIAL.xmas;
+  if(is(11,26)) return SPECIAL.boxing;
+  if(is(11,31)) return SPECIAL.nye;
+  return null;
+}
+
+/* ---------- one-off notes for a specific date: these win over everything else ---------- */
+const DATE_NOTE={
+ '2026-11-06':"Congratulations, Anh! Thank you for everything, and have a beautiful wedding in Vietnam."
+};
+
+/* ---------- payday: every second Sunday, counting from Sunday, Nov 15, 2026 ---------- */
+const PAY_ANCHOR=Date.UTC(2026,10,15);
+const PAY_SUN=[
+ "It's payday! Treat yourself to something nice. What's on your list this time?",
+ "Payday is here. Anything fun planned for this week?",
+ "Happy payday! Hope you set a little aside for something that makes you smile.",
+ "It's payday. Thank you for all your hard work these past two weeks.",
+ "Payday today! A good meal, a new book, or a little savings? What's your pick?",
+ "Happy payday. Don't forget to reward yourself, even with something small.",
+ "It's payday! Thinking about a trip, a treat, or a quiet night in?",
+ "Payday is here. You earned every bit of it.",
+ "Happy payday! Maybe take someone you love out for a nice dinner?",
+ "It's payday. Here's to two weeks of hard work and a well-deserved treat.",
+ "Payday today! What's one small thing you've been wanting to buy?",
+ "Happy payday. Hope it brings you a little closer to something you're saving for."];
+const PAY_FRI=[
+ "Payday is this Sunday! Any plans for it yet?",
+ "Just a heads-up: payday is this Sunday. What are you looking forward to?",
+ "Just two more days until payday. Hang in there!",
+ "Payday is coming on Sunday. Thinking about treating yourself to anything?",
+ "Sunday is payday! Got anything special in mind?",
+ "Payday lands this Sunday. Thank you for a great two weeks of work.",
+ "Almost payday! It arrives this Sunday. Any fun plans for next week?",
+ "Payday is this Sunday. Hope you treat yourself to something nice."];
+const pick=(list,k)=>{let h=7;for(const c of k)h=(h*31+c.charCodeAt(0))>>>0;return list[h%list.length];};   /* same pick for everyone on the same day */
+function paydayLine(k){
+  const t=Date.UTC(+k.slice(0,4),+k.slice(5,7)-1,+k.slice(8,10)), d=Math.round((t-PAY_ANCHOR)/864e5), r=((d%14)+14)%14;
+  if(r===0) return pick(PAY_SUN,k);
+  if(r===12) return pick(PAY_FRI,k);     /* the Friday two days before payday */
+  return null;
+}
+
+/* ---------- weather (Open-Meteo, free, no key): adds one line under the note ---------- */
+let WX=null;
+function weatherLine(k){
+  if(!WX) return '';
+  const i=WX.time.indexOf(k); if(i<0) return '';
+  const c=WX.weather_code[i], lo=WX.temperature_2m_min[i], hi=WX.temperature_2m_max[i];
+  if([75,86].includes(c)) return 'Heavy snow today. Please travel safely and dress warmly.';
+  if([71,73,77,85].includes(c)) return 'Snow is on the way. Wear warm boots and watch for icy patches.';
+  if([56,57,66,67].includes(c)) return 'Freezing rain today. Sidewalks will be slippery. Please take it slow.';
+  if(c>=95) return 'Thunderstorms today. Stay dry and travel safely.';
+  if(lo<=-15) return `Bitterly cold today, down to ${Math.round(lo)}°C. Bundle up with a hat, gloves, and a scarf.`;
+  if([61,63,65,80,81,82].includes(c)) return 'Rain today. Don\'t forget your umbrella.';
+  if(hi>=30) return `A hot one today, up to ${Math.round(hi)}°C. Drink plenty of water and stay cool.`;
+  return '';
+}
+/* Note backgrounds. Autumn (Sep–Nov) and December rotate day by day; a few days get their own picture.
+   Any other month falls back to the plain seasonal tint. */
+const BG={
+ autumn:[
+ 'images/autumn1.webp',
+ 'images/autumn2.webp',
+ 'images/autumn3.webp'],
+ december:['images/dec_streetcar.webp','images/dec_shopping.webp','images/dec_tree.webp','images/dec_fireworks.webp']};
+const BG_DAY={'12-24':['december',2],'12-25':['december',2],'12-26':['december',1],'12-31':['december',3],'01-01':['december',3]};
+function bgFor(k,n,season){
+  const md=k.slice(5), fixed=BG_DAY[md]; if(fixed) return BG[fixed[0]][fixed[1]];
+  const list=md.startsWith('12')?BG.december:BG[season]; return list&&list.length?list[n%list.length]:null;
+}
+function paintNote(k){
+  const n=Math.round(Date.UTC(+k.slice(0,4),+k.slice(5,7)-1,+k.slice(8,10))/864e5);
+  const mo=+k.slice(5,7), season=mo<=2||mo===12?'winter':mo<=5?'spring':mo<=8?'summer':'autumn';
+  const ch=document.getElementById('chg'); ch.dataset.season=season;
+  const pic=bgFor(k,n,season); ch.classList.toggle('pic',!!pic);
+  if(pic) ch.style.setProperty('--bg',`url(${pic})`);
+  document.getElementById('kj').textContent={winter:'冬',spring:'春',summer:'夏',autumn:'秋'}[season];
+  const wt=DATE_NOTE[k]||specialDay(k)||paydayLine(k)||WARM[n%WARM.length]; const we=document.getElementById('warm'); we.textContent=wt; we.classList.toggle('long',wt.length>110);
+  const w=weatherLine(k), el=document.getElementById('wx'); el.textContent=w; el.hidden=!w;
+}
+function loadWeather(){
+  fetch('https://api.open-meteo.com/v1/forecast?latitude=43.655&longitude=-79.396&daily=weather_code,temperature_2m_max,temperature_2m_min&timezone=America%2FToronto&forecast_days=16')
+    .then(r=>r.ok?r.json():null).then(j=>{if(j&&j.daily){WX=j.daily; paintNote(cur);}}).catch(()=>{});
+}
+function changes(m,k){
+  return (NOTES[k]||[]).map(e);
+}
+
+/* ---------- map (unchanged drawing; names, times and marks come from the model) ---------- */
+const tableSvg=(n,x,y,w=42,h=22,seats=0)=>{let o='';for(let i=0;i<seats;i++){const sx=x-((seats-1)*13)/2+i*13;
+  o+=`<circle cx="${sx}" cy="${y-h/2-5}" r="2.6" fill="none" stroke="var(--hair)" stroke-width="1.2"/><circle cx="${sx}" cy="${y+h/2+5}" r="2.6" fill="none" stroke="var(--hair)" stroke-width="1.2"/>`}
+  const wt=WASH_TABLES.includes(n)?' wt':'';
+  return o+`<rect class="tb${wt}" x="${x-w/2}" y="${y-h/2}" width="${w}" height="${h}" rx="3" fill="var(--sheet)" stroke="var(--soft)" stroke-opacity=".45" stroke-width=".9"/><text class="tn${wt}" x="${x}" y="${y+3.4}" text-anchor="middle">${n}</text>`};
+const area=(z,x,y,w,h)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="6" style="fill:color-mix(in srgb,var(${COL[z]}) 9%,transparent);stroke:var(${COL[z]})" stroke-opacity=".55" stroke-width=".9"/>`;
+const label=(z,code,who,t,x,y,ax,ay,small)=>(ax!=null?`<path d="M${ax} ${ay} H${x-6}" style="stroke:var(${COL[z]})" stroke-width=".8"/><circle cx="${ax}" cy="${ay}" r="2.2" style="fill:var(${COL[z]})"/>`:'')+
+  `<text class="code" x="${x}" y="${y}" style="fill:var(${COL[z]})">${e(code)}</text>`+
+  `<text class="who" x="${x}" y="${y+30}"${small?' style="font-size:24px"':''}>${e(who)}</text>`+
+  (t?`<text class="what" x="${x}" y="${y+49}">${e(t)}</text>`:'');
+function mapData(m){
+  const mk=n=>{const p=m.M.get(n); return n+(p&&p.closer?' 🌙':'')+(p&&m.washes(p)?' 🧹':'');};
+  const tm=n=>{const p=m.M.get(n); const b=p&&p.dinner.blocks; return b&&b.length?b.map(x=>x[1]).join(' · '):'';};
+  const P=m.P, o={A:[mk(P.A),tm(P.A)],B:[mk(P.B),tm(P.B)],FK:[mk(P.FK),tm(P.FK)]};
+  if(P.AB) o.AB=[mk(P.AB),tm(P.AB)];
+  o.K=P.Kopt?{merged:mk(P.FK)+' + '+mk(P.Kopt),floater:P.Kopt}:{who:mk(P.K),t:tm(P.K)};
+  const ss=m.M.get(P.SS), ho=ss&&ss.hand.map(h=>h.match(/^Hands over to (\S+)/)).find(Boolean);
+  o.SS=P.SS?[mk(P.SS),tm(P.SS)+(ho?' → '+ho[1]:'')]:null;
+  return o;
+}
+function drawPlan(P){
+  let p=`<rect x="8" y="8" width="484" height="864" fill="none" stroke="var(--ink)" stroke-opacity=".7" stroke-width="1.4"/><rect x="13" y="13" width="474" height="854" fill="none" stroke="var(--ink)" stroke-opacity=".18" stroke-width=".8"/>`;
+  if(P.AB) p+=`<rect x="40" y="46" width="298" height="472" rx="10" fill="none" style="stroke:var(--enji)" stroke-opacity=".6" stroke-width=".9" stroke-dasharray="2 4"/>`;
+  p+=area('A',56,62,72,228)+area('B',56,330,264,176)+area('F&K',196,540,128,122)+area('K',38,672,72,186)+area('K',354,762,74,96);
+  ['A1','A2','A3','A4','A5','A6'].forEach((n,k)=>p+=tableSvg(n,92,86+k*38));
+  ['B5','B6','B7','B8'].forEach((n,k)=>p+=tableSvg(n,92,356+k*42));
+  ['B1','B2','B3','B4'].forEach((n,k)=>p+=tableSvg(n,284,356+k*42));
+  p+=tableSvg('F1 · F2',260,574,88,26,3)+tableSvg('F3 · F4',260,630,88,26,3);
+  ['K1','K2','K3','K4'].forEach((n,k)=>p+=tableSvg(n,74,698+k*46));
+  ['K5','K6'].forEach((n,k)=>p+=tableSvg(n,391,790+k*46));
+  p+=`<path d="M196 650 C 160 680, 130 700, 110 708 M324 650 C 360 690, 385 720, 391 760" fill="none" style="stroke:var(--fuji)" stroke-opacity=".7" stroke-width=".8" stroke-dasharray="1.5 3.5"/>`;
+  p+=label('A','A',P.A[0],P.A[1],180,140,128,152);
+  p+=label('B','B',P.B[0],P.B[1],124,408);
+  if(P.AB) p+=`<text class="code" x="346" y="352" style="fill:var(--enji)">A&amp;B SUPPORT</text><text class="who" x="346" y="380" style="font-size:${P.AB[0].length>9?20:24}px">${e(P.AB[0])}</text><text class="what" x="346" y="398">${e(P.AB[1])}</text>`;
+  p+=label('F&K','F&K',P.FK[0],P.FK[1],342,572,324,584);
+  if(P.K.merged){
+    p+=label('K','K',P.K.merged,'Only if K opens',140,760,110,772,true);
+    p+=`<text class="what" x="140" y="827">Otherwise ${e(P.K.floater)} floats</text>`;
+  } else {
+    p+=label('K','K',P.K.who,P.K.t,140,760,110,772);
+  }
+  p+=`<path d="M336 772 H348" style="stroke:var(--kaki)" stroke-width=".8"/><circle cx="354" cy="772" r="2.2" style="fill:var(--kaki)"/><text class="what" x="300" y="752" text-anchor="middle" style="font-size:11px">+ K5 · K6</text>`;
+  if(P.SS&&P.SS[0]) p+=`<rect x="170" y="222" width="262" height="76" rx="6" style="fill:color-mix(in srgb,var(--slate) 7%,transparent);stroke:var(--slate)" stroke-opacity=".5" stroke-width=".9" stroke-dasharray="3 3"/><text class="code" x="182" y="242" style="fill:var(--slate)">🤝 SERVICE SUPPORT</text><text class="who" x="182" y="272"${P.SS[0].length>10?' style="font-size:26px"':''}>${e(P.SS[0])}</text><text class="what" x="182" y="290">${e(P.SS[1])}</text>`;
+  document.getElementById('plan').innerHTML=p;
+}
+
+/* ---------- cards ---------- */
+function card(p,m){
+  const z=p.zone, c=z?`var(${COL[z.code]})`:'var(--hair)';
+  let h=`<article class="card" id="${slug(p.name)}" style="--c:${c}"><div class="ch"><span class="cn">${e(p.name)}</span>`+
+    (p.closer?'<span class="bdg">🌙 Closing</span>':'')+`</div>`;
+  if(p.tags.length) h+=`<div class="tg">${p.tags.map(e).join(' · ')}</div>`;
+  if(z){h+=`<div class="zn"><span class="zc">${e(z.label)}</span><span>`+
+    (z.own?`<b>Tables</b> ${e(z.own)}`:'')+(z.own&&z.assist?' · ':'')+(z.assist?`<b>Helps with</b> ${e(z.assist)}`:'')+
+    (z.extra?`<br>${e(z.extra)}`:'')+`</span></div>`;}
+  const row=(lab,body)=>`<div class="blk"><span class="bl">${lab}</span><div class="bb">${body}</div></div>`;
+  const shift=b=>b.map(([r,t])=>`<div class="rt"><span>${e(r)}</span><span class="tm">${t}</span></div>`).join('');
+  const items=a=>a.length?`<ul>${a.map(i=>`<li>${i.clean?'<span class="k">Clean</span> ':''}${e(i.t)}${i.with&&i.with.length?` <span class="w">with ${e(i.with.join(', '))}</span>`:''}</li>`).join('')}</ul>`:'';
+  /* Partner box: in the dinner block, or the lunch block for someone who only works lunch */
+  let extra='';
+  const firstStart=x=>{const b=x.dinner.blocks.length?x.dinner.blocks:x.lunch.blocks; return b.length?st(b[0][1]):'';};
+  if(p.partner){const q=m.M.get(p.partner), qz=q&&q.zone;
+    const late=p.group.includes('Server')&&q&&firstStart(q)>firstStart(p);
+    const svc=m.L.filter(x=>x.dinner.blocks.some(([r])=>r==='IC/Service')).map(x=>x.name);
+    extra+=`<div class="pt"><b><a class="plink" href="#pdef">Partner</a>: ${e(p.partner)}</b>${qz?` · ${e(qz.label)}, next to you`:''}<span class="ps">Ask them first whenever you're unsure.</span>`+
+      (late?`<span class="ps">Until ${e(p.partner)} arrives at ${firstStart(q)}, ${svc.length?e(svc.join(' or '))+' (IC/Service)':'the IC/Service'} looks after you.</span>`:'')+`</div>`;}
+  let mbox='';
+  if(p.mentee.length){
+    const zs=p.mentee.map(n=>{const q=m.M.get(n);return q&&q.zone?e(q.zone.label):''}).filter(Boolean).join(', ');
+    mbox=`<div class="pt"><b><a class="plink" href="#pdef">Partner</a> for ${e(p.mentee.join(' & '))}</b>${zs?' · '+zs:''}<span class="ps">Keep an eye on them and step in when they need help.</span></div>`;}
+  /* put each box in the part of the day the two of them actually work together */
+  const lunchOnly=x=>x&&!x.dinner.blocks.length&&x.lunch.blocks.length;
+  const pInLunch=!p.dinner.blocks.length;
+  const mInLunch=p.lunch.blocks.length&&p.mentee.length&&p.mentee.every(n=>lunchOnly(m.M.get(n)));
+  if(p.lunch.blocks.length) h+=row('Lunch',shift(p.lunch.blocks)+items(p.lunch.items)+(pInLunch?extra:'')+(mInLunch?mbox:''));
+  if(p.dinner.blocks.length) h+=row('Dinner',shift(p.dinner.blocks)+items(p.dinner.items)+extra+(mInLunch?'':mbox));
+  if(p.brk||p.cover.length){
+    let b='';
+    if(p.brk) b+=`<div><b>#${p.brk.ord} of ${p.brk.of}</b>${p.brk.busser?' (bussers)':''} · ${e(p.brk.by)}</div><div class="bw">From ${m.D.brk} · wait for the IC to call you</div>`;
+    if(p.cover.length) b+=`<ul>${p.cover.map(x=>`<li>Cover <b>#${x.ord} ${e(x.who)}</b>${x.what?' · '+e(x.what):''}</li>`).join('')}</ul>`;
+    h+=row('Break',b);
+  }
+  if(p.hand.length) h+=row('Handover',`<ul>${p.hand.map(x=>`<li>${e(x)}</li>`).join('')}</ul>`);
+  return h+'</article>';
+}
+
+function render(k){
+  const m=build(k), D=m.D;
+  document.getElementById('title').textContent=D.title;
+  document.getElementById('meta').innerHTML=D.kitchen?`Kitchen closes at <b>${D.kitchen}</b>`:'';
+  const ch=changes(m,k); const cs=document.getElementById('chg');
+  paintNote(k);
+  document.getElementById('chgl').innerHTML=ch.map(x=>`<li>${x}</li>`).join('');
+  document.getElementById('jump').innerHTML=[...m.L].sort((a,b)=>a.name.localeCompare(b.name)).map(p=>`<a href="#${slug(p.name)}">${e(p.name)}</a>`).join('');
+  let out='',last='';
+  m.L.forEach(p=>{if(p.group!==last){out+=`<h3 class="cg">${e(p.group)}</h3>`;last=p.group;} out+=card(p,m);});
+  document.getElementById('cards').innerHTML=out;
+  drawPlan(mapData(m));
+  paintResv(k);
+  { const wash=WASH_DAYS.includes(new Date(k+'T12:00:00').getDay()), al=document.getElementById('alert');
+    al.hidden=!wash; al.innerHTML=wash?`<span class="ai">🧽</span><div><b>Kitchen floor wash at 15:45</b><span>After 13:45, try not to seat guests at <b>B5</b>, <b>A6</b> or <b>B1</b>. They're marked on the floor plan below.</span></div>`:'';
+    document.getElementById('plan').classList.toggle('wash',wash); }
+  const MON=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  { const d=new Date(k+'T12:00:00');
+    const wn=Math.ceil(d.getDate()/7); const baffle=(wn===1||wn===3);
+    document.getElementById('wk').innerHTML=`<span class="pill">Week ${wn} of ${MON[d.getMonth()]}</span>`+(baffle?`<span class="pill b">Baffle filter week</span>`:`<span class="pill off">No baffle filter this week</span>`); }
+  const TK=TASKS[k]; document.getElementById('tasksec').hidden=!(TK||CHECKLISTS.some(G=>dayPlan(G,k).length));
+  {const sw=document.getElementById('tswap'); sw.hidden=!SWAP[k]; sw.textContent=(SWAP[k]||'').replace(/^🔄\s*/,'');}
+  if(TK) document.getElementById('tcover').innerHTML=e(COVER[k]||'')+'.';
+  CHECKLISTS.forEach(G=>{ const dp=dayPlan(G,k), bt=dp.flatMap(a=>a.tasks.map(t=>({t,a})));
+    document.getElementById('cn-'+G.id).textContent=bt.length||'';
+    document.getElementById('cp-'+G.id).innerHTML=`<p class="note">${e(G.who[0].toUpperCase()+G.who.slice(1))}. Sign the paper ${G.sheet} when done.</p>`+
+      (bt.length?`<div class="list">`+bt.map(x=>CHECKOFF?doneRow(k,G.id,x.t,`<span class="tw">${whoHtml(x.a,G)}</span>`):`<div class="trow"><span class="tt">${e(x.t)}</span><span class="tw">${whoHtml(x.a,G)}</span></div>`).join('')+`</div>`
+        :`<p class="note empty">Nothing on the list today.</p>`)+(G.summary===false?'':weekSummary(G,k)); });
+  document.getElementById('cn-srv').textContent=(TASKS[k]||[]).length||'';
+  document.getElementById('tasks').hidden=!TK; document.getElementById('tcover').hidden=!TK;
+  { const el=document.getElementById('srvempty')||Object.assign(document.createElement('p'),{id:'srvempty',className:'note empty',textContent:'Nothing on the list today.'}); if(!el.parentNode) document.getElementById('tasks').after(el); el.hidden=!!TK; }
+  if(TK) document.getElementById('tasks').innerHTML=TK.map(([t,w])=>CHECKOFF?doneRow(k,'srv',t,`<span class="tw">${e(w)}</span>`):`<div class="trow"><span class="tt">${e(t)}</span><span class="tw">${e(w)}</span></div>`).join('');
+  if(CHECKOFF) coAfterRender(k);
+  document.getElementById('brkh').innerHTML=`Break order <span class="hint">From ${D.brk}</span>`;
+  const li=([n,c])=>`<li><div><b>${e(n)}</b> <span>— ${e(c)}</span></div></li>`;
+  document.getElementById('brk').innerHTML=D.breaks.map(li).join('');
+  document.getElementById('brkB').innerHTML=D.bbreaks.map(li).join('');
+  document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on',b.dataset.k===k));
+}
+
+
+/* ---------- online check-off (live for all staff) ----------
+   Staff tap Done / Not done (reason required); the IC confirms with their own 4-digit code.
+   Everything is saved in Ru's Google Sheet "Baldwin Check-off" through its Apps Script web app.
+   The codes live only in the Sheet; this page never sees them. */
+const CHECKOFF=new URLSearchParams(location.search).get('checkoff')!=='0';   /* on for everyone; add ?checkoff=0 to hide */
+const SHEET_API='https://script.google.com/macros/s/AKfycbzaPrUdZSb4nYqaQpeTR3v45Axz6JCQfZmb7_CEFqkT1xdUg3J2V06CBSYTustEHtT8/exec';   /* paste the Apps Script web-app URL here (ends in /exec) */
+let DONE={}, CO_DAY=null, CO_OK=false;
+const tkey=(k,role,t)=>{let h=0;for(const c of t)h=(h*31+c.charCodeAt(0))>>>0;return `${k}_${role}_${h.toString(36)}`;};
+function doneRow(k,role,t,whoHtml){
+  return `<div class="trow" data-dk="${tkey(k,role,t)}" data-date="${k}" data-role="${role}" data-task="${e(t)}" data-who="${e(whoHtml.replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim())}">`+
+   `<div class="tmain"><span class="tt">${e(t)}</span><span class="dcol">${whoHtml}</span></div>`+
+   `<div class="dact" hidden><button class="dn" type="button">Done</button><button class="nd" type="button">Not done</button></div>`+
+   `<div class="nform" hidden><input class="ninp" type="text" maxlength="200" placeholder="Reason (required)" aria-label="Reason it was not finished"><button class="nsave" type="button">Save</button><button class="ncancel" type="button">Cancel</button></div>`+
+   `<p class="nnote" hidden></p>`+
+   `<div class="icrow" hidden><button class="icb" type="button">IC check</button><span class="icpick" hidden><input class="icpin" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="IC code" aria-label="IC code" autocomplete="off"><button class="icok" type="button">Confirm</button></span><span class="icerr" hidden>Code not recognised</span></div></div>`;
+}
+const hhmm=ms=>{const d=new Date(ms);return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');};
+function coBar(msg,err){const b=document.getElementById('cobar'); b.hidden=!msg; b.textContent=msg||''; b.classList.toggle('err',!!err);}
+function paintDone(){
+  const rows=[...document.querySelectorAll('#tasksec .trow[data-dk]')];
+  rows.forEach(r=>{const d=DONE[r.dataset.dk], st=d?d.status:null;
+    r.querySelector('.dact').hidden=!CO_OK||!r.querySelector('.nform').hidden;
+    const b=r.querySelector('.dn'), n=r.querySelector('.nd'), note=r.querySelector('.nnote');
+    r.classList.toggle('isdone',st==='done'); r.classList.toggle('isnot',st==='notdone');
+    b.textContent=st==='done'?`✓ Done ${hhmm(d.at)}`:'Done'; b.hidden=st==='notdone';
+    n.textContent=st==='notdone'?`Not done ${hhmm(d.at)} · undo`:'Not done'; n.hidden=st==='done';
+    if(!note.dataset.err){ note.hidden=st!=='notdone'; note.textContent=st==='notdone'?'Note: '+(d.note||''):''; }
+    const ic=r.querySelector('.icrow'), icb=r.querySelector('.icb'); ic.hidden=st!=='done';
+    r.classList.toggle('ischecked',!!(d&&d.checkedBy));
+    icb.textContent=d&&d.checkedBy?`✓ Checked by ${d.checkedBy} ${hhmm(d.checkedAt)} · undo`:'IC check';});
+  const pr=document.getElementById('prog');
+  if(!CO_OK||!rows.length){pr.hidden=true;return;}
+  const roles=[['srv','Server'],['host','Host'],['bus','Busser'],['bar','Bar'],['chr','Charidise']];
+  const isDone=r=>(DONE[r.dataset.dk]||{}).status==='done';
+  const tot=rows.length, dn=rows.filter(isDone).length, nd=rows.filter(r=>(DONE[r.dataset.dk]||{}).status==='notdone').length, ck=rows.filter(r=>(DONE[r.dataset.dk]||{}).checkedBy).length;
+  pr.hidden=false;
+  pr.innerHTML=`<div class="pb"><span style="width:${Math.round(dn/tot*100)}%"></span></div><b>${dn} of ${tot} weekly tasks done today${nd?` · <span class="ndc">${nd} not done</span>`:''}</b><span class="ckc">${ck} of ${dn} checked by IC</span><span>`+
+    roles.map(([id,l])=>{const rr=rows.filter(r=>r.dataset.role===id); if(!rr.length) return ''; return `${l} ${rr.filter(isDone).length}/${rr.length}`;}).filter(Boolean).join(' · ')+`</span>`;
+}
+async function coLoad(k){
+  if(!SHEET_API){ coBar('Online check-off is not connected to the Google Sheet yet.',true); return; }
+  try{ const r=await fetch(`${SHEET_API}?action=list`); const j=await r.json(); if(!j.ok) throw 0;
+    if(k!==CO_DAY) return; const m={}; j.rows.forEach(x=>{ if(String(x.key).startsWith(k+'_')) m[x.key]=x; }); DONE=m; CO_OK=true; coBar(''); paintDone(); }
+  catch(err){ coBar('Could not reach the check-off sheet. Check your connection and refresh.',true); }
+}
+function coAfterRender(k){
+  document.querySelectorAll('#tasksec .cpanel > .note:first-child').forEach(p=>{ if(!/paper/i.test(p.textContent)) return;
+    const rest=p.textContent.replace(/\s*Sign the paper[\s\S]*$/,'').trim(); p.textContent=(rest?rest+' ':'')+'Tap Done when finished. If not, tap Not done and write why.'; });
+  if(k!==CO_DAY){ CO_DAY=k; DONE={}; } paintDone(); coLoad(k);
+}
+async function coSend(r,body){
+  r.classList.add('busy'); r.querySelectorAll('button').forEach(x=>x.disabled=true);
+  const note=r.querySelector('.nnote'); delete note.dataset.err;
+  try{ const res=await fetch(SHEET_API,{method:'POST',body:JSON.stringify({key:r.dataset.dk,date:r.dataset.date,role:r.dataset.role,task:r.dataset.task,assigned:r.dataset.who,...body})});
+    const j=await res.json();
+    if(!j.ok){ if(j.error==='code') return 'code'; throw new Error(j.error); }
+    if(j.row) DONE[r.dataset.dk]=j.row; else delete DONE[r.dataset.dk];
+    return 'ok';
+  }catch(err){ note.dataset.err=1; note.hidden=false; note.textContent=err&&err.message==='checked'?'Already checked by the IC. Ask the IC to undo first.':'Could not save. Tap again.'; return 'err'; }
+  finally{ r.classList.remove('busy'); r.querySelectorAll('button').forEach(x=>x.disabled=false); paintDone(); }
+}
+if(CHECKOFF){
+document.addEventListener('click',ev=>{
+  const r=ev.target.closest('#tasksec .trow[data-dk]'); if(!r||!CO_OK||r.classList.contains('busy')) return;
+  const cur=DONE[r.dataset.dk], st=cur?cur.status:null, form=r.querySelector('.nform');
+  if(ev.target.closest('.icb')){ const pk=r.querySelector('.icpick'); pk.hidden=!pk.hidden; r.querySelector('.icerr').hidden=true; r.querySelector('.icpin').value=''; if(!pk.hidden) r.querySelector('.icpin').focus(); return; }
+  if(ev.target.closest('.icok')){ const pin=r.querySelector('.icpin'), er=r.querySelector('.icerr');
+    if(!/^\d{4}$/.test(pin.value)){ er.hidden=false; pin.value=''; pin.focus(); return; }
+    coSend(r,{action:cur&&cur.checkedBy?'uncheck':'check',code:pin.value}).then(x=>{ if(x==='code'){ er.hidden=false; pin.value=''; pin.focus(); } else if(x==='ok'){ er.hidden=true; r.querySelector('.icpick').hidden=true; pin.value=''; } }); return; }
+  if(ev.target.closest('.dn')){ if(st==='done'&&cur.checkedBy) return; coSend(r,{action:st==='done'?'clear':'done'}); }
+  else if(ev.target.closest('.nd')){ if(st==='notdone') coSend(r,{action:'clear'}); else { form.hidden=false; r.querySelector('.dact').hidden=true; r.querySelector('.ninp').focus(); } }
+  else if(ev.target.closest('.ncancel')){ form.hidden=true; paintDone(); }
+  else if(ev.target.closest('.nsave')){ const v=r.querySelector('.ninp').value.trim();
+    if(!v){ r.querySelector('.ninp').placeholder='Please write a short reason first'; r.querySelector('.ninp').focus(); return; }
+    form.hidden=true; coSend(r,{action:'notdone',note:v}); }
+});
+document.addEventListener('keydown',ev=>{ const t=ev.target; if(ev.key!=='Enter'||!t.classList) return;
+  if(t.classList.contains('icpin')) t.closest('.trow').querySelector('.icok').click();
+  else if(t.classList.contains('ninp')) t.closest('.trow').querySelector('.nsave').click(); });
+/* pick up what others marked: every 30 s, and when the phone comes back to the page */
+setInterval(()=>{ if(CO_DAY&&!document.hidden) coLoad(CO_DAY); },30000);
+document.addEventListener('visibilitychange',()=>{ if(!document.hidden&&CO_DAY) coLoad(CO_DAY); });
+}
+
+/* Staff see only today; add ?all=1 to the link to see the whole week. */
+const SHOW_ALL=new URLSearchParams(location.search).get('all')==='1';
+if(!SHOW_ALL) document.getElementById('tabs').hidden=true;
+document.getElementById('tabs').innerHTML=KEYS.map(k=>{const [w,md]=DAYS[k].title.split(', ');return `<button class="tab" data-k="${k}">${w.slice(0,3)}<span class="td">${md}</span></button>`}).join('');
+/* Tap "Partner" on a card: open the explanation and scroll to it. */
+document.getElementById('cards').addEventListener('click',ev=>{const a=ev.target.closest('.plink'); if(!a) return; ev.preventDefault();
+  const d=document.getElementById('pdef'); d.open=true; d.scrollIntoView({behavior:'smooth',block:'start'});});
+/* Cleaning tabs: show one role at a time. */
+document.querySelector('.ctabs').addEventListener('click',ev=>{const b=ev.target.closest('.ctab'); if(!b) return;
+  document.querySelectorAll('.ctab').forEach(x=>{const on=x===b; x.classList.toggle('on',on); x.setAttribute('aria-selected',on);});
+  document.querySelectorAll('.cpanel').forEach(p=>p.hidden=p.id!=='cp-'+b.dataset.p);});
+/* Tap a name: scroll to that card and highlight it (works inside any frame, no page jump). */
+document.getElementById('jump').addEventListener('click',ev=>{const a=ev.target.closest('a'); if(!a) return; ev.preventDefault();
+  const c=document.getElementById(a.getAttribute('href').slice(1)); if(!c) return;
+  document.getElementById('jobs').open=true;
+  document.querySelectorAll('.card.hit').forEach(x=>x.classList.remove('hit')); c.classList.add('hit');
+  c.scrollIntoView({behavior:'smooth',block:'start'});});
+document.getElementById('tabs').addEventListener('click',ev=>{const b=ev.target.closest('.tab'); if(b){cur=b.dataset.k; render(cur);}});
+let cur=pickKey(); render(cur); loadWeather();
+/* Flip to the new day automatically if the page stays open past midnight. */
+setInterval(()=>{const k=pickKey(); if(k!==cur){cur=k; render(k);}},60000);
+</script>
+</body></html>
