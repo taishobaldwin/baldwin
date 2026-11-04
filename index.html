@@ -667,7 +667,7 @@ function planWeek(G,k){
   if(G.id==='bus') days.forEach(dk=>new Set((TASKS[dk]||[]).flatMap(([,w])=>w.split(' + '))).forEach(n=>{load[n]=(load[n]||0)+0.5;}));
   weekJobs(G,mk).forEach(job=>{
     let best=null;
-    days.forEach((dk,i)=>{ if(!DAYS[dk]||(job.fixed&&i!==job.pref)) return; G.cands(DAYS[dk]).forEach(c=>{
+    days.forEach((dk,i)=>{ if(i>=5||!DAYS[dk]||(job.fixed&&i!==job.pref)) return;   /* weekly cleaning is Mon–Fri only, never weekends */ G.cands(DAYS[dk]).forEach(c=>{
       const dl=dayLoad[dk+'|'+c.who]||0; if(dl>=2) return;
       const again=lastDoneBy(G,job.tasks[0],mk)===c.who?9:0;   /* did this exact job last time: pass it to someone else */
       const sc=(load[c.who]||0)*8+dl*6+Math.abs(i-job.pref)*3+c.pen+(i>=5?(G.weekendPen??4):0)+again;   /* weekends are possible but a last resort */
