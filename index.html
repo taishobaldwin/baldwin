@@ -358,20 +358,20 @@ h2 .hint.tapme{flex-basis:100%;text-align:left;font-size:.92rem;font-weight:600;
     <ul id="chgl"></ul>
   </section>
 
-  <img class="rvimg" alt="Google reviews. Today's goal: 5+ per person. Invite guests to share their experience." src="images/review.webp">
+  <img class="rvimg" alt="Google reviews. Today's goal: 5+ reviews per server. Invite guests to share their experience." src="images/review.webp">
 
   <section class="resv" id="resv" hidden>
-    <h2>📅 Today's reservations</h2>
+    <h2>Today's reservations</h2>
     <p class="rsync" id="resvsync"></p>
     <div class="rgrid">
       <div class="rbox lunch"><span class="rl">☀️ Lunch <small>before 16:00</small></span><span class="rn" id="rl"></span></div>
-      <div class="rbox dinner"><span class="rl">🏮 Dinner <small>16:00 and after</small></span><span class="rn" id="rd"></span></div>
+      <div class="rbox dinner"><span class="rl">🏮 Dinner <small>from 16:00</small></span><span class="rn" id="rd"></span></div>
     </div>
     <p class="rrush" id="rrush"></p>
     <div class="rbig" id="rbig" hidden></div>
     <p class="rpeak" id="rpeak"></p>
     <p class="rlast" id="rlast" hidden></p>
-    <p class="rfoot">🚶 Lunch and dinner counts are bookings only. Source: Snappy.</p>
+    <p class="rfoot">🚶 Lunch and dinner counts are reservations only. Source: Snappy.</p>
   </section>
 
   <section>
@@ -782,49 +782,49 @@ const LASTWK={
 /* Expected rush by weekday (0=Sun … 6=Sat), from the last 12 weeks of Snappy waitlist + bookings (Aug 9 – Nov 1, 2026),
    checked against 2 years of history (Nov 2024 – Nov 2026). Holiday dates override this in RUSH_DAY. */
 const RUSH={
- 0:['18:00–20:30','Waitlist almost every Sunday now, worst around 19:00 (waits ~25 min).'],
- 1:['18:00–20:30','Usually no waitlist. Holiday Mondays run like a Sunday.'],
- 2:['18:00–19:30','Booked tables tend to arrive together at 18:00. Waitlist rare and short.'],
- 3:['18:00–20:30','Usually the quietest night. A short waitlist is possible around 20:00.'],
- 4:['19:30–21:00','Short waitlist most Thursdays now, worst around 20:00. Finish breaks by 19:00.'],
- 5:['18:00–22:00','Long waitlist, worst 19:00–20:00 (waits ~45 min). Stays busy until 22:00. Be ready by 18:00.'],
- 6:['17:00–22:00','Busiest night: waitlist from 17:00, worst around 19:00 (waits ~45 min). Be ready by 17:00.']
+ 0:['18:00–20:30','A wait almost every Sunday now, worst around 19:00 (about 25 min).'],
+ 1:['18:00–20:30','Usually no wait. Holiday Mondays run like a Sunday.'],
+ 2:['18:00–19:30','Reservations tend to arrive together at 18:00. Waits are rare and short.'],
+ 3:['18:00–20:30','Usually our quietest night of the week. Maybe a short wait around 20:00.'],
+ 4:['19:30–21:00','A short wait most Thursdays now, worst around 20:00. Finish breaks by 19:00.'],
+ 5:['18:00–22:00','Long waits, worst 19:00–20:00 (about 45 min). Stays busy until 22:00. Be ready by 18:00.'],
+ 6:['17:00–22:00','Busiest night: a wait from 17:00, worst around 19:00 (about 45 min). Be ready by 17:00.']
 };
 /* Special dates, from the same days in past years. */
 const RUSH_DAY={
- '2026-12-24':['17:00–21:00','Christmas Eve: busy, waitlist likely around 19:00, plus heavy bookings.'],
+ '2026-12-24':['17:00–21:00','Christmas Eve: busy, with a wait likely around 19:00 and lots of reservations.'],
  '2026-12-25':['12:00–20:00','Christmas Day: mostly booked tables, about 3× a normal day. Few walk-ins.'],
  '2026-12-26':['18:00–21:00','Boxing Day: last year it was much quieter than a normal weekend night.'],
- '2026-12-30':['18:00–21:00','Last year Dec 30 had a full waitlist, like a Saturday.'],
- '2026-12-31':['17:00–21:00','New Year\'s Eve: the busiest weekday of the year, with long waits and about 4× the bookings.'],
- '2027-01-01':['12:00–20:00','New Year\'s Day: mostly bookings, few walk-ins.'],
- '2027-02-14':['16:30–22:00','Valentine\'s Day: the busiest day of the year (3–5× a normal waitlist). Every station full from 16:30.'],
+ '2026-12-30':['18:00–21:00','Last year Dec 30 had long waits, like a Saturday.'],
+ '2026-12-31':['17:00–21:00','New Year\'s Eve: the busiest weekday of the year, with long waits and about 4× the usual reservations.'],
+ '2027-01-01':['12:00–20:00','New Year\'s Day: mostly reservations, few walk-ins.'],
+ '2027-02-14':['16:30–22:00','Valentine\'s Day: the busiest day of the year (3–5× the usual walk-ins). Every station full from 16:30.'],
  '2027-02-15':['17:00–21:00','Family Day: last year it ran as busy as a Saturday.']
 };
 function paintResv(k){
   const sec=document.getElementById('resv'), R=RESV[k]||null;
   const ru=RUSH_DAY[k]||RUSH[new Date(k+'T12:00:00').getDay()], rr=document.getElementById('rrush');
   const wd=new Date(k+'T12:00:00').getDay(), est=WL_EST[wd];
-  const estTxt=RUSH_DAY[k]?'':(est>=15?`<br>👥 Expect about <b>${est}</b> walk-in guests on the waitlist.`:'<br>👥 Usually little or no waitlist.');
-  rr.innerHTML=`⏱️ Expected rush: <b>${ru[0]}</b> · ${ru[1]}${estTxt}<small>Source: Snappy · ${RUSH_DAY[k]?'the same day in past years.':'last 12 weeks of walk-ins and bookings.'}</small>`;
+  const estTxt=RUSH_DAY[k]?'':(est>=15?`<br>👥 Expect about <b>${est}</b> walk-in guests on the waitlist.`:'');
+  rr.innerHTML=`⏱️ Expected rush: <b>${ru[0]}</b> · ${ru[1]}${estTxt}<small>Source: Snappy · ${RUSH_DAY[k]?'the same day in past years.':'last 12 weeks of walk-ins and reservations.'}</small>`;
   const lw=LASTWK[k], rl=document.getElementById('rlast');
   if(lw){const dn=new Date(k+'T12:00:00').toLocaleDateString('en-US',{weekday:'long'});
     rl.hidden=false;
-    rl.innerHTML=lw[0]?`📊 Last ${dn}: <b>${lw[0]}</b> walk-in guests waited`+(lw[3]?`, longest wait about <b>${lw[3]}</b> min`:'')+(lw[2]?`, <b>${lw[2]}</b> ${lw[2]===1?'group':'groups'} left before being seated`:'')+`. <b>${lw[4]}</b> guests came on bookings.<span class="rsrc">Source: Snappy waitlist and bookings.</span>`
-      :`📊 Last ${dn}: no waitlist. <b>${lw[4]}</b> guests came on bookings.<span class="rsrc">Source: Snappy waitlist and bookings.</span>`;
+    rl.innerHTML=lw[0]?`📊 Last ${dn}: <b>${lw[0]}</b> walk-in guests waited`+(lw[3]?`, longest wait about <b>${lw[3]}</b> min`:'')+(lw[2]?`, <b>${lw[2]}</b> ${lw[2]===1?'group':'groups'} left before being seated`:'')+`. <b>${lw[4]}</b> guests came in with reservations.<span class="rsrc">Source: Snappy waitlist and reservations.</span>`
+      :`📊 Last ${dn}: no wait. <b>${lw[4]}</b> guests came in with reservations.<span class="rsrc">Source: Snappy waitlist and reservations.</span>`;
   } else rl.hidden=true;
   sec.querySelector('.rgrid').hidden=!R; sec.querySelector('.rfoot').hidden=!R;
   sec.hidden=false; const rb=document.getElementById('rbig');
   if(!R){document.getElementById('rpeak').hidden=true; rb.hidden=true; return;}
   {const mn=BIG_MIN(wd), big=R.filter(([,n])=>n>=mn);
-   if(big.length){rb.hidden=false; rb.innerHTML=`🎉 Big tables today (${mn}+ guests): set them up early.<ul>${big.map(([t,n])=>`<li><b>${t}</b> · ${n} guests</li>`).join('')}</ul><span class="rsrc">Source: Snappy bookings.</span>`;} else rb.hidden=true;}
-  const part=f=>{const x=R.filter(([t])=>f(t)); const g=x.reduce((a,[,n])=>a+n,0); return x.length?`<span>🍽️ <b>${x.length}</b> ${x.length===1?'table':'tables'}</span><span>👥 <b>${g}</b> ${g===1?'guest':'guests'}</span>`:'<span class="r0">😌 No bookings</span>';};
+   if(big.length){rb.hidden=false; rb.innerHTML=`🎉 Large parties today (${mn}+): set up early.<ul>${big.map(([t,n])=>`<li><b>${t}</b> · ${n} guests</li>`).join('')}</ul><span class="rsrc">Source: Snappy reservations.</span>`;} else rb.hidden=true;}
+  const part=f=>{const x=R.filter(([t])=>f(t)); const g=x.reduce((a,[,n])=>a+n,0); return x.length?`<span>🍽️ <b>${x.length}</b> ${x.length===1?'table':'tables'}</span><span>👥 <b>${g}</b> ${g===1?'guest':'guests'}</span>`:'<span class="r0">😌 No reservations</span>';};
   document.getElementById('rl').innerHTML=part(t=>t<'16:00');
   document.getElementById('rd').innerHTML=part(t=>t>='16:00');
   const by={}; R.forEach(([t,n])=>{const h=t.slice(0,2); by[h]=(by[h]||0)+n;});
   const top=Object.entries(by).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0]))[0];
   const pk=document.getElementById('rpeak');
-  if(top){const h=+top[0]; pk.hidden=false; pk.innerHTML=`🔥 Busiest booked hour: <b>${String(h).padStart(2,'0')}:00–${String(h+1).padStart(2,'0')}:00</b> · ${top[1]} guests booked`;} else pk.hidden=true;
+  if(top){const h=+top[0]; pk.hidden=false; pk.innerHTML=`🔥 Busiest hour for reservations: <b>${String(h).padStart(2,'0')}:00–${String(h+1).padStart(2,'0')}:00</b> · ${top[1]} guests`;} else pk.hidden=true;
   {const d=new Date(RESV_SYNCED.replace(' ','T')+':00'); document.getElementById('resvsync').textContent='🔄 Updated '+d.toLocaleDateString('en-US',{month:'short',day:'numeric'})+', '+RESV_SYNCED.slice(11);}
 }
 /* Notices that repeat on a weekday (0=Sun … 6=Sat). */
