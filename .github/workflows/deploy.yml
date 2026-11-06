@@ -1,0 +1,25 @@
+name: Deploy Baldwin Plan to DingTalk app
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+concurrency: deploy
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Copy the page into the Worker
+        run: |
+          D=$(for d in */; do [ "$d" != "worker/" ] && [ -f "$d/index.html" ] && echo "${d%/}"; done)
+          test "$(echo "$D" | wc -l)" = 1
+          mkdir -p worker/public/app
+          cp -r "$D"/. worker/public/app/
+      - name: Deploy
+        working-directory: worker
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: npx --yes wrangler@4.40.0 deploy

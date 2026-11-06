@@ -1,0 +1,16 @@
+name = "baldwin-plan"
+main = "src/index.js"
+compatibility_date = "2026-06-01"
+account_id = "57d84bbd5d6d2c434372ff98cf3081bf"
+workers_dev = true
+keep_vars = true
+
+[assets]
+directory = "./public"
+binding = "ASSETS"
+run_worker_first = true
+html_handling = "auto-trailing-slash"
+
+[vars]
+CORP_ID = "dingd9372d0ad047628c0810d16f3da95690"
+APP_KEY = "dingvx8xsx71emectasw"
