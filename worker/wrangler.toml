@@ -14,3 +14,10 @@ html_handling = "auto-trailing-slash"
 [vars]
 CORP_ID = "dingd9372d0ad047628c0810d16f3da95690"
 APP_KEY = "dingvx8xsx71emectasw"
+
+[[kv_namespaces]]
+binding = "BOT"
+id = "d4d81c3b5fcd4a789fec6dd9cfb8993a"
+
+[triggers]
+crons = ["0 19 * * 3", "0 20 * * 3"]

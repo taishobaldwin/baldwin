@@ -89,12 +89,80 @@ class Watermark {
   }
 }
 
+
+// ---------- Group robot (DailyPlan app robot) ----------
+const REMINDER = {
+  title: 'Taisho Reminder: time-off requests close tonight',
+  text: [
+    '### ⏰ Taisho Reminder: Time-off requests close TONIGHT at 23:59! 🕛',
+    '📅 Need a day off next week? Please submit your request in **Sling** before **11:59 PM tonight**.',
+    '✅ Requests sent before the deadline will be approved where possible.',
+    '❌ After the deadline, requests will be declined, so please arrange a shift swap yourself 🔄',
+    'Thank you, team! 🙏',
+  ].join('\n\n'),
+};
+
+let newTokenCache = { v: null, exp: 0 };
+async function newAccessToken(env) {
+  if (newTokenCache.v && newTokenCache.exp > Date.now()) return newTokenCache.v;
+  const r = await fetch('https://api.dingtalk.com/v1.0/oauth2/accessToken', {
+    method: 'POST', headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ appKey: env.APP_KEY, appSecret: env.APP_SECRET }),
+  });
+  const j = await r.json();
+  if (!j.accessToken) throw new Error('accessToken ' + JSON.stringify(j));
+  newTokenCache = { v: j.accessToken, exp: Date.now() + (j.expireIn - 300) * 1000 };
+  return j.accessToken;
+}
+
+async function sendToGroups(env, msg) {
+  const groups = JSON.parse((await env.BOT.get('groups')) || '{}');
+  const t = await newAccessToken(env);
+  const out = [];
+  for (const [cid, info] of Object.entries(groups)) {
+    const r = await fetch('https://api.dingtalk.com/v1.0/robot/groupMessages/send', {
+      method: 'POST', headers: { 'content-type': 'application/json', 'x-acs-dingtalk-access-token': t },
+      body: JSON.stringify({ robotCode: env.APP_KEY, openConversationId: cid, msgKey: 'sampleMarkdown', msgParam: JSON.stringify(msg) }),
+    });
+    out.push({ group: info.title || cid, status: r.status, body: (await r.text()).slice(0, 200) });
+  }
+  return out;
+}
+
+async function robotCallback(req, env) {
+  const ts = req.headers.get('timestamp'), sign = req.headers.get('sign');
+  if (!ts || !sign || Math.abs(Date.now() - Number(ts)) > 3600000) return new Response('bad', { status: 401 });
+  const k = await crypto.subtle.importKey('raw', enc.encode(env.APP_SECRET), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+  const mine = btoa(String.fromCharCode(...new Uint8Array(await crypto.subtle.sign('HMAC', k, enc.encode(ts + '\n' + env.APP_SECRET)))));
+  if (mine !== sign) return new Response('bad sign', { status: 401 });
+  const m = await req.json();
+  if (m.conversationType === '2' && m.conversationId) {
+    const groups = JSON.parse((await env.BOT.get('groups')) || '{}');
+    groups[m.conversationId] = { title: m.conversationTitle || '', added: new Date().toISOString() };
+    await env.BOT.put('groups', JSON.stringify(groups));
+    return Response.json({ msgtype: 'text', text: { content: '✅ Taisho Reminder is set up for this group. Reminders will be posted here automatically.' } });
+  }
+  return Response.json({ msgtype: 'text', text: { content: 'Hi! Please add me to a group and @ me there.' } });
+}
+
+function torontoHour(d = new Date()) {
+  return Number(new Intl.DateTimeFormat('en-US', { timeZone: 'America/Toronto', hour: 'numeric', hour12: false }).format(d));
+}
+
 export default {
   async fetch(req, env) {
     const url = new URL(req.url);
     const sec = { 'x-robots-tag': 'noindex, nofollow', 'referrer-policy': 'no-referrer' };
 
     if (url.pathname === '/auth' && req.method === 'POST') return auth(req, env);
+    if (url.pathname === '/robot' && req.method === 'POST') return robotCallback(req, env);
+    if (url.pathname === '/robot/admin' && req.method === 'POST') {
+      if (!env.ADMIN_KEY || req.headers.get('x-admin-key') !== env.ADMIN_KEY) return new Response('Forbidden', { status: 403 });
+      const b = await req.json().catch(() => ({}));
+      if (b.action === 'groups') return Response.json(JSON.parse((await env.BOT.get('groups')) || '{}'));
+      if (b.action === 'send') return Response.json(await sendToGroups(env, REMINDER));
+      return Response.json({ ok: false });
+    }
 
     if (url.pathname === '/app' || url.pathname.startsWith('/app/')) {
       const s = await readSession(req, env);
@@ -112,5 +180,9 @@ export default {
     }
 
     return new Response(BOOT(env.CORP_ID), { headers: { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'no-store', ...sec } });
+  },
+  async scheduled(event, env, ctx) {
+    // Runs at 19:00 and 20:00 UTC on Wednesdays; only the run that is 15:00 in Toronto sends (handles daylight saving).
+    if (torontoHour(new Date(event.scheduledTime)) === 15) ctx.waitUntil(sendToGroups(env, REMINDER));
   },
 };
