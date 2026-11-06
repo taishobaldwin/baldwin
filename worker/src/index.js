@@ -97,7 +97,7 @@ const REMINDER = {
     '### Reminder: Time-off requests close TONIGHT at 23:59! 🕛',
     '⏰ Need a day off? Submit your time-off request in **Sling** by **11:59 PM tonight**.',
     '✅ We’ll approve on-time requests where staffing allows.',
-    '🔄 Late requests may not be approved. If you miss the cutoff and get scheduled, please arrange a shift swap.',
+    '⚠️ Late requests may not be approved. If you miss the cutoff and get scheduled, please arrange a shift swap.',
     'Thanks! 🙌',
   ].join('\n\n'),
 };
