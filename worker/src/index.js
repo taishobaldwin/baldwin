@@ -184,7 +184,7 @@ export default {
       const b = await req.json().catch(() => ({}));
       if (b.action === 'groups') return Response.json(JSON.parse((await env.BOT.get('groups')) || '{}'));
       if (b.action === 'send') return Response.json(await sendToGroups(env, REMINDER));
-      if (b.action === 'notice') return Response.json(await sendWorkNotice(env, REMINDER, b.userids));
+      if (b.action === 'notice') return Response.json(await sendWorkNotice(env, b.msg || REMINDER, b.userids));
       return Response.json({ ok: false });
     }
 
