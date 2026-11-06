@@ -92,13 +92,13 @@ class Watermark {
 
 // ---------- Group robot (DailyPlan app robot) ----------
 const REMINDER = {
-  title: 'Taisho Reminder: time-off requests close tonight',
+  title: 'Reminder: Time-off requests close TONIGHT at 23:59!',
   text: [
-    '### ⏰ Taisho Reminder: Time-off requests close TONIGHT at 23:59! 🕛',
-    '📅 Need a day off next week? Please submit your request in **Sling** before **11:59 PM tonight**.',
-    '✅ Requests sent before the deadline will be approved where possible.',
-    '❌ After the deadline, requests will be declined, so please arrange a shift swap yourself 🔄',
-    'Thank you, team! 🙏',
+    '### Reminder: Time-off requests close TONIGHT at 23:59! 🕛',
+    '⏰ Need a day off? Submit your time-off request in **Sling** by **11:59 PM tonight**.',
+    '✅ We’ll approve on-time requests where staffing allows.',
+    '🔄 Late requests may not be approved. If you miss the cutoff and get scheduled, please arrange a shift swap.',
+    'Thanks! 🙌',
   ].join('\n\n'),
 };
 
