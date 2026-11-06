@@ -14,7 +14,8 @@ jobs:
           node-version: 20
       - name: Copy the page into the Worker
         run: |
-          D=$(for d in */; do [ "$d" != "worker/" ] && [ -f "$d/index.html" ] && echo "${d%/}"; done)
+          D=$(for d in */; do if [ "$d" != "worker/" ] && [ -f "$d/index.html" ]; then echo "${d%/}"; fi; done)
+          echo "Page folder: $D"
           test "$(echo "$D" | wc -l)" = 1
           mkdir -p worker/public/app
           cp -r "$D"/. worker/public/app/
