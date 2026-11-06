@@ -148,9 +148,19 @@ async function robotCallback(req, env) {
 }
 
 // Work notification from the DailyPlan app (shows up in each member's DingTalk chats). userids = null → everyone in the org.
+let alertTokenCache = { v: null, exp: 0 };
+async function alertToken(env) {
+  if (alertTokenCache.v && alertTokenCache.exp > Date.now()) return alertTokenCache.v;
+  const r = await fetch(`https://oapi.dingtalk.com/gettoken?appkey=${encodeURIComponent(env.ALERT_APP_KEY)}&appsecret=${encodeURIComponent(env.ALERT_APP_SECRET)}`);
+  const j = await r.json();
+  if (j.errcode !== 0) throw new Error('alert gettoken ' + j.errcode);
+  alertTokenCache = { v: j.access_token, exp: Date.now() + (j.expires_in - 300) * 1000 };
+  return j.access_token;
+}
+// Reminders are sent by the separate "TaishoStaffAlerts" app so they show under that name.
 async function sendWorkNotice(env, msg, userids) {
-  const t = await accessToken(env);
-  const body = { agent_id: Number(env.AGENT_ID), msg: { msgtype: 'markdown', markdown: { title: msg.title, text: msg.text } } };
+  const t = await alertToken(env);
+  const body = { agent_id: Number(env.ALERT_AGENT_ID), msg: { msgtype: 'markdown', markdown: { title: msg.title, text: msg.text } } };
   if (userids && userids.length) body.userid_list = userids.join(','); else body.to_all_user = true;
   const r = await fetch(`https://oapi.dingtalk.com/topapi/message/corpconversation/asyncsend_v2?access_token=${t}`, {
     method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body),

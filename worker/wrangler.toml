@@ -15,6 +15,8 @@ html_handling = "auto-trailing-slash"
 CORP_ID = "dingd9372d0ad047628c0810d16f3da95690"
 APP_KEY = "dingvx8xsx71emectasw"
 AGENT_ID = "5122574432"
+ALERT_APP_KEY = "dinggfb1o1b9ioqzhois"
+ALERT_AGENT_ID = "5127108299"
 
 [[kv_namespaces]]
 binding = "BOT"
