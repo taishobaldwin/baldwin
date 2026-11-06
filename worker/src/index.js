@@ -131,7 +131,9 @@ async function sendToGroups(env, msg) {
 
 async function robotCallback(req, env) {
   const ts = req.headers.get('timestamp'), sign = req.headers.get('sign');
-  if (!ts || !sign || Math.abs(Date.now() - Number(ts)) > 3600000) return new Response('bad', { status: 401 });
+  // Unsigned requests (e.g. DingTalk checking the address is reachable) just get an empty OK; nothing is stored.
+  if (!ts || !sign) return Response.json({ ok: true });
+  if (Math.abs(Date.now() - Number(ts)) > 3600000) return new Response('bad', { status: 401 });
   const k = await crypto.subtle.importKey('raw', enc.encode(env.APP_SECRET), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
   const mine = btoa(String.fromCharCode(...new Uint8Array(await crypto.subtle.sign('HMAC', k, enc.encode(ts + '\n' + env.APP_SECRET)))));
   if (mine !== sign) return new Response('bad sign', { status: 401 });
