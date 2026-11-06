@@ -147,6 +147,17 @@ async function robotCallback(req, env) {
   return Response.json({ msgtype: 'text', text: { content: 'Hi! Please add me to a group and @ me there.' } });
 }
 
+// Work notification from the DailyPlan app (shows up in each member's DingTalk chats). userids = null → everyone in the org.
+async function sendWorkNotice(env, msg, userids) {
+  const t = await accessToken(env);
+  const body = { agent_id: Number(env.AGENT_ID), msg: { msgtype: 'markdown', markdown: { title: msg.title, text: msg.text } } };
+  if (userids && userids.length) body.userid_list = userids.join(','); else body.to_all_user = true;
+  const r = await fetch(`https://oapi.dingtalk.com/topapi/message/corpconversation/asyncsend_v2?access_token=${t}`, {
+    method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body),
+  });
+  return await r.json();
+}
+
 function torontoHour(d = new Date()) {
   return Number(new Intl.DateTimeFormat('en-US', { timeZone: 'America/Toronto', hour: 'numeric', hour12: false }).format(d));
 }
@@ -163,6 +174,7 @@ export default {
       const b = await req.json().catch(() => ({}));
       if (b.action === 'groups') return Response.json(JSON.parse((await env.BOT.get('groups')) || '{}'));
       if (b.action === 'send') return Response.json(await sendToGroups(env, REMINDER));
+      if (b.action === 'notice') return Response.json(await sendWorkNotice(env, REMINDER, b.userids));
       return Response.json({ ok: false });
     }
 
@@ -185,6 +197,6 @@ export default {
   },
   async scheduled(event, env, ctx) {
     // Runs at 19:00 and 20:00 UTC on Wednesdays; only the run that is 15:00 in Toronto sends (handles daylight saving).
-    if (torontoHour(new Date(event.scheduledTime)) === 15) ctx.waitUntil(sendToGroups(env, REMINDER));
+    if (torontoHour(new Date(event.scheduledTime)) === 15) ctx.waitUntil(sendWorkNotice(env, REMINDER, null));
   },
 };
