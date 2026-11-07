@@ -223,7 +223,7 @@ export default {
         const r = await fetch(`https://oapi.dingtalk.com/topapi/message/corpconversation/getsendresult?access_token=${t}`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ agent_id: Number(env.ALERT_AGENT_ID), task_id: Number(b.task_id) }) });
         return Response.json(await r.json());
       }
-      if (b.action === 'daily') return Response.json({ sent: await env.BOT.get('daily_sent'), last: await env.BOT.get('daily_last_result') });
+      if (b.action === 'daily') return Response.json({ test: await env.BOT.get('test_last_result'), sent: await env.BOT.get('daily_sent'), last: await env.BOT.get('daily_last_result') });
       if (b.action === 'notice') return Response.json(await sendWorkNotice(env, b.msg || REMINDER, b.userids));
       return Response.json({ ok: false });
     }
@@ -233,6 +233,17 @@ export default {
       if (!s) {
         if (url.pathname === '/app' || url.pathname === '/app/' || url.pathname.endsWith('.html')) return Response.redirect(url.origin + '/' + url.search, 302);
         return new Response('Forbidden', { status: 403, headers: sec });
+      }
+      // Self-test: opening the app with ?sendtest=1 sends today's plan notice to the person who opened it (only to them, max once a minute).
+      if (url.searchParams.get('sendtest') === '1') {
+        const k = 'test_' + s.u;
+        if (!(await env.BOT.get(k))) {
+          await env.BOT.put(k, '1', { expirationTtl: 60 });
+          const r = await sendWorkNotice(env, dailyMsg(new Date(), env), [s.u]).catch((e) => ({ err: String(e) }));
+          await env.BOT.put('test_last_result', JSON.stringify({ at: new Date().toISOString(), r }));
+        }
+        url.searchParams.delete('sendtest');
+        return Response.redirect(url.toString(), 302);
       }
       const res = await env.ASSETS.fetch(req);
       const h = new Headers(res.headers);
