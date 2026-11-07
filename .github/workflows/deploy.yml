@@ -24,10 +24,3 @@ jobs:
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         run: npx --yes wrangler@4.40.0 deploy
-      - name: Mark the plan as updated (for the daily notice)
-        if: github.event_name == 'push'
-        continue-on-error: true
-        working-directory: worker
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-        run: npx --yes wrangler@4.40.0 kv key put plan_updated "$(TZ=America/Toronto date '+%F %H:%M')" --binding BOT --remote

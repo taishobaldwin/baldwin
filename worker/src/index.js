@@ -168,35 +168,32 @@ async function sendWorkNotice(env, msg, userids) {
   return await r.json();
 }
 
-// ---------- Daily "plan updated" notice ----------
-// The deploy workflow writes the Toronto date + hour of each deploy to KV key "plan_updated".
-// A cron every 10 minutes sends ONE notice per day, the first time the plan is deployed between 00:00 and 18:00 Toronto.
-const DAILY = {
-  title: "Today's Service Plan is updated",
-  text: [
-    "### 📋 Today's Service Plan is updated!",
-    'Please open **Baldwin Plan** (DingTalk → Workplace) and check today’s plan.',
-    '✅ Finish your checklist and tap **Done** on each task right away.',
-    '👀 Supervisors: please **double-check** everyone’s tasks and confirm.',
-    '今日 Service Plan 已更新，请注意查看！请完成 checklist 并及时点击确认，主管请 double check。',
-  ].join('\n\n'),
-};
-const DAILY_FROM = 0, DAILY_TO = 18;
+// ---------- Daily plan notice ----------
+// One notice a day, at 00:10 Toronto, right after the page flips to the new day. Other updates send nothing.
+function dailyMsg(now) {
+  const d = new Intl.DateTimeFormat('en-US', { timeZone: 'America/Toronto', weekday: 'short', month: 'short', day: 'numeric' }).format(now);
+  return {
+    title: `${d} Service Plan is ready`,
+    text: [
+      `### 📋 ${d} — Today's Service Plan is ready!`,
+      'Please open **Baldwin Plan** (DingTalk → Workplace) and check your position and today’s reservations.',
+      '✅ Finish your checklist and tap **Done** on each task right away.',
+      '👀 Supervisors: please **double-check** everyone’s tasks and confirm.',
+      '今日 Service Plan 已更新，请注意查看！请完成 checklist 并及时点击确认，主管请 double check。',
+    ].join('\n\n'),
+  };
+}
 
 function torontoDate(d = new Date()) {
   return new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Toronto', year: 'numeric', month: '2-digit', day: '2-digit' }).format(d);
 }
 
 async function dailyNotice(env, now) {
-  const h = torontoHour(now), today = torontoDate(now);
-  if (h < DAILY_FROM || h >= DAILY_TO) return;
-  const upd = await env.BOT.get('plan_updated');            // e.g. "2026-11-07 10:42"
-  if (!upd || !upd.startsWith(today)) return;
-  const uh = Number(upd.slice(11, 13));
-  if (!(uh >= DAILY_FROM && uh < DAILY_TO)) return;          // last night's deploy doesn't count
-  if ((await env.BOT.get('daily_sent')) === today) return;
+  if (torontoHour(now) !== 0) return;                       // two UTC crons; only the one that is 00:10 in Toronto sends
+  const today = torontoDate(now);
+  if ((await env.BOT.get('daily_sent')) === today) return;  // never more than one a day
   await env.BOT.put('daily_sent', today);
-  const r = await sendWorkNotice(env, DAILY, null);
+  const r = await sendWorkNotice(env, dailyMsg(now), null);
   await env.BOT.put('daily_last_result', JSON.stringify({ at: new Date().toISOString(), r }));
 }
 
@@ -221,7 +218,7 @@ export default {
         const r = await fetch(`https://oapi.dingtalk.com/topapi/message/corpconversation/getsendresult?access_token=${t}`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ agent_id: Number(env.ALERT_AGENT_ID), task_id: Number(b.task_id) }) });
         return Response.json(await r.json());
       }
-      if (b.action === 'daily') return Response.json({ updated: await env.BOT.get('plan_updated'), sent: await env.BOT.get('daily_sent'), last: await env.BOT.get('daily_last_result') });
+      if (b.action === 'daily') return Response.json({ sent: await env.BOT.get('daily_sent'), last: await env.BOT.get('daily_last_result') });
       if (b.action === 'notice') return Response.json(await sendWorkNotice(env, b.msg || REMINDER, b.userids));
       return Response.json({ ok: false });
     }
@@ -245,7 +242,7 @@ export default {
   },
   async scheduled(event, env, ctx) {
     const now = new Date(event.scheduledTime);
-    if (event.cron === '*/10 * * * *') { ctx.waitUntil(dailyNotice(env, now)); return; }
+    if (event.cron === '10 4 * * *' || event.cron === '10 5 * * *') { ctx.waitUntil(dailyNotice(env, now)); return; }
     // Runs at 19:00 and 20:00 UTC on Wednesdays; only the run that is 15:00 in Toronto sends (handles daylight saving).
     if (torontoHour(now) === 15) ctx.waitUntil(sendWorkNotice(env, REMINDER, null));
   },

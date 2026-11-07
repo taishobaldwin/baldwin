@@ -23,4 +23,4 @@ binding = "BOT"
 id = "d4d81c3b5fcd4a789fec6dd9cfb8993a"
 
 [triggers]
-crons = ["0 19 * * 3", "0 20 * * 3", "*/10 * * * *"]
+crons = ["0 19 * * 3", "0 20 * * 3", "10 4 * * *", "10 5 * * *"]
