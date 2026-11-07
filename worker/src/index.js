@@ -60,6 +60,19 @@ async function accessToken(env) {
   return j.access_token;
 }
 
+// Managers: DingTalk admins, plus anyone whose first name is in MANAGERS (wrangler.toml).
+function isManager(env, sys, name) {
+  if (sys === true) return true;
+  const first = String(name).trim().split(/\s+/)[0].toLowerCase().replace(/[^a-z]/g, '');
+  return !!first && String(env.MANAGERS || '').toLowerCase().split(',').map((x) => x.trim()).includes(first);
+}
+
+class MgrButton {
+  element(el) {
+    el.append(`<a href="/app/?view=manager" style="position:fixed;right:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:2147483646;background:#1d1d1f;color:#f7f7f4;font:600 14px/1 system-ui,sans-serif;padding:12px 16px;border-radius:999px;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25)">📊 Manager</a>`, { html: true });
+  }
+}
+
 async function auth(req, env) {
   let code;
   try { code = (await req.json()).code; } catch {}
@@ -71,7 +84,8 @@ async function auth(req, env) {
     });
     const j = await r.json();
     if (j.errcode !== 0 || !j.result || !j.result.userid) return Response.json({ ok: false }, { status: 403 });
-    const body = b64(JSON.stringify({ u: j.result.userid, n: j.result.name || '', exp: Date.now() + SESSION_MIN * 60000 }));
+    const name = j.result.name || '';
+    const body = b64(JSON.stringify({ u: j.result.userid, n: name, m: isManager(env, j.result.sys, name) ? 1 : 0, exp: Date.now() + SESSION_MIN * 60000 }));
     const cookie = `bp=${body}.${await hmac(env.SESSION_KEY, body)}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${SESSION_MIN * 60}`;
     return Response.json({ ok: true }, { headers: { 'set-cookie': cookie, 'cache-control': 'no-store' } });
   } catch (e) {
@@ -245,12 +259,21 @@ export default {
         url.searchParams.delete('sendtest');
         return Response.redirect(url.toString(), 302);
       }
+      // Manager dashboard: only for managers; everyone else just gets the normal page.
+      if (url.searchParams.get('view') === 'manager' && !s.m) {
+        url.searchParams.delete('view');
+        return Response.redirect(url.toString(), 302);
+      }
       const res = await env.ASSETS.fetch(req);
       const h = new Headers(res.headers);
       Object.entries(sec).forEach(([k, v]) => h.set(k, v));
       h.set('cache-control', 'private, no-store');
       const out = new Response(res.body, { status: res.status, headers: h });
-      if ((h.get('content-type') || '').includes('text/html')) return new HTMLRewriter().on('body', new Watermark(s.n)).transform(out);
+      if ((h.get('content-type') || '').includes('text/html')) {
+        let rw = new HTMLRewriter().on('body', new Watermark(s.n));
+        if (s.m && url.searchParams.get('view') !== 'manager') rw = rw.on('body', new MgrButton());
+        return rw.transform(out);
+      }
       return out;
     }
 

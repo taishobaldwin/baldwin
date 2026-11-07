@@ -17,6 +17,8 @@ APP_KEY = "dingvx8xsx71emectasw"
 AGENT_ID = "5122574432"
 ALERT_APP_KEY = "dinggfb1o1b9ioqzhois"
 ALERT_AGENT_ID = "5127108299"
+# First names that can open the manager dashboard (DingTalk admins always can).
+MANAGERS = "osa,wan,tyler,aa,haru,lisa"
 
 [[kv_namespaces]]
 binding = "BOT"
