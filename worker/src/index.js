@@ -178,13 +178,13 @@ function dailyMsg(now, env) {
   const f = (o) => new Intl.DateTimeFormat('en-US', { timeZone: 'America/Toronto', ...o }).format(now);
   const day = f({ weekday: 'long' }), date = f({ month: 'short', day: 'numeric' });
   return {
-    title: `📋 ${day}’s Service Plan is ready — ${date}`,
+    title: `📋 ${day}’s Service Plan is ready — ${date} 🍽️`,
     text: [
-      `### 📋 ${day}’s Service Plan is ready — ${date}`,
-      `Tap [here](${appLink(env)}) to see where you’re working today and check the reservations.`,
+      `### 📋 ${day}’s Service Plan is ready — ${date} 🍽️`,
+      `📲 Tap [here](${appLink(env)}) to see where you’re working today and check the reservations 🗓️`,
       '✅ Tap **Done** as soon as you finish each checklist item.',
-      '👀 If you’re supervising, please double-check the team’s completed tasks and sign off.',
-      'Thanks & good night 😴',
+      '👀 If you’re supervising, please double-check the team’s completed tasks and sign off ✍️',
+      'Thanks, team! Good night 🌙😴',
     ].join('\n\n'),
   };
 }
