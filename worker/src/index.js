@@ -97,8 +97,61 @@ async function checkoff(req, env) {
 
 class MgrButton {
   element(el) {
-    el.append(`<a href="/app/?view=manager" style="position:fixed;right:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:2147483646;background:#1d1d1f;color:#f7f7f4;font:600 14px/1 system-ui,sans-serif;padding:12px 16px;border-radius:999px;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25)">📊 Manager</a>`, { html: true });
+    el.append(`<a href="/app/?view=manager" style="position:fixed;right:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:2147483646;background:#1d1d1f;color:#f7f7f4;font:600 14px/1 system-ui,sans-serif;padding:12px 16px;border-radius:999px;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25)">📊 Manager</a><a href="/app/views" style="position:fixed;right:14px;bottom:calc(64px + env(safe-area-inset-bottom,0px));z-index:2147483646;background:#8f1d21;color:#fff;font:600 14px/1 system-ui,sans-serif;padding:12px 16px;border-radius:999px;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25)">👀 Views</a>`, { html: true });
   }
+}
+
+
+// ---------- Who opened DailyPlan (kept 31 days; only name, user id and time) ----------
+async function logOpen(env, uid, name) {
+  const now = new Date();
+  const key = 'open:' + torontoDate(now);
+  const arr = JSON.parse((await env.BOT.get(key)) || '[]');
+  const t = new Intl.DateTimeFormat('en-GB', { timeZone: 'America/Toronto', hour: '2-digit', minute: '2-digit', hour12: false }).format(now);
+  arr.push({ u: uid, n: name, t });
+  await env.BOT.put(key, JSON.stringify(arr), { expirationTtl: 31 * 86400 });
+}
+
+const esc = (x) => String(x).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const fn = (x) => String(x).trim().split(/\s+/)[0].toLowerCase().replace(/[^a-z]/g, '');
+const sameName = (a, b) => { a = fn(a); b = fn(b); return !!a && !!b && (a === b || (a.length >= 3 && b.length >= 3 && (a.startsWith(b) || b.startsWith(a)))); };
+
+async function scheduledNames(env, origin, date) {
+  try {
+    const html = await (await env.ASSETS.fetch(new Request(origin + '/app/'))).text();
+    const i = html.indexOf(`'${date}':{title`);
+    if (i < 0) return null;
+    let j = html.indexOf(":{title", i + 20); j = j < 0 ? html.length : j;
+    const block = html.slice(html.indexOf('team:[', i), j);
+    const names = new Set();
+    for (const m of block.matchAll(/\['([^'\]]+?)','[0-9]/g)) names.add(m[1].replace(/[^\p{L}\p{N}. ]/gu, '').trim());
+    return [...names].filter(Boolean);
+  } catch { return null; }
+}
+
+async function viewsPage(env, url) {
+  const today = torontoDate();
+  const date = /^\d{4}-\d{2}-\d{2}$/.test(url.searchParams.get('date') || '') ? url.searchParams.get('date') : today;
+  const log = JSON.parse((await env.BOT.get('open:' + date)) || '[]');
+  const people = new Map();
+  for (const e of log) { const p = people.get(e.u) || { n: e.n, times: [] }; p.times.push(e.t); people.set(e.u, p); }
+  const opened = [...people.values()].sort((a, b) => a.times[0].localeCompare(b.times[0]));
+  const sched = await scheduledNames(env, url.origin, date);
+  const notYet = sched ? sched.filter((s) => !opened.some((p) => sameName(p.n, s))) : null;
+  const days = [];
+  for (let k = 0; k < 7; k++) { const d = torontoDate(new Date(Date.now() - k * 86400000)); days.push(d); }
+  const rows = opened.map((p) => `<tr><td>${esc(p.n)}</td><td>${esc(p.times[0])}</td><td>${p.times.length}</td></tr>`).join('') || '<tr><td colspan="3" class="mut">No one yet</td></tr>';
+  const nope = notYet == null ? '<p class="mut">No schedule found for this day on the page.</p>' : notYet.length ? `<p>${notYet.map((x) => `<span class="chip">${esc(x)}</span>`).join(' ')}</p>` : '<p class="mut">Everyone on the schedule has opened it ✅</p>';
+  return new Response(`<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>Who opened DailyPlan</title>
+<style>body{margin:0;padding:16px;font-family:system-ui,-apple-system,sans-serif;background:#f6efe4;color:#2b211c}h1{font-size:20px;margin:4px 0 12px}h2{font-size:15px;margin:20px 0 8px}
+.days a{display:inline-block;margin:0 6px 6px 0;padding:6px 10px;border-radius:999px;background:#fff;color:#2b211c;text-decoration:none;font-size:13px;border:1px solid #e3d6c3}.days a.on{background:#8f1d21;color:#fff;border-color:#8f1d21}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden}td,th{padding:9px 10px;border-bottom:1px solid #f0e7da;text-align:left;font-size:14px}th{font-size:12px;color:#7a6a5c;font-weight:600}
+.chip{display:inline-block;margin:0 6px 6px 0;padding:5px 10px;border-radius:999px;background:#fbe3d6;color:#8f1d21;font-size:13px}.mut{color:#7a6a5c;font-size:13px}a.back{color:#8f1d21;font-size:14px}</style></head><body>
+<a class="back" href="/app/">← Back to plan</a><h1>👀 Who opened DailyPlan</h1>
+<div class="days">${days.map((d) => `<a href="?date=${d}" class="${d === date ? 'on' : ''}">${d === today ? 'Today' : d.slice(5)}</a>`).join('')}</div>
+<h2>On the schedule but not opened yet</h2>${nope}
+<h2>Opened (${opened.length})</h2><table><tr><th>Name</th><th>First open</th><th>Times</th></tr>${rows}</table>
+<p class="mut">Times are Toronto time. Records are kept for 31 days.</p></body></html>`, { headers: { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'private, no-store', 'x-robots-tag': 'noindex' } });
 }
 
 async function auth(req, env) {
@@ -115,6 +168,7 @@ async function auth(req, env) {
     const name = j.result.name || '';
     const body = b64(JSON.stringify({ u: j.result.userid, n: name, m: isManager(env, j.result.sys, name) ? 1 : 0, exp: Date.now() + SESSION_MIN * 60000 }));
     const cookie = `bp=${body}.${await hmac(env.SESSION_KEY, body)}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${SESSION_MIN * 60}`;
+    await logOpen(env, j.result.userid, name).catch(() => {});
     return Response.json({ ok: true }, { headers: { 'set-cookie': cookie, 'cache-control': 'no-store' } });
   } catch (e) {
     return Response.json({ ok: false, err: 'server' }, { status: 502 });
@@ -288,6 +342,7 @@ export default {
         url.searchParams.delete('sendtest');
         return Response.redirect(url.toString(), 302);
       }
+      if (url.pathname === '/app/views') return s.m ? viewsPage(env, url) : Response.redirect(url.origin + '/app/', 302);
       // Manager dashboard: only for managers; everyone else just gets the normal page.
       if (url.searchParams.get('view') === 'manager' && !s.m) {
         url.searchParams.delete('view');
