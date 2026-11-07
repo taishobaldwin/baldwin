@@ -344,54 +344,86 @@ h2 .hint.tapme{flex-basis:100%;text-align:left;font-size:.92rem;font-weight:600;
 .cobar.err{color:var(--red);border-color:color-mix(in srgb,var(--red) 45%,transparent);background:color-mix(in srgb,var(--red) 7%,var(--sheet))}
 .trow.busy{opacity:.6}
 /* ---------- manager dashboard (?view=manager, managers only) ---------- */
-.mg{max-width:760px;margin:0 auto;padding-block:20px 90px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:18px}
+.mg{max-width:760px;margin:0 auto;padding-block:20px 90px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:22px;font-family:var(--f-sans)}
 .mg[hidden]{display:none}
-.mg-top{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap}
-.mg-top h1{margin:2px 0 0}
-.mg-top a{font-size:.85rem;color:var(--soft)}
-.mg-sync{font-family:var(--f-mono);font-size:.72rem;color:var(--soft);display:flex;gap:10px;align-items:center}
-.mg-sync button{font:inherit;border:1px solid var(--hair);background:var(--sheet);color:var(--ink);border-radius:999px;padding:5px 10px;cursor:pointer}
-.mg-days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
-.mg-day{border:1px solid var(--hair);background:var(--sheet);color:var(--ink);border-radius:8px;padding:8px 4px;text-align:center;cursor:pointer;font:inherit;min-width:0}
-.mg-day b{display:block;font-family:var(--f-mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--soft)}
-.mg-day span{display:block;font-family:var(--f-serif);font-weight:600;font-size:1.05rem}
-.mg-day i{display:block;height:4px;border-radius:2px;background:var(--hair);margin:6px 4px 0;overflow:hidden;font-style:normal}
-.mg-day i u{display:block;height:100%;background:var(--uguisu)}
-.mg-day small{display:block;font-size:.68rem;color:var(--soft);margin-top:3px}
-.mg-day.on{outline:2px solid var(--ink);outline-offset:-1px}
-.mg-day.today b{color:var(--ink)}
-.mg-day:disabled{opacity:.45;cursor:default}
-.mg-tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
-.mg-tile{background:var(--sheet);border:1px solid var(--hair);border-radius:8px;padding:12px}
-.mg-tile b{display:block;font-family:var(--f-serif);font-size:1.7rem;font-weight:600;line-height:1.1}
-.mg-tile span{font-size:.78rem;color:var(--soft)}
-.mg-tile.ok b{color:var(--uguisu)} .mg-tile.bad b{color:var(--enji)} .mg-tile.wait b{color:var(--kaki)} .mg-tile.ck b{color:var(--ai)}
-.mg-bar{height:10px;border-radius:5px;background:var(--hair);overflow:hidden;display:flex}
-.mg-bar span{display:block;height:100%}
-.mg-card{background:var(--sheet);border:1px solid var(--hair);border-radius:8px;overflow:hidden}
-.mg-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;padding:10px 14px;border-top:1px solid var(--hair);align-items:baseline}
-.mg-row:first-child{border-top:0}
+.mg-k{font-size:.74rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--soft)}
+.mg-h1{font-family:var(--f-sans);font-size:1.75rem;font-weight:700;letter-spacing:-.01em;margin:4px 0 2px;line-height:1.15}
+.mg-sub{font-size:.95rem;color:var(--soft)}
+.mg-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.mg-ib{flex:none;width:44px;height:44px;border-radius:12px;border:0;background:color-mix(in srgb,var(--ink) 6%,transparent);color:var(--ink);display:grid;place-items:center;cursor:pointer}
+.mg-ib svg{width:20px;height:20px}
+.mg-ib.spin svg{animation:mgspin .8s linear infinite}
+@keyframes mgspin{to{transform:rotate(360deg)}}
+.mg-meta{display:flex;gap:12px;flex-wrap:wrap;font-size:.78rem;color:var(--soft);margin-top:6px}
+.mg-meta a{color:var(--soft)}
+.mg-days{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:0 -2px;padding:2px}
+.mg-day{flex:1 0 auto;min-width:44px;border:0;background:color-mix(in srgb,var(--ink) 5%,transparent);color:var(--ink);border-radius:12px;padding:7px 8px;text-align:center;cursor:pointer;font:inherit}
+.mg-day b{display:block;font-size:.66rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--soft)}
+.mg-day span{display:block;font-weight:700;font-size:1rem}
+.mg-day.on{background:var(--ink);color:var(--paper)} .mg-day.on b{color:color-mix(in srgb,var(--paper) 70%,transparent)}
+.mg-day:disabled{opacity:.4;cursor:default}
+.mg-tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.mg-tile{background:color-mix(in srgb,var(--ink) 4.5%,var(--sheet));border-radius:18px;padding:16px 18px;position:relative;min-width:0}
+.mg-tile .lb{font-size:.88rem;font-weight:500;color:var(--soft);padding-right:28px}
+.mg-tile svg{position:absolute;top:16px;right:16px;width:22px;height:22px;color:var(--soft)}
+.mg-tile .big{font-size:2.1rem;font-weight:700;letter-spacing:-.02em;line-height:1.1;margin:10px 0 6px}
+.mg-tile .big small{font-size:1.3rem;font-weight:600;color:var(--soft)}
+.mg-tile .sm{font-size:.86rem;color:var(--soft)}
+.mg-sec{display:flex;flex-direction:column;gap:10px}
+.mg-st{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.mg-st h2{font-family:var(--f-sans);font-size:1.25rem;font-weight:700;letter-spacing:-.01em;text-transform:none;color:var(--ink);margin:0}
+.mg-badge{font-size:.82rem;font-weight:600;padding:4px 10px;border-radius:999px;background:color-mix(in srgb,var(--enji) 14%,transparent);color:var(--enji)}
+.mg-badge.ok{background:color-mix(in srgb,#2f8a4b 14%,transparent);color:#2f7a45}
+.mg-box{background:var(--sheet);border:1px solid var(--hair);border-radius:18px;overflow:hidden}
+.mg-it{display:grid;grid-template-columns:24px minmax(0,1fr) auto;gap:2px 12px;padding:16px 18px;align-items:start}
+.mg-it+.mg-it{border-top:1px solid var(--hair)}
+.mg-it svg{width:22px;height:22px;margin-top:1px}
+.mg-it .ti{font-weight:600;font-size:1rem}
+.mg-it .de{grid-column:2;font-size:.88rem;color:var(--soft)}
+.mg-it .de ul{margin:6px 0 0;padding-left:18px}
+.mg-btn{font:inherit;font-size:.85rem;font-weight:600;border:0;border-radius:999px;padding:6px 14px;background:color-mix(in srgb,var(--ink) 7%,transparent);color:var(--ink);cursor:pointer;white-space:nowrap}
+.c-red{color:var(--enji)} .c-amb{color:var(--kaki)} .c-blue{color:var(--ai)} .c-grn{color:#2f8a4b}
+.mg-ops{padding:16px 18px;display:flex;flex-direction:column;gap:16px}
+.mg-op .r{display:flex;justify-content:space-between;font-size:.98rem;font-weight:500;margin-bottom:8px}
+.mg-op .r b{font-weight:700}
+.mg-op .r small{color:var(--soft);font-weight:400;margin-left:6px}
+.mg-tr{height:8px;border-radius:4px;background:color-mix(in srgb,var(--ink) 8%,transparent);overflow:hidden;display:flex}
+.mg-tr span{display:block;height:100%}
+.mg-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;padding:12px 18px;border-top:1px solid var(--hair);align-items:baseline}
 .mg-row .tt{font-size:.92rem}
-.mg-row .wh{font-family:var(--f-serif);font-weight:600;font-size:.9rem;white-space:nowrap}
+.mg-row .wh{font-weight:600;font-size:.88rem;white-space:nowrap}
 .mg-row .sub{grid-column:1/-1;font-size:.8rem;color:var(--soft)}
-.mg-pill{display:inline-block;font-family:var(--f-mono);font-size:.68rem;font-weight:600;letter-spacing:.04em;padding:2px 7px;border-radius:999px;margin-right:6px;vertical-align:1px}
-.p-done{background:color-mix(in srgb,var(--uguisu) 16%,transparent);color:var(--uguisu)}
-.p-ck{background:color-mix(in srgb,var(--ai) 16%,transparent);color:var(--ai)}
-.p-not{background:color-mix(in srgb,var(--enji) 16%,transparent);color:var(--enji)}
-.p-wait{background:color-mix(in srgb,var(--kaki) 16%,transparent);color:var(--kaki)}
+.mg-pill{display:inline-block;font-size:.72rem;font-weight:600;padding:2px 8px;border-radius:999px;margin-right:6px}
+.p-done{background:color-mix(in srgb,#2f8a4b 14%,transparent);color:#2f7a45}
+.p-ck{background:color-mix(in srgb,var(--ai) 15%,transparent);color:var(--ai)}
+.p-not{background:color-mix(in srgb,var(--enji) 15%,transparent);color:var(--enji)}
+.p-wait{background:color-mix(in srgb,var(--kaki) 15%,transparent);color:var(--kaki)}
 .p-miss{background:var(--enji);color:#fff}
-.mg-grp{font-family:var(--f-mono);font-size:.7rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;background:var(--paper);padding:8px 14px;border-top:1px solid var(--hair);display:flex;justify-content:space-between}
-.mg-grp:first-child{border-top:0}
-.mg-empty{padding:14px;font-size:.88rem;color:var(--soft)}
+.mg-grp{font-size:.74rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:10px 18px;background:color-mix(in srgb,var(--ink) 4%,var(--sheet));border-top:1px solid var(--hair);display:flex;justify-content:space-between}
+.mg-box>.mg-grp:first-child{border-top:0}
+.mg-empty{padding:16px 18px;font-size:.9rem;color:var(--soft)}
+details.mg-box>summary{list-style:none;cursor:pointer;padding:16px 18px;display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:1.05rem}
+details.mg-box>summary::-webkit-details-marker{display:none}
+details.mg-box>summary span:last-child{color:var(--soft);font-weight:500;font-size:.85rem}
+details.mg-box[open]>summary{border-bottom:1px solid var(--hair)}
 .mg table{width:100%;border-collapse:collapse;font-size:.88rem}
-.mg th{font-family:var(--f-mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--soft);font-weight:600;text-align:right;padding:8px 10px;border-bottom:1px solid var(--hair)}
-.mg td{padding:8px 10px;border-top:1px solid var(--hair);text-align:right;font-variant-numeric:tabular-nums}
-.mg th:first-child,.mg td:first-child{text-align:left}
-.mg td.nm{font-family:var(--f-serif);font-weight:600}
-.mg td .r{color:var(--enji);font-weight:600}
+.mg th{font-size:.7rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--soft);text-align:right;padding:10px 12px}
+.mg td{padding:9px 12px;border-top:1px solid var(--hair);text-align:right;font-variant-numeric:tabular-nums}
+.mg th:first-child,.mg td:first-child{text-align:left;padding-left:18px}
+.mg th:last-child,.mg td:last-child{padding-right:18px}
+.mg td.nm{font-weight:600}
+.mg td .r{color:var(--enji);font-weight:700}
 .mg-tw{overflow-x:auto}
-.mg-err{background:color-mix(in srgb,var(--enji) 12%,transparent);color:var(--enji);border-radius:8px;padding:10px 12px;font-size:.88rem}
-@media (max-width:520px){.mg-tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.mg-day span{font-size:.92rem}.mg-day small{display:none}}
+.mg-rv{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.mg-rv>div{padding:14px 18px}
+.mg-rv>div+div{border-left:1px solid var(--hair)}
+.mg-rv b{display:block;font-size:1.4rem;font-weight:700}
+.mg-rv span{font-size:.82rem;color:var(--soft)}
+.mg-rl{padding:12px 18px;border-top:1px solid var(--hair);font-size:.88rem;color:var(--soft)}
+.mg-rl b{color:var(--ink)}
+.mg-err{background:color-mix(in srgb,var(--enji) 12%,transparent);color:var(--enji);border-radius:12px;padding:10px 14px;font-size:.88rem}
+.mg-foot{font-size:.8rem;color:var(--soft);margin:0}
+@media (max-width:380px){.mg-tile .big{font-size:1.75rem}.mg-tile{padding:14px}}
 </style></head><body>
 
 <div class="wrap">
@@ -1319,25 +1351,43 @@ document.addEventListener('visibilitychange',()=>{ if(!document.hidden&&CO_DAY) 
 }
 
 /* ---------- manager dashboard: ?view=manager (the DingTalk app only lets managers open it) ----------
-   Planned tasks come from this page's own plan; what was marked comes from the check-off Google Sheet. */
+   Staff and reservations come from this page's own data; checklist status comes from the check-off Google Sheet. */
 const MGR=new URLSearchParams(location.search).get('view')==='manager'&&!/github\.io$/.test(location.hostname);
 const MG_ROLES=[['srv','Server'],['host','Host'],['bus','Busser'],['bar','Bar'],['chr','Charidise']];
+const MGI={
+ users:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.4 3.2-5.5 6.5-5.5s5.9 2.1 6.5 5.5"/><circle cx="17" cy="9" r="2.6"/><path d="M17 14.6c2.4.2 4.1 1.9 4.6 4.6"/></svg>',
+ cal:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M8 3v4M16 3v4M3.5 10h17"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 17.5h.01M12 17.5h.01"/></svg>',
+ clip:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4.5" width="14" height="16.5" rx="2.5"/><path d="M9 3h6v3H9z"/><path d="m9 13.5 2 2 4-4.5"/></svg>',
+ warn:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 4.2 2.6 18a2 2 0 0 0 1.7 3h15.4a2 2 0 0 0 1.7-3L13.7 4.2a2 2 0 0 0-3.4 0z"/><path d="M12 9.5v4.5M12 17.5h.01"/></svg>',
+ alert:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5h.01"/></svg>',
+ check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8 12.5 2.8 2.8L16 9.5"/></svg>',
+ clock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+ party:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="13" height="13" rx="2.5"/><path d="M7 3v4M13 3v4M3.5 10h13"/><circle cx="17.5" cy="17.5" r="4"/><path d="M17.5 15.8v1.9l1.2.8"/></svg>',
+ drop:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3s6 6.4 6 11a6 6 0 0 1-12 0c0-4.6 6-11 6-11z"/></svg>',
+ ref:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></svg>'
+};
 function dayTasks(k){
   const out=[]; if(!DAYS[k]) return out;
   (TASKS[k]||[]).forEach(([t,w])=>out.push({key:tkey(k,'srv',t),role:'srv',t,who:w}));
   CHECKLISTS.forEach(G=>dayPlan(G,k).forEach(a=>a.tasks.forEach(t=>out.push({key:tkey(k,G.id,t),role:G.id,t,who:whoLabel(a,G)}))));
   return out;
 }
-let MG_ROWS={}, MG_DAY=null, MG_AT=null, MG_ERR=false;
+let MG_ROWS={}, MG_DAY=null, MG_AT=null, MG_ERR=false, MG_BUSY=false;
+const mgNow=()=>{const d=new Date();return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');};
 function mgState(x,k){ const d=MG_ROWS[x.key];
   if(d&&d.status==='done') return d.checkedBy?'ck':'done';
   if(d&&d.status==='notdone') return 'not';
   return k<todayKey()?'miss':'wait'; }
-function mgCount(k){ const T=dayTasks(k), c={tot:T.length,done:0,ck:0,not:0,wait:0,miss:0};
+function mgCount(T,k){ const c={tot:T.length,done:0,ck:0,not:0,wait:0,miss:0};
   T.forEach(x=>{const s=mgState(x,k); if(s==='ck'){c.done++;c.ck++;} else c[s]++;}); return c; }
 const mgPct=(a,b)=>b?Math.round(a/b*100):0;
 const mgT=v=>{ if(!v) return ''; const d=new Date(v); return isNaN(d)?String(v).slice(-5):hhmm(+d); };
 const mgNames=w=>String(w).replace(/\s*·.*$/,'').replace(/\s+start of dinner$/,'').split(' + ').map(s=>s.trim()).filter(Boolean);
+function mgStaff(k){ const D=DAYS[k], P=new Map(); if(!D) return null;
+  D.team.forEach(([,rows])=>rows.forEach(([n,t])=>{const nm=base(n), p=P.get(nm)||{n:nm,blocks:[]}; t.split('<br>').forEach(b=>p.blocks.push(b)); P.set(nm,p);}));
+  const L=[...P.values()], now=mgNow(), today=k===todayKey();
+  return {tot:L.length, lunch:L.filter(p=>p.blocks.some(isLunch)).length, dinner:L.filter(p=>p.blocks.some(b=>!isLunch(b))).length,
+    now:today?L.filter(p=>p.blocks.some(b=>st(b)<=now&&now<en(b))).length:null}; }
 function mgPill(s,d){
   if(s==='ck') return `<span class="mg-pill p-ck">✓ Checked · ${e(d.checkedBy)} ${mgT(d.checkedAt)}</span>`;
   if(s==='done') return `<span class="mg-pill p-done">Done ${mgT(d.at)}</span><span class="mg-pill p-wait">Not checked yet</span>`;
@@ -1345,64 +1395,93 @@ function mgPill(s,d){
   if(s==='miss') return `<span class="mg-pill p-miss">Not marked</span>`;
   return `<span class="mg-pill p-wait">Waiting</span>`;
 }
-function mgTaskRow(x,k,showRole){ const d=MG_ROWS[x.key]||{}, s=mgState(x,k);
-  const role=showRole?`${(MG_ROLES.find(r=>r[0]===x.role)||[,''])[1]} · `:'';
+function mgTaskRow(x,k){ const d=MG_ROWS[x.key]||{}, s=mgState(x,k);
   return `<div class="mg-row"><span class="tt">${e(x.t)}</span><span class="wh">${e(mgNames(x.who).join(' + ')||x.who)}</span>`+
-    `<span class="sub">${role}${mgPill(s,d)}${s==='not'&&d.note?` Reason: ${e(d.note)}`:''}</span></div>`; }
+    `<span class="sub">${mgPill(s,d)}${s==='not'&&d.note?` Reason: ${e(d.note)}`:''}</span></div>`; }
+const mgItem=(icon,cls,title,desc,btn,go)=>`<div class="mg-it"><span class="${cls}">${MGI[icon]}</span><span class="ti">${title}</span>`+
+  (btn?`<button type="button" class="mg-btn" data-go="${go}">${btn}</button>`:'<span></span>')+`<div class="de">${desc}</div></div>`;
 function mgRender(){
   const box=document.getElementById('mgr'), today=todayKey();
-  const week=KEYS.filter(k=>dayTasks(k).length||true);
   if(!MG_DAY) MG_DAY=DAYS[today]?today:KEYS[0];
-  const k=MG_DAY, T=dayTasks(k), c=mgCount(k), D=DAYS[k];
-  const W=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-  let h=`<div class="mg-top"><div><div class="day">Taisho Baldwin · Manager</div><h1>Checklist dashboard</h1>`+
-    `<a href="./${location.search.replace(/[?&]view=manager/,'').replace(/^&/,'?')}">← Back to the staff page</a></div>`+
-    `<div class="mg-sync">${MG_AT?'Updated '+hhmm(MG_AT):'Loading…'}<button type="button" id="mgref">Refresh</button></div></div>`;
-  if(MG_ERR) h+=`<div class="mg-err">Could not reach the check-off sheet. Showing the last data. Tap Refresh to try again.</div>`;
-  h+=`<div class="mg-days">`+week.map(kk=>{const cc=mgCount(kk), dd=new Date(kk+'T12:00:00');
-    return `<button type="button" class="mg-day${kk===k?' on':''}${kk===today?' today':''}" data-k="${kk}"${cc.tot?'':' disabled'}><b>${kk===today?'Today':W[dd.getDay()]}</b><span>${dd.getDate()}</span>`+
-      `<i><u style="width:${mgPct(cc.done,cc.tot)}%"></u></i><small>${cc.tot?cc.done+'/'+cc.tot:'—'}</small></button>`;}).join('')+`</div>`;
-  h+=`<section><h2>${e(D?D.title:k)}</h2>`;
-  if(!T.length){ h+=`<div class="mg-card"><p class="mg-empty">No weekly checklist tasks on this day.</p></div></section>`; }
-  else{
-    h+=`<div class="mg-tiles"><div class="mg-tile ok"><b>${c.done}<small style="font-size:.9rem;color:var(--soft)">/${c.tot}</small></b><span>Done (${mgPct(c.done,c.tot)}%)</span></div>`+
-      `<div class="mg-tile ck"><b>${c.ck}<small style="font-size:.9rem;color:var(--soft)">/${c.done}</small></b><span>Checked by IC</span></div>`+
-      `<div class="mg-tile bad"><b>${c.not+c.miss}</b><span>Not done${c.miss?` · ${c.miss} not marked`:''}</span></div>`+
-      `<div class="mg-tile wait"><b>${c.wait}</b><span>Still waiting</span></div></div>`;
-    h+=`<div class="mg-bar" style="margin-top:10px" aria-hidden="true"><span style="width:${mgPct(c.ck,c.tot)}%;background:var(--ai)"></span><span style="width:${mgPct(c.done-c.ck,c.tot)}%;background:var(--uguisu)"></span><span style="width:${mgPct(c.not+c.miss,c.tot)}%;background:var(--enji)"></span></div></section>`;
-    const att=T.filter(x=>['not','miss','done'].includes(mgState(x,k)));
-    h+=`<section><h2>Needs attention <span class="hint">not done, not marked, or waiting for the IC check</span></h2><div class="mg-card">`+
-      (att.length?att.sort((a,b)=>['not','miss','done'].indexOf(mgState(a,k))-['not','miss','done'].indexOf(mgState(b,k))).map(x=>mgTaskRow(x,k,true)).join(''):`<p class="mg-empty">All clear 👍</p>`)+`</div></section>`;
-    h+=`<section><h2>All tasks by role</h2><div class="mg-card">`+MG_ROLES.map(([id,l])=>{const rr=T.filter(x=>x.role===id); if(!rr.length) return '';
-      const dn=rr.filter(x=>['done','ck'].includes(mgState(x,k))).length;
-      return `<div class="mg-grp"><span>${l}</span><span>${dn}/${rr.length}</span></div>`+rr.map(x=>mgTaskRow(x,k,false)).join('');}).join('')+`</div></section>`;
-  }
-  /* the whole week */
-  const wk=KEYS.map(kk=>[kk,mgCount(kk)]).filter(([,cc])=>cc.tot), sum=wk.reduce((a,[,cc])=>{for(const x in cc)a[x]=(a[x]||0)+cc[x];return a;},{});
-  h+=`<section><h2>This week</h2><div class="mg-card mg-tw"><table><thead><tr><th>Day</th><th>Done</th><th>Checked</th><th>Not done</th><th>Waiting</th></tr></thead><tbody>`+
+  const k=MG_DAY, D=DAYS[k], T=dayTasks(k), c=mgCount(T,k), S=mgStaff(k), R=RESV[k]||null, isToday=k===today, now=mgNow();
+  const dow=new Date(k+'T12:00:00').getDay(), W=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const bigMin=BIG_MIN(dow), big=R?R.filter(([,n])=>n>=bigMin):[];
+  const ofT=s=>T.filter(x=>mgState(x,k)===s);
+  const nots=ofT('not'), miss=ofT('miss'), unck=ofT('done'), late=isToday&&now>='21:00'?ofT('wait'):[];
+  /* things that need a manager, most urgent first */
+  const items=[];
+  if(nots.length) items.push(mgItem('alert','c-red',`${nots.length} ${nots.length===1?'task':'tasks'} marked not done`,`<ul>${nots.map(x=>`<li><b>${e(mgNames(x.who).join(' + '))}</b> · ${e(x.t)}${(MG_ROWS[x.key]||{}).note?` — “${e(MG_ROWS[x.key].note)}”`:''}</li>`).join('')}</ul>`,'Review','tasks'));
+  if(miss.length) items.push(mgItem('alert','c-red',`${miss.length} ${miss.length===1?'task was':'tasks were'} never marked`,'The day is over and nobody tapped Done or Not done.','Review','tasks'));
+  if(late.length) items.push(mgItem('clock','c-red',`${late.length} ${late.length===1?'task':'tasks'} still open`,'It’s after 21:00. Remind the team before close.','Review','tasks'));
+  if(unck.length) items.push(mgItem('check','c-amb',`${unck.length} ${unck.length===1?'task needs':'tasks need'} IC check`,'Marked Done · no supervisor verification yet.','Review','tasks'));
+  big.forEach(([t,n])=>items.push(mgItem('party','c-blue',`Large party arriving · ${t}`,`${n} guests · set the table up early.`,'View','resv')));
+  if(WASH_DAYS.includes(dow)) items.push(mgItem('drop','c-blue','Kitchen floor wash at 15:45','After 13:45, avoid seating B5, A6 and B1.',null,''));
+  const issues=nots.length+miss.length+late.length+unck.length;
+  /* header */
+  let h=`<div><div class="mg-head"><div><div class="mg-k">Taisho Baldwin / Management</div><div class="mg-h1">Operations Overview</div>`+
+    `<div class="mg-sub">${e(D?D.title:k)}${isToday?` · ${now<'16:00'?'Lunch':'Dinner'} Service`:''}</div></div>`+
+    `<button type="button" class="mg-ib${MG_BUSY?' spin':''}" id="mgref" aria-label="Refresh">${MGI.ref}</button></div>`+
+    `<div class="mg-meta"><span>${MG_AT?'Checklist updated '+hhmm(MG_AT):'Loading checklist…'}</span><a href="./${location.search.replace(/[?&]view=manager/,'').replace(/^&/,'?')}">← Staff page</a></div></div>`;
+  if(MG_ERR) h+=`<div class="mg-err">Could not reach the check-off sheet. Showing the last data.</div>`;
+  h+=`<div class="mg-days" role="tablist">`+KEYS.map(kk=>{const dd=new Date(kk+'T12:00:00');
+    return `<button type="button" class="mg-day${kk===k?' on':''}" data-k="${kk}"><b>${kk===today?'Today':W[dd.getDay()]}</b><span>${dd.getDate()}</span></button>`;}).join('')+`</div>`;
+  /* tiles */
+  const sTile=S?(S.now!=null&&S.now>0?[`${S.now}<small> / ${S.tot}</small>`,`on shift now · ${S.lunch} lunch · ${S.dinner} dinner`]:[`${S.tot}`,`scheduled · ${S.lunch} lunch · ${S.dinner} dinner`]):['—','No schedule'];
+  const rG=R?R.reduce((a,[,n])=>a+n,0):0;
+  const att=[nots.length+miss.length+late.length?`${nots.length+miss.length+late.length} not done`:'',unck.length?`${unck.length} to check`:'',big.length?`${big.length} large ${big.length===1?'party':'parties'}`:''].filter(Boolean).join(' · ')||'All clear';
+  h+=`<div class="mg-tiles">`+
+    `<div class="mg-tile"><div class="lb">Staff on Duty</div>${MGI.users}<div class="big">${sTile[0]}</div><div class="sm">${sTile[1]}</div></div>`+
+    `<div class="mg-tile"><div class="lb">Reservations</div>${MGI.cal}<div class="big">${R?R.length:'—'}</div><div class="sm">${R?`${rG} guests · ${big.length} large ${big.length===1?'party':'parties'}`:'Not synced yet'}</div></div>`+
+    `<div class="mg-tile"><div class="lb">Checklist Progress</div>${MGI.clip}<div class="big">${T.length?mgPct(c.done,c.tot)+'%':'—'}</div><div class="sm">${T.length?`${c.done} of ${c.tot} done · ${c.tot-c.done} open`:'No weekly tasks today'}</div></div>`+
+    `<div class="mg-tile"><div class="lb">Need Attention</div>${MGI.warn}<div class="big">${items.length}</div><div class="sm">${att}</div></div></div>`;
+  /* attention list */
+  h+=`<section class="mg-sec"><div class="mg-st"><h2>Requires Your Attention</h2><span class="mg-badge${issues?'':' ok'}">${issues?issues+' '+(issues===1?'issue':'issues'):'All clear'}</span></div>`+
+    `<div class="mg-box">${items.length?items.join(''):`<p class="mg-empty">Nothing needs you right now 👍</p>`}</div></section>`;
+  /* checklist by role */
+  h+=`<section class="mg-sec"><div class="mg-st"><h2>Today’s Checklists</h2></div><div class="mg-box">`+(T.length?`<div class="mg-ops">`+MG_ROLES.map(([id,l])=>{const rr=T.filter(x=>x.role===id); if(!rr.length) return ''; const cc=mgCount(rr,k), w=x=>(x/cc.tot*100).toFixed(1)+'%';
+      return `<div class="mg-op"><div class="r"><span>${l}<small>${cc.done}/${cc.tot}${cc.not+cc.miss?` · ${cc.not+cc.miss} not done`:''}</small></span><b>${mgPct(cc.done,cc.tot)}%</b></div>`+
+        `<div class="mg-tr"><span style="width:${w(cc.ck)};background:var(--ai)"></span><span style="width:${w(cc.done-cc.ck)};background:#2f8a4b"></span><span style="width:${w(cc.not+cc.miss)};background:var(--enji)"></span></div></div>`;}).join('')+
+    `<p class="mg-foot"><span class="c-blue">■</span> checked by IC&ensp;<span class="c-grn">■</span> done&ensp;<span class="c-red">■</span> not done</p></div>`:`<p class="mg-empty">No weekly checklist tasks on this day.</p>`)+`</div></section>`;
+  /* reservations */
+  { const ru=RUSH_DAY[k]||RUSH[dow], part=f=>{const x=R?R.filter(([t])=>f(t)):[]; return [x.length,x.reduce((a,[,n])=>a+n,0)];}, lu=part(t=>t<'16:00'), di=part(t=>t>='16:00'), lw=LASTWK[k];
+    h+=`<section class="mg-sec" id="mg-resv"><div class="mg-st"><h2>Reservations</h2><span class="mg-k">Snappy · ${RESV_SYNCED.slice(5).replace('-','/')}</span></div><div class="mg-box">`+
+      (R?`<div class="mg-rv"><div><span>☀️ Lunch</span><b>${lu[0]} <small style="font-size:.9rem;font-weight:500;color:var(--soft)">tables · ${lu[1]} guests</small></b></div><div><span>🏮 Dinner</span><b>${di[0]} <small style="font-size:.9rem;font-weight:500;color:var(--soft)">tables · ${di[1]} guests</small></b></div></div>`+
+        (big.length?`<div class="mg-rl">🎉 Large parties (${bigMin}+): ${big.map(([t,n])=>`<b>${t}</b> · ${n}`).join(', ')}</div>`:''):`<p class="mg-empty">No reservation data for this day yet.</p>`)+
+      `<div class="mg-rl">⏱️ Expected rush <b>${ru[0]}</b> · ${e(ru[1])}</div>`+
+      (lw?`<div class="mg-rl">📊 Same day last week: <b>${lw[0]}</b> walk-in guests on the waitlist${lw[2]?`, <b>${lw[2]}</b> ${lw[2]===1?'group':'groups'} left`:''}, <b>${lw[4]}</b> booked guests.</div>`:'')+`</div></section>`; }
+  /* details */
+  h+=`<details class="mg-box" id="mg-tasks"${MG_OPEN.tasks?' open':''}><summary><span>All tasks</span><span>${c.done}/${c.tot} done ▾</span></summary>`+
+    (T.length?MG_ROLES.map(([id,l])=>{const rr=T.filter(x=>x.role===id); if(!rr.length) return ''; const cc=mgCount(rr,k);
+      return `<div class="mg-grp"><span>${l}</span><span>${cc.done}/${cc.tot}</span></div>`+rr.map(x=>mgTaskRow(x,k)).join('');}).join(''):`<p class="mg-empty">No weekly checklist tasks on this day.</p>`)+`</details>`;
+  const wk=KEYS.map(kk=>[kk,mgCount(dayTasks(kk),kk)]).filter(([,cc])=>cc.tot), sum=wk.reduce((a,[,cc])=>{for(const x in cc)a[x]=(a[x]||0)+cc[x];return a;},{});
+  h+=`<details class="mg-box" id="mg-week"${MG_OPEN.week?' open':''}><summary><span>This week</span><span>${mgPct(sum.done||0,sum.tot||0)}% done ▾</span></summary><div class="mg-tw"><table><thead><tr><th>Day</th><th>Done</th><th>Checked</th><th>Not done</th><th>Open</th></tr></thead><tbody>`+
     wk.map(([kk,cc])=>{const dd=new Date(kk+'T12:00:00');return `<tr><td>${W[dd.getDay()]} ${dd.getDate()}</td><td>${cc.done}/${cc.tot} <small>(${mgPct(cc.done,cc.tot)}%)</small></td><td>${cc.ck}</td><td>${cc.not+cc.miss?`<span class="r">${cc.not+cc.miss}</span>`:0}</td><td>${cc.wait}</td></tr>`;}).join('')+
-    `<tr><td><b>Week</b></td><td><b>${sum.done||0}/${sum.tot||0}</b> <small>(${mgPct(sum.done||0,sum.tot||0)}%)</small></td><td><b>${sum.ck||0}</b></td><td><b>${(sum.not||0)+(sum.miss||0)}</b></td><td><b>${sum.wait||0}</b></td></tr></tbody></table></div></section>`;
-  /* by person, whole week */
+    `<tr><td><b>Week</b></td><td><b>${sum.done||0}/${sum.tot||0}</b></td><td><b>${sum.ck||0}</b></td><td><b>${(sum.not||0)+(sum.miss||0)}</b></td><td><b>${sum.wait||0}</b></td></tr></tbody></table></div></details>`;
   const P={}; KEYS.forEach(kk=>dayTasks(kk).forEach(x=>{const s=mgState(x,kk); mgNames(x.who).forEach(n=>{const p=P[n]||(P[n]={n,tot:0,done:0,not:0,wait:0}); p.tot++; if(s==='done'||s==='ck')p.done++; else if(s==='wait')p.wait++; else p.not++;});}));
   const PL=Object.values(P).sort((a,b)=>(b.not-a.not)||(mgPct(a.done,a.tot)-mgPct(b.done,b.tot))||a.n.localeCompare(b.n));
-  h+=`<section><h2>By person · this week</h2><div class="mg-card mg-tw"><table><thead><tr><th>Name</th><th>Tasks</th><th>Done</th><th>Not done</th><th>Waiting</th></tr></thead><tbody>`+
-    PL.map(p=>`<tr><td class="nm">${e(p.n)}</td><td>${p.tot}</td><td>${p.done} <small>(${mgPct(p.done,p.tot)}%)</small></td><td>${p.not?`<span class="r">${p.not}</span>`:0}</td><td>${p.wait}</td></tr>`).join('')+`</tbody></table></div></section>`;
-  h+=`<p class="note" style="color:var(--soft)">“Not marked” = the day is over and nobody tapped Done or Not done. Data refreshes every minute.</p>`;
+  h+=`<details class="mg-box" id="mg-people"${MG_OPEN.people?' open':''}><summary><span>By person · this week</span><span>${PL.length} people ▾</span></summary><div class="mg-tw"><table><thead><tr><th>Name</th><th>Tasks</th><th>Done</th><th>Not done</th><th>Open</th></tr></thead><tbody>`+
+    PL.map(p=>`<tr><td class="nm">${e(p.n)}</td><td>${p.tot}</td><td>${p.done} <small>(${mgPct(p.done,p.tot)}%)</small></td><td>${p.not?`<span class="r">${p.not}</span>`:0}</td><td>${p.wait}</td></tr>`).join('')+`</tbody></table></div></details>`;
+  h+=`<p class="mg-foot">Staff counts come from the schedule (no clock-in data). “Not marked” = the day is over and nobody tapped Done or Not done. Refreshes every minute.</p>`;
   box.innerHTML=h;
 }
+const MG_OPEN={tasks:false,week:false,people:false};
 async function mgLoad(){
+  MG_BUSY=true; if(MG_AT) mgRender();
   try{ const r=await fetch(`${SHEET_API}?action=list`); const j=await r.json(); if(!j.ok) throw 0;
     const m={}; j.rows.forEach(x=>{m[x.key]=x;}); MG_ROWS=m; MG_AT=Date.now(); MG_ERR=false; }
   catch(err){ MG_ERR=true; }
-  mgRender();
+  MG_BUSY=false; mgRender();
 }
 if(MGR){
   document.querySelector('body > .wrap').hidden=true;
-  document.getElementById('mgr').hidden=false;
-  document.title='Baldwin · Manager dashboard';
-  document.getElementById('mgr').addEventListener('click',ev=>{
-    const b=ev.target.closest('.mg-day'); if(b&&!b.disabled){MG_DAY=b.dataset.k; mgRender(); return;}
-    if(ev.target.closest('#mgref')) mgLoad(); });
+  const box=document.getElementById('mgr'); box.hidden=false;
+  document.title='Baldwin · Operations Overview';
+  box.addEventListener('toggle',ev=>{const id=(ev.target.id||'').replace('mg-',''); if(id in MG_OPEN) MG_OPEN[id]=ev.target.open;},true);
+  box.addEventListener('click',ev=>{
+    const b=ev.target.closest('.mg-day'); if(b){MG_DAY=b.dataset.k; mgRender(); return;}
+    if(ev.target.closest('#mgref')){ mgLoad(); return; }
+    const g=ev.target.closest('.mg-btn'); if(g&&g.dataset.go){ if(g.dataset.go==='tasks'){MG_OPEN.tasks=true; document.getElementById('mg-tasks').open=true;}
+      document.getElementById('mg-'+g.dataset.go).scrollIntoView({behavior:'smooth',block:'start'}); } });
   mgRender(); mgLoad();
   setInterval(()=>{ if(!document.hidden) mgLoad(); },60000);
   document.addEventListener('visibilitychange',()=>{ if(!document.hidden) mgLoad(); });
