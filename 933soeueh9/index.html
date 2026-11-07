@@ -1330,6 +1330,7 @@ if(CHECKOFF){
 document.addEventListener('click',ev=>{
   const r=ev.target.closest('#tasksec .trow[data-dk]'); if(!r||!CO_OK||r.classList.contains('busy')) return;
   const cur=DONE[r.dataset.dk], st=cur?cur.status:null, form=r.querySelector('.nform');
+  if(ev.target.closest('.icb')&&ME&&ME.m&&!r.dataset.needpin){ coSend(r,{action:cur&&cur.checkedBy?'uncheck':'check'}).then(x=>{ if(x==='code'){ r.dataset.needpin='1'; r.querySelector('.icb').click(); } }); return; }
   if(ev.target.closest('.icb')){ const pk=r.querySelector('.icpick'); pk.hidden=!pk.hidden; r.querySelector('.icerr').hidden=true; r.querySelector('.icpin').value=''; if(!pk.hidden) r.querySelector('.icpin').focus(); return; }
   if(ev.target.closest('.icok')){ const pin=r.querySelector('.icpin'), er=r.querySelector('.icerr');
     if(!/^\d{4}$/.test(pin.value)){ er.hidden=false; pin.value=''; pin.focus(); return; }
@@ -1485,6 +1486,71 @@ if(MGR){
   mgRender(); mgLoad();
   setInterval(()=>{ if(!document.hidden) mgLoad(); },60000);
   document.addEventListener('visibilitychange',()=>{ if(!document.hidden) mgLoad(); });
+}
+
+/* ---------- supervisor verification: ?view=verify (managers only; no PIN per task) ----------
+   Pending = staff tapped Done and nobody verified yet. Verify (one or many) records the supervisor's name and time.
+   Reject needs a reason and sends the task back to the person (it shows as Not done with the reason). */
+const VER=new URLSearchParams(location.search).get('view')==='verify'&&!/github\.io$/.test(location.hostname);
+if(VER){
+  const VR={rows:{},at:null,err:false,sel:new Set(),busy:false,msg:''};
+  const box=document.getElementById('mgr'); box.hidden=false; document.querySelector('body > .wrap').hidden=true;
+  document.title='Baldwin · Task Verification';
+  const st=document.createElement('style'); st.textContent=`
+   .vf,.vf *{box-sizing:border-box}.vf{width:100%;max-width:640px;margin:0 auto;padding:16px 16px 120px;font-family:system-ui,-apple-system,sans-serif;color:#1d1d1f}
+   .vf .vf-k{display:block;border:0;background:none;padding:0;font-size:12px;letter-spacing:.06em;color:#7a6a5c;font-weight:700;text-transform:uppercase}.vf h1{font-family:system-ui,-apple-system,sans-serif;font-size:26px;margin:4px 0 2px}.vf .vf-sub{color:#7a6a5c;font-size:14px}
+   .vf .vf-tl{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0}.vf .vf-tl div{background:#fff;border:1px solid #e8e1d6;border-radius:14px;padding:12px;text-align:center}
+   .vf .vf-tl b{display:block;font-size:26px}.vf .vf-tl span{font-size:13px;color:#7a6a5c}
+   .vf .vf-bar{display:flex;align-items:center;justify-content:space-between;margin:18px 0 8px}.vf .vf-bar h2{font-size:18px;margin:0}
+   .vf .vf-card{background:#fff;border:1px solid #e8e1d6;border-radius:14px;padding:12px 14px;margin:0 0 10px;display:flex;gap:12px;align-items:flex-start}
+   .vf .vf-card.vf-on{border-color:#2f8a4b;box-shadow:0 0 0 2px #2f8a4b33}.vf .vf-card input{width:22px;height:22px;margin-top:2px;accent-color:#2f8a4b;flex:none}
+   .vf .vf-card .vf-m{flex:1;min-width:0}.vf .vf-card .vf-t{font-family:system-ui,-apple-system,sans-serif;letter-spacing:0;text-align:left;font-weight:600;font-size:15px}.vf .vf-card .vf-w{font-size:13px;color:#7a6a5c;margin-top:3px}
+   .vf .vf-rj{border:1px solid #d9cfc2;background:#fff;border-radius:999px;padding:7px 12px;font-size:13px;color:#8f1d21;flex:none}
+   .vf .vf-rf{display:flex;gap:6px;margin-top:8px;width:100%}.vf .vf-rf input{flex:1;min-width:0;width:100%;padding:8px;border:1px solid #d9cfc2;border-radius:10px;font-size:14px}.vf .vf-rf button{border:0;border-radius:10px;padding:8px 12px;background:#8f1d21;color:#fff}
+   .vf .vf-done{opacity:.75}.vf .vf-ok{color:#2f8a4b;font-size:13px;margin-top:3px}.vf .vf-no{color:#8f1d21;font-size:13px;margin-top:3px}
+   .vf .vf-empty{background:#fff;border:1px dashed #d9cfc2;border-radius:14px;padding:18px;text-align:center;color:#7a6a5c}
+   .vf .vf-foot{position:fixed;left:0;right:0;bottom:0;background:#fffffff0;border-top:1px solid #e8e1d6;padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));display:flex;gap:10px;justify-content:center}
+   .vf .vf-foot button{border:0;border-radius:999px;padding:13px 18px;font-size:15px;font-weight:600}.vf .vf-va{background:#2f8a4b;color:#fff;flex:1;max-width:420px}.vf .vf-va:disabled{background:#b9cdbf}
+   .vf .vf-sa{background:#f1ebe2;color:#1d1d1f}.vf .vf-msg{text-align:center;font-size:13px;color:#7a6a5c;margin:6px 0}.vf a.vf-bk{color:#8f1d21;font-size:14px;text-decoration:none}
+   .vf details{margin-top:14px}.vf summary{cursor:pointer;font-weight:600;padding:6px 0}`;
+  document.head.appendChild(st);
+  const T=()=>KEYS.filter(k=>k<=todayKey()).flatMap(k=>dayTasks(k).map(x=>({...x,k})));
+  const R=x=>VR.rows[x.key]||null;
+  const pend=()=>T().filter(x=>{const d=R(x);return d&&d.status==='done'&&!d.checkedBy;});
+  const todayT=()=>T().filter(x=>x.k===todayKey());
+  const dl=k=>k===todayKey()?'Today':DAYS[k].title.split(', ')[0].slice(0,3)+' '+DAYS[k].title.split(' ').pop();
+  function render(){
+    if(!ME||!ME.m){ box.innerHTML='<div class="vf"><p>Only supervisors can open this page.</p></div>'; return; }
+    const P=pend(), TT=todayT(), ver=TT.filter(x=>(R(x)||{}).checkedBy), rej=TT.filter(x=>{const d=R(x);return d&&d.status==='notdone'&&/^Sent back by /.test(d.note||'');});
+    [...VR.sel].forEach(k=>{if(!P.some(x=>x.key===k)) VR.sel.delete(k);});
+    let h=`<div class="vf"><a class="vf-bk" href="./">← Back to plan</a><div class="vf-k" style="margin-top:10px">Baldwin / Supervisor</div><h1>Task Verification</h1><div class="vf-sub">${e(DAYS[todayKey()]?DAYS[todayKey()].title:todayKey())}${VR.at?' · updated '+hhmm(VR.at):' · loading…'}</div>`+
+      (VR.err?`<p class="vf-no">Could not reach the check-off sheet. Pull to refresh.</p>`:'')+
+      `<div class="vf-tl"><div><b>${P.length}</b><span>Pending</span></div><div><b>${ver.length}</b><span>Verified today</span></div><div><b>${rej.length}</b><span>Sent back today</span></div></div>`+
+      `<div class="vf-bar"><h2>Awaiting verification</h2>${P.length?`<button type="button" class="vf-sa" id="vall" style="border:0;border-radius:999px;padding:7px 12px">${VR.sel.size===P.length?'Clear':'Select all'}</button>`:''}</div>`;
+    h+=P.length?P.map(x=>{const d=R(x);return `<div class="vf-card${VR.sel.has(x.key)?' vf-on':''}" data-key="${x.key}"><input type="checkbox" aria-label="Select" ${VR.sel.has(x.key)?'checked':''}><div class="vf-m"><div class="vf-t">${e(x.t)}</div><div class="vf-w">👤 ${e(x.who.replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim())} · ${dl(x.k)} · done ${hhmm(d.at)}</div><div class="vf-rf" hidden><input type="text" maxlength="160" placeholder="Reason (required)"><button type="button" class="vf-rs">Send back</button></div></div><button type="button" class="vf-rj">Reject</button></div>`;}).join(''):`<div class="vf-empty">Nothing to verify right now 👍</div>`;
+    if(ver.length||rej.length) h+=`<details><summary>Done today (${ver.length+rej.length})</summary>`+ver.map(x=>`<div class="vf-card vf-done"><div class="vf-m"><div class="vf-t">${e(x.t)}</div><div class="vf-ok">✓ Verified by ${e(R(x).checkedBy)} · ${hhmm(R(x).checkedAt)}</div></div></div>`).join('')+
+      rej.map(x=>`<div class="vf-card vf-done"><div class="vf-m"><div class="vf-t">${e(x.t)}</div><div class="vf-no">↩︎ ${e(R(x).note)}</div></div></div>`).join('')+`</details>`;
+    h+=`<p class="vf-msg">${e(VR.msg)}</p></div><div class="vf"><div class="vf-foot"><button type="button" class="vf-va" id="vgo" ${VR.sel.size&&!VR.busy?'':'disabled'}>${VR.busy?'Saving…':`✓ Verify selected (${VR.sel.size})`}</button></div></div>`;
+    box.innerHTML=h;
+  }
+  async function load(){ try{ const r=await fetch(`${SHEET_API}?action=list`); const j=await r.json(); if(!j.ok) throw 0; const m={}; j.rows.forEach(x=>{m[x.key]=x;}); VR.rows=m; VR.at=Date.now(); VR.err=false; }catch(_){ VR.err=true; } render(); }
+  async function send(x,body){ const res=await fetch('/api/checkoff',{method:'POST',credentials:'same-origin',headers:{'content-type':'application/json'},body:JSON.stringify({key:x.key,date:x.k,role:x.role,task:x.t,assigned:x.who.replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim(),...body})}); const j=await res.json(); if(j.ok&&j.row) VR.rows[x.key]=j.row; return j; }
+  box.addEventListener('click',async ev=>{
+    if(VR.busy) return;
+    if(ev.target.id==='vall'){ const P=pend(); if(VR.sel.size===P.length) VR.sel.clear(); else P.forEach(x=>VR.sel.add(x.key)); render(); return; }
+    const c=ev.target.closest('.vf-card[data-key]');
+    if(ev.target.closest('.vf-rj')&&c){ const f=c.querySelector('.vf-rf'); f.hidden=!f.hidden; if(!f.hidden) f.querySelector('input').focus(); return; }
+    if(ev.target.closest('.vf-rs')&&c){ const inp=c.querySelector('.vf-rf input'), why=inp.value.trim(); if(!why){ inp.placeholder='Please write the reason first'; inp.focus(); return; }
+      const x=pend().find(t=>t.key===c.dataset.key); if(!x) return; VR.busy=true; VR.msg='Sending back…'; render();
+      const j=await send(x,{action:'reject',note:why}).catch(()=>({ok:false})); VR.busy=false; VR.msg=j.ok?'Sent back ↩︎':'Could not send back — try again.'; VR.sel.delete(x.key); render(); return; }
+    if(ev.target.id==='vgo'){ const P=pend().filter(x=>VR.sel.has(x.key)); if(!P.length) return; VR.busy=true; let ok=0,need=false;
+      for(const x of P){ VR.msg=`Verifying ${ok+1} of ${P.length}…`; render(); const j=await send(x,{action:'check'}).catch(()=>({ok:false})); if(j.ok){ok++; VR.sel.delete(x.key);} else if(j.error==='code'){need=true;break;} }
+      VR.busy=false; VR.msg=need?'Your supervisor code is not set up yet — ask Ru.':`Verified ${ok} ${ok===1?'task':'tasks'} ✓`; render(); return; }
+    if(c&&!ev.target.closest('.vf-rf')){ const k=c.dataset.key; VR.sel.has(k)?VR.sel.delete(k):VR.sel.add(k); render(); }
+  });
+  box.addEventListener('keydown',ev=>{ if(ev.key==='Enter'&&ev.target.closest('.vf-rf')) ev.target.closest('.vf-card').querySelector('.vf-rs').click(); });
+  render(); load(); setInterval(()=>{ if(!document.hidden&&!VR.busy) load(); },30000);
+  document.addEventListener('visibilitychange',()=>{ if(!document.hidden&&!VR.busy) load(); });
 }
 
 /* Staff see only today; add ?all=1 to the link to see the whole week. */

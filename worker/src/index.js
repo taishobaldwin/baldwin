@@ -82,7 +82,20 @@ async function checkoff(req, env) {
   if (!s) return Response.json({ ok: false, error: 'login' }, { status: 401 });
   let b; try { b = await req.json(); } catch { return Response.json({ ok: false, error: 'bad' }, { status: 400 }); }
   const staffAction = ['done', 'notdone', 'clear'].includes(b.action);
-  if (!staffAction && !['check', 'uncheck'].includes(b.action)) return Response.json({ ok: false, error: 'bad' }, { status: 400 });
+  if (!staffAction && !['check', 'uncheck', 'reject'].includes(b.action)) return Response.json({ ok: false, error: 'bad' }, { status: 400 });
+  // Supervisors (managers) verify without typing a PIN: their own code is kept in the IC_CODES secret.
+  if (!staffAction && !s.m) return Response.json({ ok: false, error: 'notyours' }, { status: 403 });
+  if (b.action === 'reject') {
+    const why = String(b.note || '').trim().slice(0, 160);
+    if (!why) return Response.json({ ok: false, error: 'bad' }, { status: 400 });
+    b.action = 'notdone'; b.note = `Sent back by ${s.n}: ${why}`;
+  }
+  if ((b.action === 'check' || b.action === 'uncheck') && !b.code) {
+    let codes = {}; try { codes = JSON.parse(env.IC_CODES || '{}'); } catch {}
+    const c = codes[firstName(s.n)];
+    if (!c) return Response.json({ ok: false, error: 'code' });
+    b.code = String(c);
+  }
   if (staffAction && !s.m) {
     const names = String(b.assigned || '').replace(/start of dinner/g, '').split('+').map(firstName).filter(Boolean);
     if (!names.includes(firstName(s.n))) return Response.json({ ok: false, error: 'notyours' }, { status: 403 });
@@ -109,7 +122,7 @@ class ViewsButton {
 
 class MgrButton {
   element(el) {
-    el.append(`<a href="/app/?view=manager" style="position:fixed;right:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:2147483646;background:#1d1d1f;color:#f7f7f4;font:600 14px/1 system-ui,sans-serif;padding:12px 16px;border-radius:999px;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25)">📊 Manager</a>`, { html: true });
+    el.append(`<a href="/app/?view=manager" style="position:fixed;right:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:2147483646;background:#1d1d1f;color:#f7f7f4;font:600 14px/1 system-ui,sans-serif;padding:12px 16px;border-radius:999px;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25)">📊 Manager</a><a href="/app/?view=verify" style="position:fixed;left:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:2147483646;background:#2f8a4b;color:#fff;font:600 14px/1 system-ui,sans-serif;padding:12px 16px;border-radius:999px;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25)">✅ Verify</a>`, { html: true });
   }
 }
 
@@ -357,7 +370,7 @@ export default {
       const canViews = String(env.VIEWERS || '').split(',').map((x) => x.trim()).includes(String(s.u));
       if (url.pathname === '/app/views') return canViews ? viewsPage(env, url) : Response.redirect(url.origin + '/app/', 302);
       // Manager dashboard: only for managers; everyone else just gets the normal page.
-      if (url.searchParams.get('view') === 'manager' && !s.m) {
+      if ((url.searchParams.get('view') === 'manager' || url.searchParams.get('view') === 'verify') && !s.m) {
         url.searchParams.delete('view');
         return Response.redirect(url.toString(), 302);
       }
@@ -368,7 +381,7 @@ export default {
       const out = new Response(res.body, { status: res.status, headers: h });
       if ((h.get('content-type') || '').includes('text/html')) {
         let rw = new HTMLRewriter().on('head', new Me(s)).on('body', new PrivacyNote()).on('body', new Watermark(s.n));
-        if (s.m && url.searchParams.get('view') !== 'manager') rw = rw.on('body', new MgrButton());
+        if (s.m && !['manager', 'verify'].includes(url.searchParams.get('view'))) rw = rw.on('body', new MgrButton());
         if (canViews && url.searchParams.get('view') !== 'manager') rw = rw.on('body', new ViewsButton());
         return rw.transform(out);
       }
