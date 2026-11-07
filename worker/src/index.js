@@ -95,9 +95,15 @@ async function checkoff(req, env) {
   return new Response(await r.text(), { status: 200, headers: { 'content-type': 'application/json', 'cache-control': 'no-store' } });
 }
 
+class ViewsButton {
+  element(el) {
+    el.append(`<a href="/app/views" style="position:fixed;right:14px;bottom:calc(64px + env(safe-area-inset-bottom,0px));z-index:2147483646;background:#8f1d21;color:#fff;font:600 14px/1 system-ui,sans-serif;padding:12px 16px;border-radius:999px;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25)">👀 Views</a>`, { html: true });
+  }
+}
+
 class MgrButton {
   element(el) {
-    el.append(`<a href="/app/?view=manager" style="position:fixed;right:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:2147483646;background:#1d1d1f;color:#f7f7f4;font:600 14px/1 system-ui,sans-serif;padding:12px 16px;border-radius:999px;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25)">📊 Manager</a><a href="/app/views" style="position:fixed;right:14px;bottom:calc(64px + env(safe-area-inset-bottom,0px));z-index:2147483646;background:#8f1d21;color:#fff;font:600 14px/1 system-ui,sans-serif;padding:12px 16px;border-radius:999px;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25)">👀 Views</a>`, { html: true });
+    el.append(`<a href="/app/?view=manager" style="position:fixed;right:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:2147483646;background:#1d1d1f;color:#f7f7f4;font:600 14px/1 system-ui,sans-serif;padding:12px 16px;border-radius:999px;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25)">📊 Manager</a>`, { html: true });
   }
 }
 
@@ -342,7 +348,8 @@ export default {
         url.searchParams.delete('sendtest');
         return Response.redirect(url.toString(), 302);
       }
-      if (url.pathname === '/app/views') return s.m ? viewsPage(env, url) : Response.redirect(url.origin + '/app/', 302);
+      const canViews = String(env.VIEWERS || '').split(',').map((x) => x.trim()).includes(String(s.u));
+      if (url.pathname === '/app/views') return canViews ? viewsPage(env, url) : Response.redirect(url.origin + '/app/', 302);
       // Manager dashboard: only for managers; everyone else just gets the normal page.
       if (url.searchParams.get('view') === 'manager' && !s.m) {
         url.searchParams.delete('view');
@@ -356,6 +363,7 @@ export default {
       if ((h.get('content-type') || '').includes('text/html')) {
         let rw = new HTMLRewriter().on('head', new Me(s)).on('body', new Watermark(s.n));
         if (s.m && url.searchParams.get('view') !== 'manager') rw = rw.on('body', new MgrButton());
+        if (canViews && url.searchParams.get('view') !== 'manager') rw = rw.on('body', new ViewsButton());
         return rw.transform(out);
       }
       return out;

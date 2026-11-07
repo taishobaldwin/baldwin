@@ -12,6 +12,8 @@ run_worker_first = true
 html_handling = "auto-trailing-slash"
 
 [vars]
+# Who can see the "Views" page (DingTalk user IDs): OY (Ru), Lina, Tyler
+VIEWERS = "2356146166282538,2357212069402368528,23563055213181287508"
 CORP_ID = "dingd9372d0ad047628c0810d16f3da95690"
 APP_KEY = "dingvx8xsx71emectasw"
 AGENT_ID = "5122574432"
