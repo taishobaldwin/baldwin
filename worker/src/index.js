@@ -170,7 +170,7 @@ async function sendWorkNotice(env, msg, userids) {
 
 // ---------- Daily "plan updated" notice ----------
 // The deploy workflow writes the Toronto date + hour of each deploy to KV key "plan_updated".
-// A cron every 10 minutes sends ONE notice per day, the first time the plan is deployed between 07:00 and 18:00 Toronto.
+// A cron every 10 minutes sends ONE notice per day, the first time the plan is deployed between 00:00 and 18:00 Toronto.
 const DAILY = {
   title: "Today's Service Plan is updated",
   text: [
@@ -181,7 +181,7 @@ const DAILY = {
     '今日 Service Plan 已更新，请注意查看！请完成 checklist 并及时点击确认，主管请 double check。',
   ].join('\n\n'),
 };
-const DAILY_FROM = 7, DAILY_TO = 18;
+const DAILY_FROM = 0, DAILY_TO = 18;
 
 function torontoDate(d = new Date()) {
   return new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Toronto', year: 'numeric', month: '2-digit', day: '2-digit' }).format(d);
