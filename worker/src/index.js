@@ -95,6 +95,12 @@ async function checkoff(req, env) {
   return new Response(await r.text(), { status: 200, headers: { 'content-type': 'application/json', 'cache-control': 'no-store' } });
 }
 
+class PrivacyNote {
+  element(el) {
+    el.append(`<p style="margin:28px auto 90px;max-width:640px;padding:0 16px;text-align:center;font:400 11px/1.5 system-ui,-apple-system,sans-serif;color:#9a8b7d">🔒 Privacy notice: DailyPlan records your name and the time you open it, so managers can make sure everyone has seen the day's plan. Only managers can see these records, and they are deleted after 31 days.</p>`, { html: true });
+  }
+}
+
 class ViewsButton {
   element(el) {
     el.append(`<a href="/app/views" style="position:fixed;right:14px;bottom:calc(64px + env(safe-area-inset-bottom,0px));z-index:2147483646;background:#8f1d21;color:#fff;font:600 14px/1 system-ui,sans-serif;padding:12px 16px;border-radius:999px;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25)">👀 Views</a>`, { html: true });
@@ -361,7 +367,7 @@ export default {
       h.set('cache-control', 'private, no-store');
       const out = new Response(res.body, { status: res.status, headers: h });
       if ((h.get('content-type') || '').includes('text/html')) {
-        let rw = new HTMLRewriter().on('head', new Me(s)).on('body', new Watermark(s.n));
+        let rw = new HTMLRewriter().on('head', new Me(s)).on('body', new PrivacyNote()).on('body', new Watermark(s.n));
         if (s.m && url.searchParams.get('view') !== 'manager') rw = rw.on('body', new MgrButton());
         if (canViews && url.searchParams.get('view') !== 'manager') rw = rw.on('body', new ViewsButton());
         return rw.transform(out);
