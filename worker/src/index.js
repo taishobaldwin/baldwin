@@ -168,6 +168,38 @@ async function sendWorkNotice(env, msg, userids) {
   return await r.json();
 }
 
+// ---------- Daily "plan updated" notice ----------
+// The deploy workflow writes the Toronto date + hour of each deploy to KV key "plan_updated".
+// A cron every 10 minutes sends ONE notice per day, the first time the plan is deployed between 07:00 and 18:00 Toronto.
+const DAILY = {
+  title: "Today's Service Plan is updated",
+  text: [
+    "### 📋 Today's Service Plan is updated!",
+    'Please open **Baldwin Plan** (DingTalk → Workplace) and check today’s plan.',
+    '✅ Finish your checklist and tap **Done** on each task right away.',
+    '👀 Supervisors: please **double-check** everyone’s tasks and confirm.',
+    '今日 Service Plan 已更新，请注意查看！请完成 checklist 并及时点击确认，主管请 double check。',
+  ].join('\n\n'),
+};
+const DAILY_FROM = 7, DAILY_TO = 18;
+
+function torontoDate(d = new Date()) {
+  return new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Toronto', year: 'numeric', month: '2-digit', day: '2-digit' }).format(d);
+}
+
+async function dailyNotice(env, now) {
+  const h = torontoHour(now), today = torontoDate(now);
+  if (h < DAILY_FROM || h >= DAILY_TO) return;
+  const upd = await env.BOT.get('plan_updated');            // e.g. "2026-11-07 10:42"
+  if (!upd || !upd.startsWith(today)) return;
+  const uh = Number(upd.slice(11, 13));
+  if (!(uh >= DAILY_FROM && uh < DAILY_TO)) return;          // last night's deploy doesn't count
+  if ((await env.BOT.get('daily_sent')) === today) return;
+  await env.BOT.put('daily_sent', today);
+  const r = await sendWorkNotice(env, DAILY, null);
+  await env.BOT.put('daily_last_result', JSON.stringify({ at: new Date().toISOString(), r }));
+}
+
 function torontoHour(d = new Date()) {
   return Number(new Intl.DateTimeFormat('en-US', { timeZone: 'America/Toronto', hour: 'numeric', hour12: false }).format(d));
 }
@@ -189,6 +221,7 @@ export default {
         const r = await fetch(`https://oapi.dingtalk.com/topapi/message/corpconversation/getsendresult?access_token=${t}`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ agent_id: Number(env.ALERT_AGENT_ID), task_id: Number(b.task_id) }) });
         return Response.json(await r.json());
       }
+      if (b.action === 'daily') return Response.json({ updated: await env.BOT.get('plan_updated'), sent: await env.BOT.get('daily_sent'), last: await env.BOT.get('daily_last_result') });
       if (b.action === 'notice') return Response.json(await sendWorkNotice(env, b.msg || REMINDER, b.userids));
       return Response.json({ ok: false });
     }
@@ -211,7 +244,9 @@ export default {
     return new Response(BOOT(env.CORP_ID), { headers: { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'no-store', ...sec } });
   },
   async scheduled(event, env, ctx) {
+    const now = new Date(event.scheduledTime);
+    if (event.cron === '*/10 * * * *') { ctx.waitUntil(dailyNotice(env, now)); return; }
     // Runs at 19:00 and 20:00 UTC on Wednesdays; only the run that is 15:00 in Toronto sends (handles daylight saving).
-    if (torontoHour(new Date(event.scheduledTime)) === 15) ctx.waitUntil(sendWorkNotice(env, REMINDER, null));
+    if (torontoHour(now) === 15) ctx.waitUntil(sendWorkNotice(env, REMINDER, null));
   },
 };
