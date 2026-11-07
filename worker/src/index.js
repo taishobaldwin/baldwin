@@ -181,7 +181,7 @@ function dailyMsg(now, env) {
     title: `📋 ${day}’s Service Plan is ready — ${date}`,
     text: [
       `### 📋 ${day}’s Service Plan is ready — ${date}`,
-      `Hey team! Open Baldwin Plan [here](${appLink(env)}) to see where you’re working today and check the reservations.`,
+      `Tap [here](${appLink(env)}) to see where you’re working today and check the reservations.`,
       '✅ Tap **Done** as soon as you finish each checklist item.',
       '👀 If you’re supervising, please double-check the team’s completed tasks and sign off.',
       'Thanks & good night 😴',
