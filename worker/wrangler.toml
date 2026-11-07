@@ -19,6 +19,8 @@ ALERT_APP_KEY = "dinggfb1o1b9ioqzhois"
 ALERT_AGENT_ID = "5127108299"
 # First names that can open the manager dashboard (DingTalk admins always can).
 MANAGERS = "osa,wan,tyler,aa,haru,lisa"
+# Check-off Google Sheet (Apps Script web app)
+SHEET_API = "https://script.google.com/macros/s/AKfycbzaPrUdZSb4nYqaQpeTR3v45Axz6JCQfZmb7_CEFqkT1xdUg3J2V06CBSYTustEHtT8/exec"
 
 [[kv_namespaces]]
 binding = "BOT"

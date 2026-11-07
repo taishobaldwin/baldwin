@@ -67,6 +67,34 @@ function isManager(env, sys, name) {
   return !!first && String(env.MANAGERS || '').toLowerCase().split(',').map((x) => x.trim()).includes(first);
 }
 
+class Me {
+  constructor(s) { this.s = s; }
+  element(el) {
+    const me = JSON.stringify({ n: this.s.n, m: this.s.m ? 1 : 0 }).replace(/</g, '\\u003c');
+    el.prepend(`<script>window.__ME=${me};</script>`, { html: true });
+  }
+}
+
+// Check-off writes go through here so we know who is ticking. Staff: only tasks assigned to them. Managers: any task.
+const firstName = (x) => String(x).trim().split(/\s+/)[0].toLowerCase().replace(/[^a-z]/g, '');
+async function checkoff(req, env) {
+  const s = await readSession(req, env);
+  if (!s) return Response.json({ ok: false, error: 'login' }, { status: 401 });
+  let b; try { b = await req.json(); } catch { return Response.json({ ok: false, error: 'bad' }, { status: 400 }); }
+  const staffAction = ['done', 'notdone', 'clear'].includes(b.action);
+  if (!staffAction && !['check', 'uncheck'].includes(b.action)) return Response.json({ ok: false, error: 'bad' }, { status: 400 });
+  if (staffAction && !s.m) {
+    const names = String(b.assigned || '').replace(/start of dinner/g, '').split('+').map(firstName).filter(Boolean);
+    if (!names.includes(firstName(s.n))) return Response.json({ ok: false, error: 'notyours' }, { status: 403 });
+  }
+  const body = { key: b.key, date: b.date, role: b.role, task: b.task, assigned: b.assigned, action: b.action };
+  if (b.note != null) body.note = String(b.note).slice(0, 200);
+  if (b.code != null) body.code = String(b.code);
+  body.by = s.n;
+  const r = await fetch(env.SHEET_API, { method: 'POST', body: JSON.stringify(body) });
+  return new Response(await r.text(), { status: 200, headers: { 'content-type': 'application/json', 'cache-control': 'no-store' } });
+}
+
 class MgrButton {
   element(el) {
     el.append(`<a href="/app/?view=manager" style="position:fixed;right:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:2147483646;background:#1d1d1f;color:#f7f7f4;font:600 14px/1 system-ui,sans-serif;padding:12px 16px;border-radius:999px;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25)">📊 Manager</a>`, { html: true });
@@ -227,6 +255,7 @@ export default {
 
     if (url.pathname === '/auth' && req.method === 'POST') return auth(req, env);
     if (url.pathname === '/robot' && req.method === 'POST') return robotCallback(req, env);
+    if (url.pathname === '/api/checkoff' && req.method === 'POST') return checkoff(req, env);
     if (url.pathname === '/robot/admin' && req.method === 'POST') {
       if (!env.ADMIN_KEY || req.headers.get('x-admin-key') !== env.ADMIN_KEY) return new Response('Forbidden', { status: 403 });
       const b = await req.json().catch(() => ({}));
@@ -270,7 +299,7 @@ export default {
       h.set('cache-control', 'private, no-store');
       const out = new Response(res.body, { status: res.status, headers: h });
       if ((h.get('content-type') || '').includes('text/html')) {
-        let rw = new HTMLRewriter().on('body', new Watermark(s.n));
+        let rw = new HTMLRewriter().on('head', new Me(s)).on('body', new Watermark(s.n));
         if (s.m && url.searchParams.get('view') !== 'manager') rw = rw.on('body', new MgrButton());
         return rw.transform(out);
       }

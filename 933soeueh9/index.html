@@ -318,6 +318,8 @@ h2 .hint.tapme{flex-basis:100%;text-align:left;font-size:.92rem;font-weight:600;
 #tasksec .trow[data-dk]{display:block}
 .tmain{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
 .dact{display:flex;justify-content:flex-end;gap:8px;margin-top:8px}
+.trow.ro .dn,.trow.ro .nd{cursor:default;pointer-events:none}
+.cohint{font-size:.8rem;color:var(--soft);margin:0 0 8px}
 .nd{font:inherit;font-size:.8rem;font-weight:600;padding:5px 12px;border-radius:999px;border:1px solid var(--hair);background:transparent;color:var(--soft);cursor:pointer;white-space:nowrap}
 .trow.isnot .nd{background:color-mix(in srgb,#c47a1c 14%,var(--sheet));border-color:color-mix(in srgb,#c47a1c 50%,transparent);color:#a2620f}
 .nform{display:flex;gap:6px;margin-top:8px}
@@ -1227,6 +1229,12 @@ function render(k){
 const CHECKOFF=new URLSearchParams(location.search).get('checkoff')!=='0';   /* on for everyone; add ?checkoff=0 to hide */
 const SHEET_API='https://script.google.com/macros/s/AKfycbzaPrUdZSb4nYqaQpeTR3v45Axz6JCQfZmb7_CEFqkT1xdUg3J2V06CBSYTustEHtT8/exec';   /* paste the Apps Script web-app URL here (ends in /exec) */
 let DONE={}, CO_DAY=null, CO_OK=false;
+/* Who is ticking: set by the DingTalk app (window.__ME). Staff can tick only their own tasks; managers can tick any.
+   Outside the DingTalk app nobody can tick (statuses are still shown). */
+const ME=window.__ME||null;
+const firstName=s=>String(s).trim().split(/\s+/)[0].toLowerCase().replace(/[^a-z]/g,'');
+const whoNames=w=>String(w).replace(/start of dinner/g,'').split('+').map(firstName).filter(Boolean);
+const canTick=r=>!!ME&&(ME.m||whoNames(r.dataset.who).includes(firstName(ME.n)));
 const tkey=(k,role,t)=>{let h=0;for(const c of t)h=(h*31+c.charCodeAt(0))>>>0;return `${k}_${role}_${h.toString(36)}`;};
 function doneRow(k,role,t,whoHtml){
   return `<div class="trow" data-dk="${tkey(k,role,t)}" data-date="${k}" data-role="${role}" data-task="${e(t)}" data-who="${e(whoHtml.replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim())}">`+
@@ -1241,7 +1249,8 @@ function coBar(msg,err){const b=document.getElementById('cobar'); b.hidden=!msg;
 function paintDone(){
   const rows=[...document.querySelectorAll('#tasksec .trow[data-dk]')];
   rows.forEach(r=>{const d=DONE[r.dataset.dk], st=d?d.status:null;
-    r.querySelector('.dact').hidden=!CO_OK||!r.querySelector('.nform').hidden;
+    const own=canTick(r); r.classList.toggle('ro',!own);
+    r.querySelector('.dact').hidden=!CO_OK||!r.querySelector('.nform').hidden||(!own&&!st);
     const b=r.querySelector('.dn'), n=r.querySelector('.nd'), note=r.querySelector('.nnote');
     r.classList.toggle('isdone',st==='done'); r.classList.toggle('isnot',st==='notdone');
     b.textContent=st==='done'?`✓ Done ${hhmm(d.at)}`:'Done'; b.hidden=st==='notdone';
@@ -1268,17 +1277,21 @@ async function coLoad(k){
 function coAfterRender(k){
   document.querySelectorAll('#tasksec .cpanel > .note:first-child').forEach(p=>{ if(!/paper/i.test(p.textContent)) return;
     const rest=p.textContent.replace(/\s*Sign the paper[\s\S]*$/,'').trim(); p.textContent=(rest?rest+' ':'')+'Tap Done when finished. If not, tap Not done and write why.'; });
-  if(k!==CO_DAY){ CO_DAY=k; DONE={}; } paintDone(); coLoad(k);
+  if(k!==CO_DAY){ CO_DAY=k; DONE={}; }
+  { const pr=document.getElementById('prog'); let h=document.getElementById('cohint'); if(!h){ h=Object.assign(document.createElement('p'),{id:'cohint',className:'cohint'}); pr.after(h); }
+    h.textContent=!ME?'To tick tasks, open Baldwin Plan in DingTalk.':ME.m?'Manager: you can tick any task.':'You can tick only your own tasks.'; }
+  paintDone(); coLoad(k);
 }
 async function coSend(r,body){
   r.classList.add('busy'); r.querySelectorAll('button').forEach(x=>x.disabled=true);
   const note=r.querySelector('.nnote'); delete note.dataset.err;
-  try{ const res=await fetch(SHEET_API,{method:'POST',body:JSON.stringify({key:r.dataset.dk,date:r.dataset.date,role:r.dataset.role,task:r.dataset.task,assigned:r.dataset.who,...body})});
+  try{ if(!ME) throw new Error('app');
+    const res=await fetch('/api/checkoff',{method:'POST',credentials:'same-origin',headers:{'content-type':'application/json'},body:JSON.stringify({key:r.dataset.dk,date:r.dataset.date,role:r.dataset.role,task:r.dataset.task,assigned:r.dataset.who,...body})});
     const j=await res.json();
-    if(!j.ok){ if(j.error==='code') return 'code'; throw new Error(j.error); }
+    if(!j.ok){ if(j.error==='code') return 'code'; if(j.error==='login'){ location.reload(); return 'err'; } throw new Error(j.error); }
     if(j.row) DONE[r.dataset.dk]=j.row; else delete DONE[r.dataset.dk];
     return 'ok';
-  }catch(err){ note.dataset.err=1; note.hidden=false; note.textContent=err&&err.message==='checked'?'Already checked by the IC. Ask the IC to undo first.':'Could not save. Tap again.'; return 'err'; }
+  }catch(err){ note.dataset.err=1; note.hidden=false; note.textContent=err&&err.message==='checked'?'Already checked by the IC. Ask the IC to undo first.':err&&err.message==='notyours'?'This task is assigned to someone else.':err&&err.message==='app'?'Open Baldwin Plan in DingTalk to tick tasks.':'Could not save. Tap again.'; return 'err'; }
   finally{ r.classList.remove('busy'); r.querySelectorAll('button').forEach(x=>x.disabled=false); paintDone(); }
 }
 if(CHECKOFF){
@@ -1289,6 +1302,7 @@ document.addEventListener('click',ev=>{
   if(ev.target.closest('.icok')){ const pin=r.querySelector('.icpin'), er=r.querySelector('.icerr');
     if(!/^\d{4}$/.test(pin.value)){ er.hidden=false; pin.value=''; pin.focus(); return; }
     coSend(r,{action:cur&&cur.checkedBy?'uncheck':'check',code:pin.value}).then(x=>{ if(x==='code'){ er.hidden=false; pin.value=''; pin.focus(); } else if(x==='ok'){ er.hidden=true; r.querySelector('.icpick').hidden=true; pin.value=''; } }); return; }
+  if((ev.target.closest('.dn')||ev.target.closest('.nd'))&&!canTick(r)) return;
   if(ev.target.closest('.dn')){ if(st==='done'&&cur.checkedBy) return; coSend(r,{action:st==='done'?'clear':'done'}); }
   else if(ev.target.closest('.nd')){ if(st==='notdone') coSend(r,{action:'clear'}); else { form.hidden=false; r.querySelector('.dact').hidden=true; r.querySelector('.ninp').focus(); } }
   else if(ev.target.closest('.ncancel')){ form.hidden=true; paintDone(); }
