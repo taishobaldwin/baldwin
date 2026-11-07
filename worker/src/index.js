@@ -170,16 +170,21 @@ async function sendWorkNotice(env, msg, userids) {
 
 // ---------- Daily plan notice ----------
 // One notice a day, at 00:10 Toronto, right after the page flips to the new day. Other updates send nothing.
-function dailyMsg(now) {
-  const d = new Intl.DateTimeFormat('en-US', { timeZone: 'America/Toronto', weekday: 'short', month: 'short', day: 'numeric' }).format(now);
+const APP_URL = 'https://baldwin-plan.tbp8xufgw.workers.dev/';
+// Opens the Baldwin Plan app inside DingTalk (logged in automatically).
+const appLink = (env) => `dingtalk://dingtalkclient/action/openapp?corpid=${env.CORP_ID}&container_type=work_platform&app_id=0_${env.AGENT_ID}&redirect_type=jump&redirect_url=${encodeURIComponent(APP_URL)}`;
+
+function dailyMsg(now, env) {
+  const f = (o) => new Intl.DateTimeFormat('en-US', { timeZone: 'America/Toronto', ...o }).format(now);
+  const day = f({ weekday: 'long' }), date = f({ month: 'short', day: 'numeric' });
   return {
-    title: `${d} Service Plan is ready`,
+    title: `📋 ${day}’s Service Plan is ready — ${date}`,
     text: [
-      `### 📋 ${d} — Today's Service Plan is ready!`,
-      'Please open **Baldwin Plan** (DingTalk → Workplace) and check your position and today’s reservations.',
-      '✅ Finish your checklist and tap **Done** on each task right away.',
-      '👀 Supervisors: please **double-check** everyone’s tasks and confirm.',
-      '今日 Service Plan 已更新，请注意查看！请完成 checklist 并及时点击确认，主管请 double check。',
+      `### 📋 ${day}’s Service Plan is ready — ${date}`,
+      `Hey team! Open Baldwin Plan [here](${appLink(env)}) to see where you’re working today and check the reservations.`,
+      '✅ Tap **Done** as soon as you finish each checklist item.',
+      '👀 If you’re supervising, please double-check the team’s completed tasks and sign off.',
+      'Thanks & good night 😴',
     ].join('\n\n'),
   };
 }
@@ -193,7 +198,7 @@ async function dailyNotice(env, now) {
   const today = torontoDate(now);
   if ((await env.BOT.get('daily_sent')) === today) return;  // never more than one a day
   await env.BOT.put('daily_sent', today);
-  const r = await sendWorkNotice(env, dailyMsg(now), null);
+  const r = await sendWorkNotice(env, dailyMsg(now, env), null);
   await env.BOT.put('daily_last_result', JSON.stringify({ at: new Date().toISOString(), r }));
 }
 
